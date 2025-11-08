@@ -1,0 +1,242 @@
+# STDD Methodology Template
+
+**STDD Methodology Version**: 1.0.0
+
+This repository ([https://github.com/fareedst/stdd](https://github.com/fareedst/stdd)) contains the **Semantic Token-Driven Development (STDD)** methodology template that can be used as a base for development projects in any language (Go, Python, Ruby, JavaScript, etc.).
+
+## What is STDD?
+
+**Semantic Token-Driven Development (STDD)** uses semantic tokens to create a traceable chain from requirements through architecture and implementation to tests and code. This ensures that the original purpose and reasoning are never lost, even as the codebase evolves.
+
+### Key Benefits
+
+- **Traceability**: Every code decision can be traced back to its requirement
+- **Context Preservation**: The "why" behind decisions is never lost
+- **Living Documentation**: Documentation stays connected to code via tokens
+- **Onboarding**: New developers can understand intent quickly
+- **Refactoring Confidence**: Changes can be validated against original intent
+
+## Repository Structure
+
+This repository contains:
+
+### Methodology Documentation (Reference Only)
+- `STDD.md` - STDD methodology overview (for beginners, intermediate, and experts)
+- `ai-principles.md` - Complete STDD principles and process guide
+- `.cursorrules` - Cursor IDE rules for AI agents (template)
+- `CHANGELOG.md` - Version history of the STDD methodology
+- `VERSION` - Current methodology version
+
+### Project Template Files (Copy to Your Project)
+- `requirements.template.md` - Template for project requirements
+- `architecture-decisions.template.md` - Template for architecture decisions
+- `implementation-decisions.template.md` - Template for implementation decisions
+- `semantic-tokens.template.md` - Template for semantic token registry
+- `tasks.template.md` - Template for task tracking
+
+## Getting Started with a New Project
+
+### Step 1: Understand STDD
+
+Read these documents in order:
+1. `STDD.md` - Overview of STDD methodology
+2. `ai-principles.md` - Complete STDD principles and process guide
+3. `.cursorrules` - Cursor IDE rules (if using Cursor)
+
+### Step 2: Copy Templates to Your Project
+
+Copy the template files from the [STDD repository](https://github.com/fareedst/stdd) to your project root and remove the `.template` suffix:
+
+```bash
+# In your project directory (after cloning/downloading the STDD repository)
+cp requirements.template.md requirements.md
+cp architecture-decisions.template.md architecture-decisions.md
+cp implementation-decisions.template.md implementation-decisions.md
+cp semantic-tokens.template.md semantic-tokens.md
+cp tasks.template.md tasks.md
+cp .cursorrules .cursorrules  # Copy cursor rules if using Cursor
+```
+
+**Important**: Each project should have its own copies of these files. The template files remain in the [STDD repository](https://github.com/fareedst/stdd) as reference templates.
+
+### Step 3: Customize for Your Project
+
+1. **Define Requirements** (`requirements.md`)
+   - List all functional and non-functional requirements
+   - Assign `[REQ:*]` tokens to each requirement
+   - Mark status: ⏳ Planned or ✅ Implemented
+   - Customize the template structure for your project's needs
+
+2. **Document Architecture Decisions** (`architecture-decisions.md`)
+   - Document high-level design choices
+   - Assign `[ARCH:*]` tokens
+   - Cross-reference `[REQ:*]` tokens
+   - Add language/framework-specific architecture decisions
+
+3. **Document Implementation Decisions** (`implementation-decisions.md`)
+   - Document low-level implementation choices
+   - Assign `[IMPL:*]` tokens
+   - Cross-reference both `[ARCH:*]` and `[REQ:*]` tokens
+   - Add language-specific implementation patterns
+
+4. **Maintain Token Registry** (`semantic-tokens.md`)
+   - Register all tokens used in your project
+   - Document token relationships
+   - Keep it updated as you create new tokens
+   - Add project-specific token categories
+
+5. **Track Tasks** (`tasks.md`)
+   - Break work into trackable tasks
+   - Assign priorities: P0 (Critical) > P1 (Important) > P2 (Nice-to-Have) > P3 (Future)
+   - Include semantic token references in task descriptions
+   - Customize task structure for your project workflow
+
+### Step 4: Follow the Development Process
+
+#### Phase 1: Requirements → Pseudo-Code
+- Expand requirements into pseudo-code and decisions
+- **IMMEDIATELY** document architecture decisions in `architecture-decisions.md`
+- **IMMEDIATELY** document implementation decisions in `implementation-decisions.md`
+- **IMMEDIATELY** update `semantic-tokens.md` with new tokens
+- **IMMEDIATELY** create tasks in `tasks.md`
+- **NO code changes yet**
+
+#### Phase 2: Pseudo-Code → Tasks
+- Break down into discrete tasks in `tasks.md`
+- Assign priorities to all tasks
+- Include semantic token references
+- **DO NOT** start implementation until tasks are documented
+
+#### Phase 3: Tasks → Implementation
+- Work on highest priority tasks first
+- Use semantic tokens in code comments
+- Use semantic tokens in test names/comments
+- Update documentation AS YOU WORK (not at the end)
+- Mark tasks complete in `tasks.md` as you finish them
+
+## Project File Structure
+
+After copying templates, your project should have:
+
+```
+your-project/
+├── .cursorrules              # Cursor IDE rules (optional, if using Cursor)
+├── requirements.md            # Your project requirements with [REQ:*] tokens
+├── architecture-decisions.md  # Your project architecture decisions with [ARCH:*] tokens
+├── implementation-decisions.md # Your project implementation decisions with [IMPL:*] tokens
+├── semantic-tokens.md         # Your project's semantic token registry
+├── tasks.md                   # Your project's active task tracking
+└── [your source code]         # Your actual project code
+```
+
+**Note**: The methodology documentation files (`STDD.md`, `ai-principles.md`) remain in the [STDD repository](https://github.com/fareedst/stdd) as reference. You don't need to copy them to your project unless you want local copies.
+
+## Key Principles
+
+1. **Semantic Token Cross-Referencing**
+   - All code, tests, requirements, architecture, and implementation decisions MUST be cross-referenced using semantic tokens
+
+2. **Documentation-First Development**
+   - Requirements MUST be expanded into pseudo-code and architectural decisions before implementation
+   - No code changes until requirements are fully specified with semantic tokens
+
+3. **Test-Driven Documentation**
+   - Tests MUST reference the requirements they validate using semantic tokens
+   - Test names should include semantic tokens
+
+4. **Incremental Task Tracking**
+   - Every requirement implementation MUST be broken down into trackable tasks
+   - Tasks have explicit priorities: P0 > P1 > P2 > P3
+
+5. **Complete Task Completion**
+   - When all subtasks for a task are complete, remove subtasks and mark the parent task complete
+   - Maintain a clean task list showing only active work
+
+## Documentation Requirements
+
+### ⚠️ CRITICAL: Documentation is MANDATORY, Not Optional
+
+**Documentation updates are REQUIRED at every stage of development. They are not optional or deferrable.**
+
+### Required Sections in Your Project
+
+1. **Requirements** - with `[REQ:*]` tokens (in `requirements.md`)
+2. **Architecture Decisions** - with `[ARCH:*]` tokens (in `architecture-decisions.md`)
+   - **MUST** be recorded IMMEDIATELY when made
+   - **MUST** cross-reference `[REQ:*]` tokens
+3. **Implementation Decisions** - with `[IMPL:*]` tokens (in `implementation-decisions.md`)
+   - **MUST** be recorded IMMEDIATELY when made
+   - **MUST** cross-reference both `[ARCH:*]` and `[REQ:*]` tokens
+4. **Semantic Token Registry** - maintained in `semantic-tokens.md`
+   - **MUST** be updated immediately when creating new tokens
+5. **Task Planning** - maintained in `tasks.md`
+   - **MUST** be updated when planning new work or completing tasks
+
+## Example Workflow
+
+1. **User Request**: "Add user authentication"
+2. **AI Response (Planning Phase - NO CODE YET)**: 
+   - Creates `[REQ:USER_AUTH]` token in `requirements.md`
+   - Expands into pseudo-code and decisions
+   - **IMMEDIATELY** documents architecture decisions in `architecture-decisions.md` with `[ARCH:*]` tokens
+   - **IMMEDIATELY** documents implementation decisions in `implementation-decisions.md` with `[IMPL:*]` tokens
+   - **IMMEDIATELY** updates `semantic-tokens.md` with all new tokens
+   - **IMMEDIATELY** creates tasks in `tasks.md` with priorities and semantic token references
+   - **NO code changes yet**
+3. **User Approval**: User reviews and approves planning documents
+4. **Implementation Phase**: 
+   - Implement tasks, starting with highest priority
+   - **DURING implementation**: Update documentation as decisions are made or refined
+   - **DURING implementation**: Update `tasks.md` as subtasks are completed
+5. **Completion Phase**: 
+   - Verify all documentation is up-to-date
+   - Mark tasks complete in `tasks.md`
+   - Remove completed subtasks
+   - Ensure all semantic tokens are documented
+
+## For AI Agents
+
+If you're using AI agents (like Cursor), they should:
+
+1. **MANDATORY**: Preface every response with "Observing AI principles!"
+2. Read `ai-principles.md` at the start of each session (from the [STDD repository](https://github.com/fareedst/stdd) or your local copy)
+3. Check `semantic-tokens.md` for existing tokens (your project's file)
+4. Review `tasks.md` for active tasks (your project's file)
+5. Follow all principles throughout the response
+
+See `.cursorrules` for complete AI agent rules (copy to your project if using Cursor).
+
+## Language-Specific Notes
+
+The STDD methodology is language-agnostic. When customizing templates for your project:
+
+- **Go projects**: Update code examples in templates to use Go syntax
+- **Python projects**: Update code examples to use Python syntax
+- **Ruby projects**: Update code examples to use Ruby syntax
+- **JavaScript/TypeScript projects**: Update code examples to use JavaScript/TypeScript syntax
+- **Other languages**: Adapt the templates to your language's conventions
+
+The semantic token system and development process remain the same regardless of language.
+
+## Resources
+
+### Methodology Documentation (Reference)
+- `STDD.md` - STDD methodology overview (for beginners, intermediate, and experts)
+- `ai-principles.md` - Complete STDD principles and process guide
+- `CHANGELOG.md` - Version history
+
+### Template Files (Copy to Your Project)
+- `requirements.template.md` - Template for requirements with `[REQ:*]` tokens
+- `architecture-decisions.template.md` - Template for architecture decisions with `[ARCH:*]` tokens
+- `implementation-decisions.template.md` - Template for implementation decisions with `[IMPL:*]` tokens
+- `semantic-tokens.template.md` - Template for semantic token registry
+- `tasks.template.md` - Template for task tracking
+- `.cursorrules` - Template for Cursor IDE rules (optional)
+
+## Repository
+
+**STDD Methodology Repository**: [https://github.com/fareedst/stdd](https://github.com/fareedst/stdd)
+
+## License
+
+[Add your license information here]
