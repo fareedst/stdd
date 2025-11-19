@@ -1,10 +1,41 @@
 # Implementation Decisions
 
-**STDD Methodology Version**: 1.0.0
+**STDD Methodology Version**: 1.0.1
 
 ## Overview
-This document captures detailed implementation decisions for your project, including specific APIs, data structures, and algorithms. All decisions are cross-referenced with architecture decisions using `[ARCH:*]` tokens and requirements using `[REQ:*]` tokens for traceability.
+This document captures detailed implementation decisions for this project, including specific APIs, data structures, and algorithms. All decisions are cross-referenced with architecture decisions using `[ARCH:*]` tokens and requirements using `[REQ:*]` tokens for traceability.
 
+## Template Structure
+
+When documenting implementation decisions, use this format:
+
+```markdown
+## N. Implementation Title [IMPL:IDENTIFIER] [ARCH:RELATED_ARCHITECTURE] [REQ:RELATED_REQUIREMENT]
+
+### Decision: Brief description of the implementation decision
+**Rationale:**
+- Why this implementation approach was chosen
+- What problems it solves
+- How it fulfills the architecture decision
+
+### Implementation Approach:
+- Specific technical details
+- Code structure or patterns
+- API design decisions
+
+**Code Markers**: Specific code locations, function names, or patterns to look for
+
+**Cross-References**: [ARCH:RELATED_ARCHITECTURE], [REQ:RELATED_REQUIREMENT]
+```
+
+## Notes
+
+- All implementation decisions MUST be recorded here IMMEDIATELY when made
+- Each decision MUST include `[IMPL:*]` token and cross-reference both `[ARCH:*]` and `[REQ:*]` tokens
+- Implementation decisions are dependent on both architecture decisions and requirements
+- DO NOT defer implementation documentation - record decisions as they are made
+
+---
 ## 1. Configuration Structure [IMPL:CONFIG_STRUCT] [ARCH:CONFIG_STRUCTURE] [REQ:CONFIGURATION]
 
 ### Config Type
@@ -21,6 +52,15 @@ type Config struct {
 - Field1: default value
 - Field2: default value
 - Field3: default value
+
+## 2. STDD File Creation [IMPL:STDD_FILES] [ARCH:STDD_STRUCTURE] [REQ:STDD_SETUP]
+
+### Implementation Approach:
+- Created `stdd/` directory.
+- Instantiated `requirements.md`, `architecture-decisions.md`, `implementation-decisions.md`, `semantic-tokens.md`, `tasks.md`, and `ai-principles.md` from templates.
+- Updated `.cursorrules` to enforce STDD rules.
+
+**Cross-References**: [ARCH:STDD_STRUCTURE], [REQ:STDD_SETUP]
 
 ## 2. Core Implementation [IMPL:EXAMPLE_IMPLEMENTATION] [ARCH:EXAMPLE_DECISION] [REQ:EXAMPLE_FEATURE]
 
@@ -63,7 +103,9 @@ if err != nil {
 - Error propagation pattern
 - User-facing error messages
 
-## 4. Testing Implementation [IMPL:TESTING] [ARCH:TESTING_STRATEGY]
+## 4. Testing Implementation [IMPL:TESTING] [ARCH:TESTING_STRATEGY] [REQ:*]
+
+**Note**: This implementation realizes the validation criteria specified in `requirements.md` and follows the testing strategy defined in `architecture-decisions.md`. Each test validates specific satisfaction criteria from requirements.
 
 ### Unit Test Structure
 ```[your-language]

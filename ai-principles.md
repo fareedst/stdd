@@ -45,9 +45,10 @@ This acknowledgment confirms that the AI agent has:
 2. [AI-First Principles](#ai-first-principles)
 3. [Documentation Structure](#documentation-structure)
 4. [Semantic Token System](#semantic-token-system)
-5. [Development Process](#development-process)
-6. [Task Tracking System](#task-tracking-system)
-7. [How to Present This to AI Agents](#how-to-present-this-to-ai-agents)
+5. [Bugs vs Requirements: Proper STDD Handling](#-bugs-vs-requirements-proper-stdd-handling)
+6. [Development Process](#development-process)
+7. [Task Tracking System](#task-tracking-system)
+8. [How to Present This to AI Agents](#how-to-present-this-to-ai-agents)
 
 ---
 
@@ -65,7 +66,7 @@ This acknowledgment confirms that the AI agent has:
 
 3. **Test-Driven Documentation**
    - Tests MUST reference the requirements they validate using semantic tokens.
-   - Test names should include semantic tokens (e.g., `TestDuplicatePrevention_REQ_DUPLICATE_PREVENTION`).
+   - Test names should include semantic tokens (e.g., `test('duplicate prevention REQ_DUPLICATE_PREVENTION', () => {})`).
 
 4. **Incremental Task Tracking**
    - Every requirement implementation MUST be broken down into trackable tasks and subtasks.
@@ -79,6 +80,15 @@ This acknowledgment confirms that the AI agent has:
    - When all subtasks for a task are complete, remove subtasks and mark the parent task complete.
    - Maintain a clean task list showing only active work.
 
+7. **Extensive Debug Output During Development**
+   - Use extensive diagnostic output (`console.log`, `console.debug`, `console.trace`, debug flags) liberally during initial implementation and debugging
+   - Debug output helps AI agents understand execution flow, data transformations, and state changes
+   - Include diagnostic output in test functions to trace behavior when tests fail
+   - Use descriptive prefixes (e.g., `DIAGNOSTIC:`, `DEBUG:`) to clearly identify debug output
+   - Debug output should remain in code unless explicitly requested to be removed - it is not intrusive and is optional during production use
+   - Debug output controlled by `debug` flags or environment variables can be conditionally enabled/disabled without removal
+   - **Rationale**: AI agents benefit from visibility into execution flow, especially when debugging complex logic like configuration merging, state management, or data transformations. Keeping debug output in code provides ongoing value for future debugging and understanding code behavior.
+
 ---
 
 ## 📚 Documentation Structure
@@ -90,8 +100,14 @@ All project documentation MUST include these sections with semantic token cross-
 #### 1. Requirements Section
 - Lists all functional and non-functional requirements
 - Each requirement has a unique semantic token: `[REQ:IDENTIFIER]`
+- Each requirement includes:
+  - **Description**: What the requirement specifies
+  - **Rationale**: Why the requirement exists
+  - **Satisfaction Criteria**: How we know the requirement is satisfied (acceptance criteria, success conditions)
+  - **Validation Criteria**: How we verify/validate the requirement is met (testing approach, verification methods, success metrics)
 - Example: `[REQ:FEATURE] Description of the feature requirement`
 - Implementation status: ✅ (Implemented) or ⏳ (Planned)
+- **Note**: Validation criteria defined in requirements inform the testing strategy in `architecture-decisions.md` and specific test implementations in `implementation-decisions.md`
 
 #### 2. Architecture Decisions Section
 - Documents high-level design choices
@@ -100,7 +116,7 @@ All project documentation MUST include these sections with semantic token cross-
 - **DO NOT** defer architecture documentation - record decisions as they are made
 - Links to requirements via semantic tokens
 - Each decision MUST include semantic token `[ARCH:IDENTIFIER]` and cross-reference to `[REQ:*]` tokens
-- Example: `[ARCH:CONCURRENCY_MODEL] Uses goroutines with WaitGroup for async execution [REQ:ASYNC_EXECUTION]`
+- Example: `[ARCH:CONCURRENCY_MODEL] Uses Promises/async-await for async execution [REQ:ASYNC_EXECUTION]`
 - **Dependency**: Architecture decisions depend on requirements and should reference `[REQ:*]` tokens
 - **Update Timing**: Record in `architecture-decisions.md` during Phase 1 (Requirements → Pseudo-Code) and update as decisions evolve
 
@@ -118,14 +134,34 @@ All project documentation MUST include these sections with semantic token cross-
 #### 4. Semantic Token Registry
 - Central registry of all semantic tokens used in the project
 - Maps tokens to their definitions and cross-references
+- Links to all documentation layers (requirements, architecture, implementation, tests, code)
+- See `semantic-tokens.md` for the complete registry
 
 #### 5. Code References
 - Code comments MUST include semantic tokens
 - Example: `// [REQ:DUPLICATE_PREVENTION] Skip if text matches lastText`
+- Cross-reference architecture and implementation tokens when relevant
+- Example: `// [IMPL:DUPLICATE_PREVENTION] [ARCH:STATE_TRACKING] [REQ:DUPLICATE_PREVENTION]`
 
 #### 6. Test References
 - Test names and comments MUST include semantic tokens
-- Example: `func TestDuplicatePrevention_REQ_DUPLICATE_PREVENTION(t *testing.T)`
+- Example: `test('duplicate prevention REQ_DUPLICATE_PREVENTION', () => {})`
+- Reference the requirement being validated: `// [REQ:DUPLICATE_PREVENTION] Validates duplicate prevention logic`
+
+#### 7. Feature Documentation
+- Each feature should have comprehensive cross-references across all documentation layers
+- Use the Feature Documentation Format (see Cross-Reference Format section)
+- Maintain bi-directional links for traceability
+- Update change impact matrix when making modifications
+- Document behavioral contracts for critical features
+- Map dependencies to understand change impact
+
+#### 8. Code Standards
+- Code comments MUST include semantic tokens with full context
+- Use clear, descriptive function names that indicate purpose
+- Include AI-friendly comments explaining "why" not just "what"
+- Reference related features and dependencies in comments
+- Example: `// [IMPL:DUPLICATE_PREVENTION] [ARCH:STATE_TRACKING] [REQ:DUPLICATE_PREVENTION] Prevents duplicate processing by tracking last processed text`
 
 ---
 
@@ -159,7 +195,7 @@ Each token type serves a specific role in preserving intent:
 - **`[ARCH:*]` tokens** document how high-level design choices fulfill requirements, maintaining the connection to intent
 - **`[IMPL:*]` tokens** document how low-level implementation choices fulfill architecture and requirements, preserving the reasoning
 - **Cross-references** (`[ARCH:X] [REQ:Y]`) create explicit links that maintain traceability
-- **Test names** (`TestFeature_REQ_FEATURE`) explicitly validate that intent is preserved
+- **Test names** (`test('feature REQ_FEATURE', () => {})`) explicitly validate that intent is preserved
 - **Code comments** (`// [REQ:FEATURE] Implementation`) maintain context even as code evolves
 
 ### Token Naming Convention
@@ -173,7 +209,216 @@ Each token type serves a specific role in preserving intent:
 When referencing other tokens:
 
 ```markdown
-[IMPL:DUPLICATE_PREVENTION] Track lastText string [REQ:DUPLICATE_PREVENTION]
+[IMPL:DUPLICATE_PREVENTION] Track lastText string [ARCH:STATE_TRACKING] [REQ:DUPLICATE_PREVENTION]
+```
+
+#### Feature Documentation Format
+
+For comprehensive feature documentation, use this structured format that links all documentation layers:
+
+```markdown
+### [FEATURE-ID]: Feature Name
+
+**Requirement**: [REQ:IDENTIFIER] → See `requirements.md` § Section Name
+**Architecture**: [ARCH:IDENTIFIER] → See `architecture-decisions.md` § Decision Name  
+**Implementation**: [IMPL:IDENTIFIER] → See `implementation-decisions.md` § Implementation Name
+**Tests**: `test('feature name REQ_IDENTIFIER', () => {})` → See `*.test.js` or `*.spec.js` files
+**Code**: `// [REQ:IDENTIFIER] Implementation comment` → See `*.js` files
+
+**Description**: Brief description of what this feature accomplishes.
+```
+
+#### Bi-Directional Linking
+
+Each document should contain:
+- **Forward Links**: "This requirement is implemented by [ARCH:DESIGN] (see `architecture-decisions.md`)"
+- **Backward Links**: "This component implements [REQ:REQUIREMENT] (see `requirements.md`)"
+- **Sibling Links**: "Related to [IMPL:RELATED_FEATURE] (see `implementation-decisions.md`)"
+
+This ensures traceability in both directions and helps AI assistants understand relationships.
+
+## 🐛 Bugs vs Requirements: Proper STDD Handling
+
+### Critical Distinction
+
+**Requirements describe desired behavior. Bugs describe implementation failures.**
+
+This distinction is fundamental to STDD:
+
+- **Requirements (`[REQ:*]`)**: Describe WHAT the system should do and WHY
+- **Bugs**: Describe WHERE the implementation fails to meet a requirement
+
+### Rules for Requirements
+
+1. **Requirements MUST NOT describe bugs**
+   - ❌ Bad: "Fix configuration merge strategy for exclude_patterns"
+   - ✅ Good: "Array configuration fields default to merge (accumulate) strategy"
+
+2. **Requirements describe desired behavior**
+   - Focus on WHAT the system should do
+   - Focus on WHY the behavior is needed
+   - Avoid implementation details
+   - Avoid references to "fix", "bug", "issue", "problem"
+
+3. **Requirements are user-facing**
+   - Describe behavior users expect
+   - Describe capabilities the system provides
+   - Use positive language (what should happen, not what shouldn't)
+
+### Rules for Bug Tracking
+
+1. **Bugs are tracked in Architecture/Implementation Decisions**
+   - Document bugs in `architecture-decisions.md` or `implementation-decisions.md`
+   - Use `[ARCH:*]` or `[IMPL:*]` tokens
+   - Cross-reference to the requirement that should be satisfied: `[REQ:*]`
+
+2. **Bug documentation format**
+   ```markdown
+   ## N. Bug Description [ARCH:BUG_IDENTIFIER] [REQ:RELATED_REQUIREMENT]
+   
+   ### Issue: Brief description of the bug
+   **Rationale:**
+   - Describes the implementation failure
+   - References the requirement that should be satisfied
+   - Explains why the current implementation is incorrect
+   
+   ### Fix Approach
+   - How the bug will be fixed
+   - What changes are needed
+   - Cross-reference to requirement being satisfied
+   ```
+
+3. **When a bug reveals a missing requirement**
+   - If fixing a bug reveals that behavior wasn't properly specified, ADD a requirement
+   - The requirement describes the desired behavior
+   - The bug fix implements that requirement
+   - Example: Bug "exclude_patterns not merging" → Requirement "Array fields default to merge strategy"
+
+### Decision Tree: Bug or Requirement?
+
+```
+Is this describing WHAT the system should do?
+├─ YES → It's a REQUIREMENT
+│   └─ Document in requirements.md with [REQ:*] token
+│   └─ Describe desired behavior, not the problem
+│
+└─ NO → Is this describing WHERE implementation fails?
+    ├─ YES → It's a BUG
+    │   └─ Document in architecture-decisions.md or implementation-decisions.md
+    │   └─ Use [ARCH:*] or [IMPL:*] token
+    │   └─ Cross-reference to [REQ:*] that should be satisfied
+    │   └─ Describe the fix approach
+    │
+    └─ NO → Is this describing HOW to implement something?
+        └─ YES → It's an ARCHITECTURE or IMPLEMENTATION decision
+            └─ Document in appropriate decisions file
+            └─ Use [ARCH:*] or [IMPL:*] token
+            └─ Cross-reference to [REQ:*]
+```
+
+### Examples
+
+#### ❌ Bad: Bug as Requirement
+```markdown
+### [REQ:EXCLUDE_MERGE_FIX] Exclude Patterns Merge Strategy Fix Requirements
+
+- **Description**: Fix configuration merge strategy for `exclude_patterns` to ensure patterns are accumulated...
+```
+**Problem**: Describes a fix, not desired behavior
+
+#### ✅ Good: Requirement Describing Behavior
+```markdown
+### [REQ:CFG_005] Layered Configuration Inheritance Requirements
+
+- **Description**: Array configuration fields default to merge (accumulate) strategy to preserve values...
+```
+**Correct**: Describes desired behavior
+
+#### ✅ Good: Bug Documented in Architecture Decision
+```markdown
+## 23. Array Field Default Merge Strategy Implementation [ARCH:EXCLUDE_MERGE_FIX] [REQ:CFG_005]
+
+### Decision: Array fields default to "merge" strategy to satisfy CFG-005 requirement
+**Rationale:**
+- Implements CFG-005 requirement that array fields default to merge (accumulate) strategy
+- Fixes implementation bug where array fields were using "override" instead of "merge" by default
+```
+**Correct**: Bug fix documented in architecture decision, references requirement
+
+### Tasks and Bugs
+
+1. **Tasks can reference bugs**
+   - Task descriptions can mention bug fixes
+   - Tasks should reference the requirement being satisfied: `[REQ:*]`
+   - Example: "Implement CFG-005 requirement. Fixes bug where..."
+
+2. **Task priority rationale**
+   - Can mention bug impact on user experience
+   - Should emphasize requirement implementation
+   - Example: "P1 - Implements CFG-005 requirement. Critical for user experience..."
+
+### Change Impact Tracking
+
+When making changes, use this matrix to identify what needs updating:
+
+| Change Type | Documents to Update | Validation Required |
+|-------------|-------------------|-------------------|
+| New Feature | requirements.md, architecture-decisions.md, implementation-decisions.md, semantic-tokens.md, tasks.md | Full validation |
+| Requirement Change | requirements.md, architecture-decisions.md, implementation-decisions.md, tests | Implementation validation |
+| Architecture Change | architecture-decisions.md, implementation-decisions.md, tests | Test validation |
+| Implementation Detail | implementation-decisions.md, tests | Test validation |
+| Bug Fix | architecture-decisions.md or implementation-decisions.md, tests, requirements.md (if requirement was missing/wrong) | Regression validation |
+
+#### Pre-Change Validation Checklist
+
+**BEFORE making any changes**, verify:
+
+- [ ] Feature is not listed in immutable requirements (unless major version change planned)
+- [ ] All documents that need updating are identified using Change Impact Matrix
+- [ ] Cross-references will remain valid after changes
+- [ ] Test coverage exists or will be created for changes
+- [ ] Behavioral contracts and invariants are understood
+- [ ] Dependencies and dependent features are identified
+
+#### Post-Change Validation Checklist
+
+**AFTER making changes**, verify:
+
+- [ ] All identified documents updated simultaneously
+- [ ] Cross-references validated and working
+- [ ] Tests updated and passing
+- [ ] Code comments include semantic tokens
+- [ ] Behavioral contracts maintained
+- [ ] No breaking changes to immutable requirements
+- [ ] Documentation examples match implementation
+
+#### Behavioral Contracts and Invariants
+
+For critical features, document behavioral contracts that cannot change without a version bump:
+
+```markdown
+### [FEATURE-ID] Behavioral Contracts
+
+**Immutable Invariants** (Cannot change without version bump):
+- [Invariant 1]: Description of what must always be true
+- [Invariant 2]: Description of guaranteed behavior
+
+**Configurable Behaviors** (Can change):
+- [Configurable 1]: Description of what can be customized
+- [Configurable 2]: Description of extensible aspects
+```
+
+#### Dependency Mapping
+
+Document feature dependencies to understand change impact:
+
+```markdown
+### [FEATURE-ID] Dependencies
+
+**Depends On**: [FEATURE-X], [FEATURE-Y]
+**Used By**: [FEATURE-A], [FEATURE-B]
+**Affects**: [List of areas impacted by changes]
+**Testing**: [List of tests that must pass]
 ```
 
 ### Token Registry Location
@@ -183,6 +428,7 @@ Create and maintain `semantic-tokens.md` with:
 - Definitions
 - Cross-reference mappings
 - Status (Implemented/Planned)
+- Links to all documentation layers (requirements, architecture, implementation, tests, code)
 
 ---
 
@@ -244,7 +490,7 @@ Create and maintain `semantic-tokens.md` with:
      - Subtask: Add field to data structure
      - Subtask: Implement `isDuplicate()` function
      - Subtask: Call `isDuplicate()` in polling loop
-     - Subtask: Write test `TestDuplicatePrevention_REQ_DUPLICATE_PREVENTION`
+     - Subtask: Write test `test('duplicate prevention REQ_DUPLICATE_PREVENTION', () => {})`
    - **DO NOT** start implementation until subtasks are documented
 
 3. **Assign Priorities** (MANDATORY - Required for all tasks)
@@ -259,19 +505,32 @@ Create and maintain `semantic-tokens.md` with:
 1. **Work on Highest Priority Tasks First**
    - P0 tasks before P1, P1 before P2, etc.
 
-2. **Complete Subtasks**
+2. **Use Extensive Debug Output During Implementation**
+   - Add diagnostic output (`console.log`, `console.debug`, `console.trace`) liberally when implementing complex logic
+   - Include debug output in test functions to trace execution flow and state changes
+   - Use descriptive prefixes: `DIAGNOSTIC:`, `DEBUG:`, `TRACE:`
+   - Show key variables, function parameters, return values, and state transitions
+   - Debug output helps AI agents understand what's happening when code doesn't work as expected
+   - **Example**: When implementing configuration merging, output `exclude_patterns` state before/after each merge operation
+   - **Retention**: Debug output should remain in code unless explicitly requested to be removed - it is not intrusive and provides ongoing value for debugging and understanding code behavior
+   - Debug output controlled by `debug` flags or environment variables can be conditionally enabled/disabled without removal
+
+3. **Complete Subtasks**
    - Mark subtasks complete as they're done
    - Remove completed subtasks
    - When all subtasks complete, mark parent task complete
 
-3. **Update Documentation** (MANDATORY - Update AS YOU WORK)
+4. **Update Documentation** (MANDATORY - Update AS YOU WORK)
+   - **BEFORE making changes**: Consult the Change Impact Tracking matrix (see Cross-Reference Format section) to identify all documents that need updating
    - **DURING implementation**: Update `architecture-decisions.md` if decisions are refined
    - **DURING implementation**: Update `implementation-decisions.md` if decisions are refined
    - **DURING implementation**: Update `tasks.md` as subtasks are completed
+   - **DURING implementation**: Maintain bi-directional links when updating documentation
    - **AFTER completion**: Mark requirements as ✅ Implemented
    - **AFTER completion**: Update code with semantic token comments
    - **AFTER completion**: Update tests with semantic token references
    - **AFTER completion**: Verify all documentation is current and accurate
+   - **AFTER completion**: Use Feature Documentation Format for comprehensive feature documentation
 
 ---
 
@@ -447,6 +706,9 @@ This project follows AI-First Principles. Before making changes:
 - [ ] **MANDATORY**: Break work into trackable tasks in `tasks.md` BEFORE starting implementation
 - [ ] **MANDATORY**: Assign appropriate priorities to all tasks
 - [ ] **MANDATORY**: Update `tasks.md` as subtasks are completed
+- [ ] Add extensive debug output during implementation to trace execution flow and state changes
+- [ ] Use descriptive debug prefixes (`DIAGNOSTIC:`, `DEBUG:`, `TRACE:`) to identify debug output
+- [ ] Keep debug output in code unless explicitly requested to be removed - it is not intrusive and provides ongoing value
 - [ ] **MANDATORY**: Update `semantic-tokens.md` when creating new tokens
 - [ ] **MANDATORY**: Update documentation AS YOU WORK - do not defer until the end
 
@@ -462,20 +724,23 @@ This project follows AI-First Principles. Before making changes:
 - [ ] **MANDATORY**: Subtasks removed from completed tasks
 - [ ] **MANDATORY**: All documentation is current and accurate (no stale information)
 - [ ] **MANDATORY**: Verify documentation completeness before marking work complete
+- [ ] **MANDATORY**: Post-change validation checklist completed (see Change Impact Tracking section)
+- [ ] **MANDATORY**: Behavioral contracts documented for critical features
+- [ ] **MANDATORY**: Dependencies mapped and documented
 
 ---
 
 ## 📚 Related Documents
 
-- `requirements.md` - Main design document with requirements (copy from `requirements.template.md` in STDD repository)
-- `architecture-decisions.md` - **Semantic-token-linked record of architecture decisions dependent on requirements** (copy from `architecture-decisions.template.md`)
+- `stdd/requirements.md` - Main design document with requirements (copy from `requirements.template.md` in STDD repository)
+- `stdd/architecture-decisions.md` - **Semantic-token-linked record of architecture decisions dependent on requirements** (copy from `architecture-decisions.template.md`)
   - All `[ARCH:*]` tokens must be documented here
   - Must cross-reference `[REQ:*]` tokens from requirements
-- `implementation-decisions.md` - **Semantic-token-linked record of implementation decisions dependent on architecture and requirements** (copy from `implementation-decisions.template.md`)
+- `stdd/implementation-decisions.md` - **Semantic-token-linked record of implementation decisions dependent on architecture and requirements** (copy from `implementation-decisions.template.md`)
   - All `[IMPL:*]` tokens must be documented here
   - Must cross-reference both `[ARCH:*]` and `[REQ:*]` tokens
-- `semantic-tokens.md` - Central registry of all semantic tokens (copy from `semantic-tokens.template.md`)
-- `tasks.md` - Active task tracking document (copy from `tasks.template.md`)
+- `stdd/semantic-tokens.md` - Central registry of all semantic tokens (copy from `semantic-tokens.template.md`)
+- `stdd/tasks.md` - Active task tracking document (copy from `tasks.template.md`)
 - `README.md` - Project overview and getting started guide
 
 ---
@@ -505,6 +770,6 @@ This document should be:
 - **Completion Phase**: Verify all documentation is current and complete
 
 **Last Updated**: 2025-11-08
-**Version**: 1.0.0
-**STDD Methodology Version**: 1.0.0
+**Version**: 1.0.1
+**STDD Methodology Version**: 1.0.1
 

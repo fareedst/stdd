@@ -1,4 +1,4 @@
-# 🎉 Introducing STDD v1.0.0: Semantic Token-Driven Development
+# 🎉 Introducing STDD v1.0.1: Semantic Token-Driven Development
 
 **Release Date**: November 8, 2025
 
@@ -33,7 +33,7 @@ When refactoring, you can validate changes against original requirements. The se
 STDD is designed to work seamlessly with AI coding assistants (like Cursor). The methodology includes built-in rules and processes that help AI agents understand and maintain intent.
 
 ### 7. **Language Agnostic**
-STDD works with **any programming language** - Go, Python, Ruby, JavaScript, TypeScript, Java, C++, and more. The methodology is the same; only the code examples change.
+STDD works with **any programming language**. The methodology is the same; only the code examples change.
 
 ## 🚀 Quick Start: New Projects
 
@@ -54,10 +54,7 @@ cp .cursorrules .cursorrules  # If using Cursor IDE
 ### Step 2: Customize for Your Language (2 minutes)
 
 Update the code examples in the templates to match your chosen language:
-- **Go**: Update examples to use Go syntax
-- **Python**: Update examples to use Python syntax
-- **Ruby**: Update examples to use Ruby syntax
-- **JavaScript/TypeScript**: Update examples to use JS/TS syntax
+- **Language‑specific projects**: Update code examples in templates to match your chosen language
 
 ### Step 3: Start Using STDD (1 minute)
 
@@ -96,7 +93,7 @@ You don't need to rewrite your entire codebase to adopt STDD. Here's a practical
 
 ## 📋 What You Get
 
-The STDD v1.0.0 release includes:
+The STDD v1.0.1 release includes:
 
 ### Methodology Documentation
 - **`STDD.md`** - Complete methodology overview (for beginners, intermediate, and expert developers)
@@ -133,7 +130,7 @@ Rationale: Industry standard, secure, and well-tested.
 ```
 
 **Implementation:**
-```go
+```example
 // [REQ:USER_AUTHENTICATION] Hash password before storage
 // [IMPL:BCRYPT_HASH] [ARCH:PASSWORD_HASHING] [REQ:USER_AUTHENTICATION]
 func hashPassword(password string) (string, error) {
@@ -143,7 +140,7 @@ func hashPassword(password string) (string, error) {
 ```
 
 **Test:**
-```go
+```example
 func TestUserAuthentication_REQ_USER_AUTHENTICATION(t *testing.T) {
     // Test validates [REQ:USER_AUTHENTICATION] is met
     // ...
@@ -171,13 +168,13 @@ STDD is perfect for:
 
 ## 🤝 Get Involved
 
-STDD v1.0.0 is ready for production use. We're excited to see how teams adopt and adapt this methodology for their projects.
+STDD v1.0.1 is ready for production use. We're excited to see how teams adopt and adapt this methodology for their projects.
 
 **Start using STDD today** and experience the difference that preserved intent makes in your development workflow.
 
 ---
 
-**STDD Methodology Version**: 1.0.0  
+**STDD Methodology Version**: 1.0.1  
 **Release Date**: November 8, 2025  
 **Repository**: [https://github.com/fareedst/stdd](https://github.com/fareedst/stdd)
 

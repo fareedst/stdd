@@ -1,8 +1,8 @@
 # STDD Methodology Template
 
-**STDD Methodology Version**: 1.0.0
+**STDD Methodology Version**: 1.0.1
 
-This repository ([https://github.com/fareedst/stdd](https://github.com/fareedst/stdd)) contains the **Semantic Token-Driven Development (STDD)** methodology template that can be used as a base for development projects in any language (Go, Python, Ruby, JavaScript, etc.).
+This repository ([https://github.com/fareedst/stdd](https://github.com/fareedst/stdd)) contains the **Semantic Token-Driven Development (STDD)** methodology template that can be used as a base for development projects in any language.
 
 ## What is STDD?
 
@@ -23,6 +23,7 @@ This repository contains:
 ### Methodology Documentation (Reference Only)
 - `STDD.md` - STDD methodology overview (for beginners, intermediate, and experts)
 - `ai-principles.md` - Complete STDD principles and process guide
+- `conversation-template.md` - Template conversation demonstrating STDD workflow
 - `.cursorrules` - Cursor IDE rules for AI agents (template)
 - `CHANGELOG.md` - Version history of the STDD methodology
 - `VERSION` - Current methodology version
@@ -41,7 +42,8 @@ This repository contains:
 Read these documents in order:
 1. `STDD.md` - Overview of STDD methodology
 2. `ai-principles.md` - Complete STDD principles and process guide
-3. `.cursorrules` - Cursor IDE rules (if using Cursor)
+3. `conversation-template.md` - Example conversation showing STDD in practice (recommended)
+4. `.cursorrules` - Cursor IDE rules (if using Cursor)
 
 ### Step 2: Copy Templates to Your Project
 
@@ -49,11 +51,11 @@ Copy the template files from the [STDD repository](https://github.com/fareedst/s
 
 ```bash
 # In your project directory (after cloning/downloading the STDD repository)
-cp requirements.template.md requirements.md
-cp architecture-decisions.template.md architecture-decisions.md
-cp implementation-decisions.template.md implementation-decisions.md
-cp semantic-tokens.template.md semantic-tokens.md
-cp tasks.template.md tasks.md
+cp requirements.template.md stdd/requirements.md
+cp architecture-decisions.template.md stdd/architecture-decisions.md
+cp implementation-decisions.template.md stdd/implementation-decisions.md
+cp semantic-tokens.template.md stdd/semantic-tokens.md
+cp tasks.template.md stdd/tasks.md
 cp .cursorrules .cursorrules  # Copy cursor rules if using Cursor
 ```
 
@@ -210,10 +212,10 @@ See `.cursorrules` for complete AI agent rules (copy to your project if using Cu
 
 The STDD methodology is language-agnostic. When customizing templates for your project:
 
-- **Go projects**: Update code examples in templates to use Go syntax
-- **Python projects**: Update code examples to use Python syntax
-- **Ruby projects**: Update code examples to use Ruby syntax
-- **JavaScript/TypeScript projects**: Update code examples to use JavaScript/TypeScript syntax
+- **Language‑specific projects**: Update code examples in templates to match your chosen language
+- **Language‑specific projects**: Update code examples in templates to match your chosen language
+- **Language‑specific projects**: Update code examples in templates to match your chosen language
+- **Language‑specific projects**: Update code examples in templates to match your chosen language
 - **Other languages**: Adapt the templates to your language's conventions
 
 The semantic token system and development process remain the same regardless of language.
@@ -223,6 +225,7 @@ The semantic token system and development process remain the same regardless of 
 ### Methodology Documentation (Reference)
 - `STDD.md` - STDD methodology overview (for beginners, intermediate, and experts)
 - `ai-principles.md` - Complete STDD principles and process guide
+- `conversation-template.md` - Template conversation demonstrating STDD workflow
 - `CHANGELOG.md` - Version history
 
 ### Template Files (Copy to Your Project)

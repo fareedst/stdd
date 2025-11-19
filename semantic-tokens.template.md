@@ -1,9 +1,14 @@
-# Semantic Tokens
+# Semantic Tokens Directory
 
-**STDD Methodology Version**: 1.0.0
+**STDD Methodology Version**: 1.0.1
 
 ## Overview
-This document defines semantic tokens (keywords, identifiers, and concepts) that tie together all documentation, code, and tests. These tokens provide a consistent vocabulary for discussing the system.
+This document serves as the **central directory/registry** for all semantic tokens used in the project. Semantic tokens (`[REQ:*]`, `[ARCH:*]`, `[IMPL:*]`) provide a consistent vocabulary and traceability mechanism that ties together all documentation, code, and tests.
+
+**For detailed information about tokens, see:**
+- **Requirements tokens**: See `requirements.md` for full descriptions, rationale, satisfaction criteria, and validation criteria
+- **Architecture tokens**: See `architecture-decisions.md` for architectural decisions, rationale, and alternatives considered
+- **Implementation tokens**: See `implementation-decisions.md` for implementation details, code structures, and algorithms
 
 ## Token Format
 
@@ -32,9 +37,14 @@ When referencing other tokens:
 [IMPL:EXAMPLE] Description [ARCH:DESIGN] [REQ:REQUIREMENT]
 ```
 
-## Requirements Tokens
+## Requirements Tokens Registry
 
-### Core Functionality
+**📖 Full details**: See `requirements.md`
+
+### Immutable Requirements
+
+### Core Functional Requirements
+- `[REQ:STDD_SETUP]` - STDD methodology setup
 - `[REQ:EXAMPLE_FEATURE]` - Example feature requirement
 - Add your requirements tokens here
 
@@ -44,18 +54,22 @@ When referencing other tokens:
 - `[REQ:MAINTAINABILITY]` - Maintainability requirements
 - `[REQ:USABILITY]` - Usability requirements
 
-## Architecture Tokens
+## Architecture Tokens Registry
 
-### Core Architecture Decisions
+**📖 Full details**: See `architecture-decisions.md`
+
 - `[ARCH:LANGUAGE_SELECTION]` - Language and runtime selection
 - `[ARCH:PROJECT_STRUCTURE]` - Project structure decision
+- `[ARCH:STDD_STRUCTURE]` - STDD project structure [REQ:STDD_SETUP]
 - `[ARCH:EXAMPLE_DECISION]` - Example architecture decision [REQ:EXAMPLE_FEATURE]
 - Add your architecture tokens here
 
-## Implementation Tokens
+## Implementation Tokens Registry
 
-### Core Implementation Decisions
+**📖 Full details**: See `implementation-decisions.md`
+
 - `[IMPL:CONFIG_STRUCT]` - Configuration structure implementation [ARCH:CONFIG_STRUCTURE] [REQ:CONFIGURATION]
+- `[IMPL:STDD_FILES]` - STDD file creation [ARCH:STDD_STRUCTURE] [REQ:STDD_SETUP]
 - `[IMPL:EXAMPLE_IMPLEMENTATION]` - Example implementation [ARCH:EXAMPLE_DECISION] [REQ:EXAMPLE_FEATURE]
 - Add your implementation tokens here
 
@@ -93,18 +107,41 @@ func TestExampleFeature_REQ_EXAMPLE_FEATURE(t *testing.T) {
 
 ### In Documentation
 ```markdown
-The feature uses [ARCH:EXAMPLE_DECISION] to fulfill [REQ:EXAMPLE_FEATURE].
-Implementation details are documented in [IMPL:EXAMPLE_IMPLEMENTATION].
+The feature uses [ARCH:ARCHITECTURE_NAME] to fulfill [REQ:FEATURE_NAME].
+Implementation details are documented in [IMPL:IMPLEMENTATION_NAME].
 ```
 
-## Token Index by Category
+## Token Validation Guidelines
 
-### Requirements
-- Add your requirement tokens here
+### Cross-Layer Token Consistency
 
-### Architecture
-- Add your architecture tokens here
+Every feature must have proper token coverage across all layers:
 
-### Implementation
-- Add your implementation tokens here
+1. **Requirements Layer**: Feature must have `[REQ:*]` token in `requirements.md`
+2. **Architecture Layer**: Architecture decisions must have `[ARCH:*]` tokens in `architecture-decisions.md`
+3. **Implementation Layer**: Implementation must have `[IMPL:*]` tokens in code comments
+4. **Test Layer**: Tests must reference `[REQ:*]` tokens in test names/comments
+5. **Documentation Layer**: All documentation must cross-reference tokens consistently
 
+### Token Format Validation
+
+1. **Token Format**: Must follow `[TYPE:IDENTIFIER]` pattern exactly
+2. **Token Types**: Must use valid types (`REQ`, `ARCH`, `IMPL`, `TEST`)
+3. **Identifier Format**: Must use UPPER_SNAKE_CASE
+4. **Cross-References**: Implementation tokens must reference architecture and requirement tokens
+
+### Token Traceability Validation
+
+1. Every requirement in `requirements.md` must have corresponding implementation tokens
+2. Every architecture decision must have corresponding implementation tokens
+3. Every test must link to specific requirements via `[REQ:*]` tokens
+4. All tokens must be discoverable through automated validation
+
+## Token Creation Requirements
+
+When implementing features:
+1. **ALWAYS** create `[REQ:*]` token in `requirements.md` first
+2. **ALWAYS** create `[ARCH:*]` token in `architecture-decisions.md` for design decisions
+3. **ALWAYS** add `[IMPL:*]` tokens to code comments
+4. **ALWAYS** reference `[REQ:*]` tokens in test names/comments
+5. **ALWAYS** update `semantic-tokens.md` registry when creating new tokens

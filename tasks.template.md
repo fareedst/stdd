@@ -1,9 +1,9 @@
 # Tasks and Incomplete Subtasks
 
-**STDD Methodology Version**: 1.0.0
+**STDD Methodology Version**: 1.0.1
 
 ## Overview
-This document tracks all tasks and subtasks for implementing your project. Tasks are organized by priority and implementation phase.
+This document tracks all tasks and subtasks for implementing this project. Tasks are organized by priority and implementation phase.
 
 ## Priority Levels
 
@@ -37,42 +37,53 @@ This document tracks all tasks and subtasks for implementing your project. Tasks
 **Priority Rationale**: Why this is P0/P1/P2/P3
 ```
 
-## Phase 1: Foundation Setup
+## Task Management Rules
 
-### Task 1.1: Project Structure Setup
-**Status:** ⏳ Pending  
-**Priority:** P0 (Critical)  
-**Semantic Tokens:** `[ARCH:PROJECT_STRUCTURE]`
+1. **Subtasks are Temporary**
+   - Subtasks exist only while the parent task is in progress
+   - Remove subtasks when parent task completes
 
-**Description**: Set up the basic project structure according to architecture decisions.
+2. **Priority Must Be Justified**
+   - Each task must have a priority rationale
+   - Priorities follow: Tests/Code/Functions > DX > Infrastructure > Security
+
+3. **Semantic Token References Required**
+   - Every task MUST reference at least one semantic token
+   - Cross-reference to related tokens
+
+4. **Completion Criteria Must Be Met**
+   - All criteria must be checked before marking complete
+   - Documentation must be updated
+
+## Task Status Icons
+
+- 🟡 **In Progress**: Actively being worked on
+- ✅ **Complete**: All criteria met, subtasks removed
+- ⏸️ **Blocked**: Waiting on dependency
+- ⏳ **Pending**: Not yet started
+
+## Active Tasks
+
+## P0: Setup STDD Methodology [REQ:STDD_SETUP] [ARCH:STDD_STRUCTURE] [IMPL:STDD_FILES]
+
+**Status**: ✅ Complete
+
+**Description**: Initialize the project with the STDD directory structure and documentation files.
+
+**Dependencies**: None
 
 **Subtasks**:
-- [ ] Create directory structure
-- [ ] Set up build configuration
-- [ ] Initialize version control
-- [ ] Create initial documentation structure
+- [x] Create `stdd/` directory
+- [x] Instantiate documentation files from templates
+- [x] Update `.cursorrules`
+- [x] Register semantic tokens
 
 **Completion Criteria**:
-- [ ] Project structure matches [ARCH:PROJECT_STRUCTURE]
-- [ ] Build system configured
-- [ ] Documentation structure in place
+- [x] All subtasks complete
+- [x] Code implements requirement
+- [x] Documentation updated
 
-### Task 1.2: Core Data Structures
-**Status:** ⏳ Pending  
-**Priority:** P0 (Critical)  
-**Semantic Tokens:** `[IMPL:CONFIG_STRUCT]`, `[ARCH:CONFIG_STRUCTURE]`
-
-**Description**: Define core data structures for configuration and application state.
-
-**Subtasks**:
-- [ ] Define configuration structure
-- [ ] Define application state structures
-- [ ] Add validation logic
-
-**Completion Criteria**:
-- [ ] All core structures defined
-- [ ] Structures match [IMPL:CONFIG_STRUCT]
-- [ ] Validation implemented
+**Priority Rationale**: P0 because this is the foundation for all future work.
 
 ## Phase 2: Core Components
 
@@ -83,37 +94,4 @@ This document tracks all tasks and subtasks for implementing your project. Tasks
 
 **Description**: Implement the core feature according to requirements and architecture.
 
-**Subtasks**:
-- [ ] Implement core logic
-- [ ] Add error handling
-- [ ] Write unit tests
-- [ ] Update documentation
-
-**Completion Criteria**:
-- [ ] Feature implements [REQ:EXAMPLE_FEATURE]
-- [ ] Follows [ARCH:EXAMPLE_DECISION]
-- [ ] Tests pass with semantic token references
-- [ ] Documentation updated
-
-## Task Status Legend
-
-- **Pending**: Not started
-- **In Progress**: Currently being worked on
-- **Complete**: Finished and tested
-- **Deferred**: Postponed to future phase
-- **Future**: Out of scope for initial implementation
-
-## Dependencies
-
-### Task Dependencies
-- Task 1.1 → Task 1.2 → Task 2.1
-- Add your task dependencies here
-
-## Recommended Implementation Order
-
-1. Phase 1: Foundation Setup (Tasks 1.1, 1.2)
-2. Phase 2: Core Components (Tasks 2.1, ...)
-3. Phase 3: Additional Features
-4. Phase 4: Testing
-5. Phase 5: Documentation and Polish
 

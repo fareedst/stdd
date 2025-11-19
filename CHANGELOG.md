@@ -5,9 +5,17 @@ All notable changes to the STDD (Semantic Token-Driven Development) methodology 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2025-11-19
+
+### Changed
+
+- Made the repository language-neutral by removing specific language references
+- Updated documentation to be language-agnostic
+
 ## [1.0.0] - 2025-11-08
 
 ### Added
+
 - Initial release of STDD methodology template (Version 1.0.0)
 - Complete STDD principles and process guide (`ai-principles.md`)
 - STDD methodology overview for beginners, intermediate, and expert developers (`STDD.md`)
