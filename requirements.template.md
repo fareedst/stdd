@@ -1,6 +1,6 @@
 # Requirements Directory
 
-**STDD Methodology Version**: 1.0.1
+**STDD Methodology Version**: 1.0.2
 
 ## Overview
 This document serves as the **central listing/registry** for all requirements in this project. Each requirement has a unique semantic token `[REQ:IDENTIFIER]` for traceability.
@@ -69,6 +69,32 @@ Each requirement includes:
 
 **Status**: ✅ Implemented
 
+### [REQ:MODULE_VALIDATION] Independent Module Validation Before Integration
+
+**Priority: P0 (Critical)**
+
+- **Description**: Logical modules must be developed and validated independently before integration into code satisfying specific requirements. Each module must have clear boundaries, interfaces, and validation criteria defined before development begins.
+- **Rationale**: To eliminate bugs related to code complexity by ensuring each module works correctly in isolation before combining with other modules. Independent validation reduces integration complexity, catches bugs early in the development cycle, and ensures each module meets its defined contract before integration.
+- **Satisfaction Criteria**:
+  - All logical modules are identified and documented with clear boundaries before development.
+  - Module interfaces and contracts are defined and documented.
+  - Module validation criteria are specified (what "validated" means for each module).
+  - Each module is developed independently.
+  - Each module passes independent validation (unit tests with mocks, integration tests with test doubles, contract validation, edge case testing, error handling validation) before integration.
+  - Module validation results are documented.
+  - Integration tasks are separate from module development and validation tasks.
+  - Integration only occurs after module validation passes.
+- **Validation Criteria**:
+  - Manual verification that modules are identified and documented before development.
+  - Automated verification that module validation tests exist and pass before integration.
+  - Code review verification that integration code references validated modules.
+  - Verification that module validation results are documented.
+  - Verification that integration tests validate the combined behavior of validated modules.
+- **Architecture**: See `architecture-decisions.md` § Module Validation Strategy [ARCH:MODULE_VALIDATION]
+- **Implementation**: See `implementation-decisions.md` § Module Validation Implementation [IMPL:MODULE_VALIDATION]
+
+**Status**: ✅ Implemented
+
 ### [REQ:IDENTIFIER] Requirement Name
 
 **Priority: P0 (Critical) | P1 (Important) | P2 (Nice-to-have) | P3 (Future)**
@@ -95,6 +121,7 @@ Each requirement includes:
 - All requirements MUST be documented here with `[REQ:*]` tokens
 - Requirements describe WHAT the system should do and WHY, not HOW
 - Requirements MUST NOT describe bugs or implementation details
+- **Language-Agnostic Requirements**: Requirements MUST be language-agnostic. Language selection, runtime choices, and language-specific implementation details belong in architecture decisions (`architecture-decisions.md`) or implementation decisions (`implementation-decisions.md`), NOT in requirements. The ONLY exception is when language selection is itself a specific requirement (e.g., `[REQ:USE_PYTHON]` for a Python-specific project requirement). When documenting requirements, focus on behavior and capabilities, not on how they are implemented in a specific language.
 
 ## Future Enhancements (Out of Scope)
 

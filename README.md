@@ -1,6 +1,6 @@
 # STDD Methodology Template
 
-**STDD Methodology Version**: 1.0.1
+**STDD Methodology Version**: 1.0.2
 
 This repository ([https://github.com/fareedst/stdd](https://github.com/fareedst/stdd)) contains the **Semantic Token-Driven Development (STDD)** methodology template that can be used as a base for development projects in any language.
 
@@ -97,6 +97,7 @@ cp .cursorrules .cursorrules  # Copy cursor rules if using Cursor
 
 #### Phase 1: Requirements → Pseudo-Code
 - Expand requirements into pseudo-code and decisions
+- **IMMEDIATELY** identify logical modules and document module boundaries
 - **IMMEDIATELY** document architecture decisions in `architecture-decisions.md`
 - **IMMEDIATELY** document implementation decisions in `implementation-decisions.md`
 - **IMMEDIATELY** update `semantic-tokens.md` with new tokens
@@ -105,12 +106,16 @@ cp .cursorrules .cursorrules  # Copy cursor rules if using Cursor
 
 #### Phase 2: Pseudo-Code → Tasks
 - Break down into discrete tasks in `tasks.md`
+- **IMMEDIATELY** create separate tasks for module development, module validation, and integration
 - Assign priorities to all tasks
 - Include semantic token references
 - **DO NOT** start implementation until tasks are documented
 
 #### Phase 3: Tasks → Implementation
 - Work on highest priority tasks first
+- **MANDATORY**: Develop each logical module independently
+- **MANDATORY**: Validate each module independently (unit tests with mocks, contract tests, edge cases, error handling) before integration
+- **MANDATORY**: Only integrate modules after validation passes
 - Use semantic tokens in code comments
 - Use semantic tokens in test names/comments
 - Update documentation AS YOU WORK (not at the end)
@@ -142,15 +147,22 @@ your-project/
    - Requirements MUST be expanded into pseudo-code and architectural decisions before implementation
    - No code changes until requirements are fully specified with semantic tokens
 
-3. **Test-Driven Documentation**
+3. **Independent Module Validation Before Integration**
+   - Logical modules MUST be validated independently before integration into code satisfying specific requirements
+   - Each module must have clear boundaries, interfaces, and validation criteria defined before development
+   - Modules must pass independent validation (unit tests with mocks, integration tests with test doubles, contract validation, edge case testing, error handling validation) before integration
+   - Integration only occurs after module validation passes
+   - **Rationale**: Eliminates bugs related to code complexity by ensuring each module works correctly in isolation before combining with other modules
+
+4. **Test-Driven Documentation**
    - Tests MUST reference the requirements they validate using semantic tokens
    - Test names should include semantic tokens
 
-4. **Incremental Task Tracking**
+5. **Incremental Task Tracking**
    - Every requirement implementation MUST be broken down into trackable tasks
    - Tasks have explicit priorities: P0 > P1 > P2 > P3
 
-5. **Complete Task Completion**
+6. **Complete Task Completion**
    - When all subtasks for a task are complete, remove subtasks and mark the parent task complete
    - Maintain a clean task list showing only active work
 

@@ -1,6 +1,6 @@
 # Implementation Decisions
 
-**STDD Methodology Version**: 1.0.1
+**STDD Methodology Version**: 1.0.2
 
 ## Overview
 This document captures detailed implementation decisions for this project, including specific APIs, data structures, and algorithms. All decisions are cross-referenced with architecture decisions using `[ARCH:*]` tokens and requirements using `[REQ:*]` tokens for traceability.
@@ -34,6 +34,7 @@ When documenting implementation decisions, use this format:
 - Each decision MUST include `[IMPL:*]` token and cross-reference both `[ARCH:*]` and `[REQ:*]` tokens
 - Implementation decisions are dependent on both architecture decisions and requirements
 - DO NOT defer implementation documentation - record decisions as they are made
+- **Language-Specific Implementation**: Language-specific implementation details (APIs, libraries, syntax patterns, idioms) belong in implementation decisions. Code examples in documentation should use `[your-language]` placeholders or be language-agnostic pseudo-code unless demonstrating a specific language requirement. Requirements and architecture decisions should remain language-agnostic.
 
 ---
 ## 1. Configuration Structure [IMPL:CONFIG_STRUCT] [ARCH:CONFIG_STRUCTURE] [REQ:CONFIGURATION]
@@ -85,17 +86,20 @@ type ExampleStruct struct {
 
 ### Error Types
 ```[your-language]
-var (
-    ErrExampleError = errors.New("example error message")
-    ErrAnotherError = errors.New("another error message")
-)
+// Define error types/constants for your language
+// Example patterns:
+// - Error constants or enums
+// - Error classes or types
+// - Error codes with messages
 ```
 
 ### Error Wrapping
 ```[your-language]
-if err != nil {
-    return fmt.Errorf("context: %w", err)
-}
+// Wrap errors with context in your language's idiomatic way
+// Example patterns:
+// - Error wrapping with context
+// - Exception chaining
+// - Error propagation with additional information
 ```
 
 ### Error Reporting
@@ -109,36 +113,33 @@ if err != nil {
 
 ### Unit Test Structure
 ```[your-language]
-func TestExampleFeature(t *testing.T) {
-    tests := []struct {
-        name     string
-        input    InputType
-        expected OutputType
-    }{
+// Unit test structure for your language
+// Example pattern:
+function testExampleFeature() {
+    // Define test cases
+    testCases = [
         {
-            name:     "test case 1",
-            input:    inputValue,
-            expected: expectedValue,
-        },
-    }
+            name: "test case 1",
+            input: inputValue,
+            expected: expectedValue
+        }
+    ]
     
-    for _, tt := range tests {
-        t.Run(tt.name, func(t *testing.T) {
-            result := functionUnderTest(tt.input)
-            if result != tt.expected {
-                t.Errorf("expected %v, got %v", tt.expected, result)
-            }
-        })
+    // Run test cases
+    for each testCase in testCases {
+        result = functionUnderTest(testCase.input)
+        assert result equals testCase.expected
     }
 }
 ```
 
 ### Integration Test Structure
 ```[your-language]
-func TestIntegrationScenario(t *testing.T) {
-    // Setup
-    // Execute
-    // Verify
+// Integration test structure for your language
+function testIntegrationScenario() {
+    // Setup: Prepare test environment
+    // Execute: Run integration scenario
+    // Verify: Assert expected outcomes
 }
 ```
 
@@ -159,4 +160,94 @@ func TestIntegrationScenario(t *testing.T) {
 ### Formatting
 - Use standard formatter for chosen language
 - Use linter for code quality
+
+## 6. Module Validation Implementation [IMPL:MODULE_VALIDATION] [ARCH:MODULE_VALIDATION] [REQ:MODULE_VALIDATION]
+
+### Decision: Independent Module Validation Before Integration
+**Rationale:**
+- Implements [REQ:MODULE_VALIDATION] requirement for independent module validation
+- Realizes [ARCH:MODULE_VALIDATION] architecture decision
+- Ensures modules are validated independently before integration to eliminate complexity-related bugs
+
+### Implementation Approach:
+
+#### Module Identification Phase
+1. **Before Development**: Identify logical modules and document:
+   - Module boundaries and responsibilities
+   - Module interfaces and contracts
+   - Module dependencies
+   - Module validation criteria
+
+#### Module Development Phase
+2. **Develop Module Independently**:
+   - Implement module according to defined interface
+   - Use dependency injection or interfaces for dependencies
+   - Keep module isolated from other modules during development
+
+#### Module Validation Phase
+3. **Validate Module Independently** (BEFORE integration):
+   ```[your-language]
+   // Example: Module validation test structure
+   function testModuleName_IndependentValidation() {
+       // Setup: Create module with mocked dependencies
+       mockDependency = createMockDependency()
+       module = createModule(mockDependency)
+       
+       // Test: Unit tests with mocked dependencies
+       test("contract validation", function() {
+           result = module.process(input)
+           assert result equals expectedOutput
+       })
+       
+       // Test: Edge cases
+       test("edge cases", function() {
+           // Test boundary conditions
+       })
+       
+       // Test: Error handling
+       test("error handling", function() {
+           // Test error scenarios
+       })
+   }
+   ```
+
+4. **Validation Requirements**:
+   - **Unit Tests**: Comprehensive unit tests with all dependencies mocked
+   - **Contract Tests**: Validate input/output contracts
+   - **Edge Case Tests**: Test boundary conditions and edge cases
+   - **Error Handling Tests**: Test error scenarios and error propagation
+   - **Integration Tests with Test Doubles**: Test module with mocks/stubs/fakes for dependencies
+
+5. **Document Validation Results**:
+   - Document which validation tests passed
+   - Document any known limitations or assumptions
+   - Mark module as "validated" only after all validation criteria pass
+
+#### Integration Phase
+6. **Integrate Validated Modules** (ONLY after validation passes):
+   ```[your-language]
+   // Example: Integration after module validation
+   // [REQ:MODULE_VALIDATION] Only integrate after module validation passes
+   // [IMPL:MODULE_VALIDATION] [ARCH:MODULE_VALIDATION] [REQ:MODULE_VALIDATION]
+   function integrateModules(validatedModule1, validatedModule2) {
+       // Integration code that combines validated modules
+   }
+   ```
+
+7. **Integration Testing**:
+   - Test combined behavior of validated modules
+   - Verify integration points work correctly
+   - Test end-to-end scenarios with validated modules
+
+### Task Structure:
+- **Separate Tasks**: Module development, module validation, and integration must be separate tasks
+- **Task Dependencies**: Integration tasks depend on module validation tasks
+- **Task Priorities**: Module validation is typically P0 or P1 priority
+
+### Code Markers:
+- Look for module validation test files: `*_module_test.[ext]` or `*_validation_test.[ext]`
+- Look for integration test files: `*_integration_test.[ext]`
+- Code comments: `// [REQ:MODULE_VALIDATION] Module validated independently before integration`
+
+### Cross-References: [ARCH:MODULE_VALIDATION], [REQ:MODULE_VALIDATION]
 

@@ -1,6 +1,6 @@
 # Semantic Tokens Directory
 
-**STDD Methodology Version**: 1.0.1
+**STDD Methodology Version**: 1.0.2
 
 ## Overview
 This document serves as the **central directory/registry** for all semantic tokens used in the project. Semantic tokens (`[REQ:*]`, `[ARCH:*]`, `[IMPL:*]`) provide a consistent vocabulary and traceability mechanism that ties together all documentation, code, and tests.
@@ -9,6 +9,50 @@ This document serves as the **central directory/registry** for all semantic toke
 - **Requirements tokens**: See `requirements.md` for full descriptions, rationale, satisfaction criteria, and validation criteria
 - **Architecture tokens**: See `architecture-decisions.md` for architectural decisions, rationale, and alternatives considered
 - **Implementation tokens**: See `implementation-decisions.md` for implementation details, code structures, and algorithms
+
+## AI Assistant Integration Guidelines [REQ:DOC_016]
+
+### Token Usage for AI Assistants
+
+AI assistants should use semantic tokens for:
+
+1. **Code Navigation**: Search for `[REQ:*]`, `[ARCH:*]`, `[IMPL:*]` tokens to find related code
+2. **Feature Understanding**: Trace features from requirements through architecture to implementation
+3. **Change Impact Analysis**: Use token cross-references to identify affected components
+4. **Test Discovery**: Find tests for features using `[REQ:*]` tokens in test names
+
+### Token-Based Code Navigation
+
+```bash
+# Find all implementations of a requirement
+grep -r "\[REQ:FEATURE_NAME\]" --include="*.go" .
+
+# Find all tests for a requirement
+grep -r "REQ_FEATURE_NAME" --include="*_test.go" .
+
+# Find architecture decisions for a feature
+grep -r "\[ARCH:FEATURE_NAME\]" --include="*.md" .
+
+# Find implementation details
+grep -r "\[IMPL:FEATURE_NAME\]" --include="*.go" .
+```
+
+### Token Creation Requirements
+
+When implementing features:
+1. **ALWAYS** create `[REQ:*]` token in `requirements.md` first
+2. **ALWAYS** create `[ARCH:*]` token in `architecture-decisions.md` for design decisions
+3. **ALWAYS** add `[IMPL:*]` tokens to code comments
+4. **ALWAYS** reference `[REQ:*]` tokens in test names/comments
+5. **ALWAYS** update `semantic-tokens.md` registry when creating new tokens
+
+### Token Validation Requirements
+
+Before marking features complete:
+1. **ALWAYS** run token validation scripts
+2. **ALWAYS** ensure token consistency across all layers
+3. **ALWAYS** verify token traceability in documentation
+4. **ALWAYS** check that all cross-references are valid
 
 ## Token Format
 
@@ -45,6 +89,7 @@ When referencing other tokens:
 
 ### Core Functional Requirements
 - `[REQ:STDD_SETUP]` - STDD methodology setup
+- `[REQ:MODULE_VALIDATION]` - Independent module validation before integration
 - `[REQ:EXAMPLE_FEATURE]` - Example feature requirement
 - Add your requirements tokens here
 
@@ -61,6 +106,7 @@ When referencing other tokens:
 - `[ARCH:LANGUAGE_SELECTION]` - Language and runtime selection
 - `[ARCH:PROJECT_STRUCTURE]` - Project structure decision
 - `[ARCH:STDD_STRUCTURE]` - STDD project structure [REQ:STDD_SETUP]
+- `[ARCH:MODULE_VALIDATION]` - Module validation strategy [REQ:MODULE_VALIDATION]
 - `[ARCH:EXAMPLE_DECISION]` - Example architecture decision [REQ:EXAMPLE_FEATURE]
 - Add your architecture tokens here
 
@@ -70,6 +116,7 @@ When referencing other tokens:
 
 - `[IMPL:CONFIG_STRUCT]` - Configuration structure implementation [ARCH:CONFIG_STRUCTURE] [REQ:CONFIGURATION]
 - `[IMPL:STDD_FILES]` - STDD file creation [ARCH:STDD_STRUCTURE] [REQ:STDD_SETUP]
+- `[IMPL:MODULE_VALIDATION]` - Module validation implementation [ARCH:MODULE_VALIDATION] [REQ:MODULE_VALIDATION]
 - `[IMPL:EXAMPLE_IMPLEMENTATION]` - Example implementation [ARCH:EXAMPLE_DECISION] [REQ:EXAMPLE_FEATURE]
 - Add your implementation tokens here
 
@@ -100,8 +147,8 @@ function exampleFunction() {
 ### In Tests
 ```[your-language]
 // Test validates [REQ:EXAMPLE_FEATURE] is met
-func TestExampleFeature_REQ_EXAMPLE_FEATURE(t *testing.T) {
-    // ...
+function testExampleFeature_REQ_EXAMPLE_FEATURE() {
+    // Test implementation
 }
 ```
 

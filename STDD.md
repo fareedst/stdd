@@ -1,8 +1,8 @@
 # Semantic Token-Driven Development (STDD)
 
-**STDD Methodology Version**: 1.0.1
+**STDD Methodology Version**: 1.0.2
 
-**Semantic Token-Driven Development (STDD)** is a software development methodology where semantic tokens (`[REQ:*]`, `[ARCH:*]`, `[IMPL:*]`) are the central mechanism for preserving intent throughout the entire development lifecycle.
+**Semantic Token-Driven Development (STDD)** is a software development methodology where semantic tokens (`[REQ:*]`, `[ARCH:*]`, `[IMPL:*]`) are the central mechanism for preserving intent throughout the entire development lifecycle. STDD requires independent validation of logical modules before integration to eliminate bugs related to code complexity.
 
 ---
 
@@ -94,22 +94,22 @@ Rationale: Simpler, more predictable, cross-platform compatible.
 #### 3. Implementation Phase
 ```markdown
 ## [IMPL:FILE_STATE_TRACKING] File State Tracking [ARCH:POLLING_STRATEGY] [REQ:FILE_MONITORING]
-Track file modification times using `os.Stat()` and compare with stored values.
+Track file modification times using file system APIs and compare with stored values.
 ```
 
 #### 4. Test Phase
-```go
-func TestFileMonitoring_REQ_FILE_MONITORING(t *testing.T) {
-    // Test validates [REQ:FILE_MONITORING] is met
-    // ...
+```[your-language]
+// Test validates [REQ:FILE_MONITORING] is met
+function testFileMonitoring_REQ_FILE_MONITORING() {
+    // Test implementation
 }
 ```
 
 #### 5. Code Phase
-```go
+```[your-language]
 // [REQ:FILE_MONITORING] Check if file has been modified
 // [IMPL:FILE_STATE_TRACKING] [ARCH:POLLING_STRATEGY]
-func checkFile(fileState *FileState) (bool, error) {
+function checkFile(fileState) {
     // Implementation
 }
 ```
@@ -137,9 +137,12 @@ func checkFile(fileState *FileState) (bool, error) {
 
 1. **Define Requirement**: `[REQ:DUPLICATE_PREVENTION]` - Prevent duplicate processing
 2. **Architect Decision**: `[ARCH:STATE_TRACKING]` - Track last processed item [REQ:DUPLICATE_PREVENTION]
-3. **Implement**: `[IMPL:LAST_TEXT_FIELD]` - Add `lastText` field [ARCH:STATE_TRACKING] [REQ:DUPLICATE_PREVENTION]
-4. **Test**: `TestDuplicatePrevention_REQ_DUPLICATE_PREVENTION`
-5. **Code**: `// [REQ:DUPLICATE_PREVENTION] Skip if text matches lastText`
+3. **Identify Module**: `DuplicateDetection` module with interface `isDuplicate(text, lastText) -> bool`
+4. **Implement Module**: `[IMPL:LAST_TEXT_FIELD]` - Add `lastText` field [ARCH:STATE_TRACKING] [REQ:DUPLICATE_PREVENTION]
+5. **Validate Module Independently**: Unit tests with mocks, edge cases, error handling [REQ:MODULE_VALIDATION]
+6. **Integrate Module**: Call `isDuplicate()` in polling loop after validation passes
+7. **Test Integration**: `TestDuplicatePrevention_REQ_DUPLICATE_PREVENTION`
+8. **Code**: `// [REQ:DUPLICATE_PREVENTION] Skip if text matches lastText`
 
 ### When to Use STDD
 
@@ -153,9 +156,11 @@ func checkFile(fileState *FileState) (bool, error) {
 
 1. Start with requirements and assign `[REQ:*]` tokens
 2. Document architecture decisions with `[ARCH:*]` tokens, cross-referencing `[REQ:*]`
-3. Document implementation decisions with `[IMPL:*]` tokens, cross-referencing both `[ARCH:*]` and `[REQ:*]`
-4. Reference tokens in test names and code comments
-5. Maintain token registry in `semantic-tokens.md` (copy from `semantic-tokens.template.md` in STDD repository)
+3. Identify logical modules and define module boundaries, interfaces, and validation criteria
+4. Document implementation decisions with `[IMPL:*]` tokens, cross-referencing both `[ARCH:*]` and `[REQ:*]`
+5. Develop and validate each module independently before integration [REQ:MODULE_VALIDATION]
+6. Reference tokens in test names and code comments
+7. Maintain token registry in `semantic-tokens.md` (copy from `semantic-tokens.template.md` in STDD repository)
 
 ---
 
@@ -251,15 +256,15 @@ This structure enables:
 
 #### Test Naming Patterns
 
-```go
+```[your-language]
 // Explicit requirement validation
-func TestFeature_REQ_REQUIREMENT(t *testing.T)
+function testFeature_REQ_REQUIREMENT() { }
 
 // Architecture validation
-func TestDesign_ARCH_DESIGN_REQ_REQUIREMENT(t *testing.T)
+function testDesign_ARCH_DESIGN_REQ_REQUIREMENT() { }
 
 // Implementation validation
-func TestImplementation_IMPL_IMPLEMENTATION_ARCH_DESIGN_REQ_REQUIREMENT(t *testing.T)
+function testImplementation_IMPL_IMPLEMENTATION_ARCH_DESIGN_REQ_REQUIREMENT() { }
 ```
 
 ### Tooling and Automation
@@ -323,6 +328,16 @@ git checkout -b feature/REQ_USER_AUTH
 [ARCH:FEATURE_V1] Initial design [REQ:REQUIREMENT]
 [ARCH:FEATURE_V2] Refined design [ARCH:FEATURE_V1] [REQ:REQUIREMENT]
 ```
+
+#### Module Validation Pattern
+
+```markdown
+[REQ:FEATURE] → [ARCH:MODULE_DESIGN] → [IMPL:MODULE_IMPLEMENTATION]
+  → Module Development → Module Validation [REQ:MODULE_VALIDATION]
+  → Integration → Integration Testing
+```
+
+This pattern ensures each module is validated independently before integration, reducing complexity-related bugs.
 
 ### Metrics and Measurement
 
