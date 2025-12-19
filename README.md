@@ -25,7 +25,8 @@ This repository contains:
 - `ai-principles.md` - Complete STDD principles and process guide
 - `stdd-language-spec.md` - STDD language specification (pseudo-code templates with semantic tokens)
 - `conversation-template.md` - Template conversation demonstrating STDD workflow
-- `.cursorrules` - Cursor IDE rules for AI agents (template)
+- `AGENTS.md` - Canonical AI agent operating guide
+- `.cursorrules` - Cursor IDE loader that points to `AGENTS.md`
 - `CHANGELOG.md` - Version history of the STDD methodology
 - `VERSION` - Current methodology version
 
@@ -45,7 +46,8 @@ Read these documents in order:
 2. `ai-principles.md` - Complete STDD principles and process guide
 3. `stdd-language-spec.md` - STDD language specification (optional, for advanced users)
 4. `conversation-template.md` - Example conversation showing STDD in practice (recommended)
-5. `.cursorrules` - Cursor IDE rules (if using Cursor)
+5. `AGENTS.md` - Canonical AI agent rules (required if collaborating with AI assistants)
+6. `.cursorrules` - Cursor IDE loader (if using Cursor)
 
 ### Step 2: Copy Templates to Your Project
 
@@ -58,7 +60,8 @@ cp architecture-decisions.template.md stdd/architecture-decisions.md
 cp implementation-decisions.template.md stdd/implementation-decisions.md
 cp semantic-tokens.template.md stdd/semantic-tokens.md
 cp tasks.template.md stdd/tasks.md
-cp .cursorrules .cursorrules  # Copy cursor rules if using Cursor
+cp AGENTS.md AGENTS.md              # Copy canonical AI agent guide
+cp .cursorrules .cursorrules        # Copy Cursor loader if using Cursor
 ```
 
 **Important**: Each project should have its own copies of these files. The template files remain in the [STDD repository](https://github.com/fareedst/stdd) as reference templates.
@@ -130,13 +133,14 @@ After copying templates, your project should have:
 
 ```
 your-project/
-├── .cursorrules              # Cursor IDE rules (optional, if using Cursor)
-├── requirements.md            # Your project requirements with [REQ:*] tokens
-├── architecture-decisions.md  # Your project architecture decisions with [ARCH:*] tokens
+├── AGENTS.md                 # Canonical AI agent instructions
+├── .cursorrules              # Cursor IDE loader (optional, if using Cursor)
+├── requirements.md           # Your project requirements with [REQ:*] tokens
+├── architecture-decisions.md # Your project architecture decisions with [ARCH:*] tokens
 ├── implementation-decisions.md # Your project implementation decisions with [IMPL:*] tokens
-├── semantic-tokens.md         # Your project's semantic token registry
-├── tasks.md                   # Your project's active task tracking
-└── [your source code]         # Your actual project code
+├── semantic-tokens.md        # Your project's semantic token registry
+├── tasks.md                  # Your project's active task tracking
+└── [your source code]        # Your actual project code
 ```
 
 **Note**: The methodology documentation files (`STDD.md`, `ai-principles.md`) remain in the [STDD repository](https://github.com/fareedst/stdd) as reference. You don't need to copy them to your project unless you want local copies.
@@ -212,17 +216,9 @@ your-project/
 - Ensure the semantic tokens registered in `semantic-tokens.md` match the tokens used across code, tests, and documentation for these changes
 
 
-## For AI Agents
+## AI Agent Instructions
 
-If you're using AI agents (like Cursor), they should:
-
-1. **MANDATORY**: Preface every response with "Observing AI principles!"
-2. Read `ai-principles.md` at the start of each session (from the [STDD repository](https://github.com/fareedst/stdd) or your local copy)
-3. Check `semantic-tokens.md` for existing tokens (your project's file)
-4. Review `tasks.md` for active tasks (your project's file)
-5. Follow all principles throughout the response
-
-See `.cursorrules` for complete AI agent rules (copy to your project if using Cursor).
+All operational checklists and acknowledgement requirements for AI assistants now live in `AGENTS.md`. Use `.cursorrules` only as a loader that redirects Cursor to this canonical guide.
 
 ## Language-Specific Notes
 
@@ -251,7 +247,8 @@ The semantic token system and development process remain the same regardless of 
 - `implementation-decisions.template.md` - Template for implementation decisions with `[IMPL:*]` tokens
 - `semantic-tokens.template.md` - Template for semantic token registry
 - `tasks.template.md` - Template for task tracking
-- `.cursorrules` - Template for Cursor IDE rules (optional)
+- `AGENTS.md` - Canonical AI agent operating guide (copy as-is)
+- `.cursorrules` - Template for Cursor IDE loader (optional)
 
 ## Repository
 

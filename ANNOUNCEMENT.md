@@ -48,7 +48,8 @@ cp architecture-decisions.template.md architecture-decisions.md
 cp implementation-decisions.template.md implementation-decisions.md
 cp semantic-tokens.template.md semantic-tokens.md
 cp tasks.template.md tasks.md
-cp .cursorrules .cursorrules  # If using Cursor IDE
+cp AGENTS.md AGENTS.md              # Canonical AI agent guide
+cp .cursorrules .cursorrules        # Cursor loader (optional)
 ```
 
 ### Step 2: Customize for Your Language (2 minutes)
@@ -108,7 +109,8 @@ The STDD v1.0.1 release includes:
 - **`tasks.template.md`** - Template for priority-based task tracking
 
 ### AI Agent Integration
-- **`.cursorrules`** - Cursor IDE rules for AI agents
+- **`AGENTS.md`** - Canonical AI agent operating guide
+- **`.cursorrules`** - Cursor IDE loader pointing to `AGENTS.md`
 - Built-in acknowledgment system
 - Automated documentation reminders
 

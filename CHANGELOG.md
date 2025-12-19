@@ -60,7 +60,7 @@ This enhancement addresses the need to eliminate bugs related to code complexity
   - `implementation-decisions.template.md` - Template for implementation decisions
   - `semantic-tokens.template.md` - Template for semantic token registry
   - `tasks.template.md` - Template for task tracking
-- Cursor IDE rules for AI agents (`.cursorrules` template)
+- AI agent operating guide (`AGENTS.md`) and Cursor IDE loader (`.cursorrules` template)
 - Comprehensive README with getting started guide and template usage instructions
 - Version file (`VERSION`) containing methodology version
 
