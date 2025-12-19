@@ -24,7 +24,7 @@ This repository contains:
 - `STDD.md` - STDD methodology overview (for beginners, intermediate, and experts)
 - `ai-principles.md` - Complete STDD principles and process guide
 - `stdd-language-spec.md` - STDD language specification (pseudo-code templates with semantic tokens)
-- `conversation-template.md` - Template conversation demonstrating STDD workflow
+- `conversation.template.md` - Template conversation demonstrating STDD workflow
 - `AGENTS.md` - Canonical AI agent operating guide
 - `.cursorrules` - Cursor IDE loader that points to `AGENTS.md`
 - `CHANGELOG.md` - Version history of the STDD methodology
@@ -34,6 +34,7 @@ This repository contains:
 - `requirements.template.md` - Template for project requirements
 - `architecture-decisions.template.md` - Template for architecture decisions
 - `implementation-decisions.template.md` - Template for implementation decisions
+- `processes.template.md` - Template for process tracking
 - `semantic-tokens.template.md` - Template for semantic token registry
 - `tasks.template.md` - Template for task tracking
 
@@ -45,7 +46,7 @@ Read these documents in order:
 1. `STDD.md` - Overview of STDD methodology
 2. `ai-principles.md` - Complete STDD principles and process guide
 3. `stdd-language-spec.md` - STDD language specification (optional, for advanced users)
-4. `conversation-template.md` - Example conversation showing STDD in practice (recommended)
+4. `conversation.template.md` - Example conversation showing STDD in practice (recommended)
 5. `AGENTS.md` - Canonical AI agent rules (required if collaborating with AI assistants)
 6. `.cursorrules` - Cursor IDE loader (if using Cursor)
 
@@ -58,6 +59,7 @@ Copy the template files from the [STDD repository](https://github.com/fareedst/s
 cp requirements.template.md stdd/requirements.md
 cp architecture-decisions.template.md stdd/architecture-decisions.md
 cp implementation-decisions.template.md stdd/implementation-decisions.md
+cp processes.template.md stdd/processes.md
 cp semantic-tokens.template.md stdd/semantic-tokens.md
 cp tasks.template.md stdd/tasks.md
 cp AGENTS.md AGENTS.md              # Copy canonical AI agent guide
@@ -238,13 +240,14 @@ The semantic token system and development process remain the same regardless of 
 - `STDD.md` - STDD methodology overview (for beginners, intermediate, and experts)
 - `ai-principles.md` - Complete STDD principles and process guide
 - `stdd-language-spec.md` - STDD language specification (pseudo-code templates with semantic tokens)
-- `conversation-template.md` - Template conversation demonstrating STDD workflow
+- `conversation.template.md` - Template conversation demonstrating STDD workflow
 - `CHANGELOG.md` - Version history
 
 ### Template Files (Copy to Your Project)
 - `requirements.template.md` - Template for requirements with `[REQ:*]` tokens
 - `architecture-decisions.template.md` - Template for architecture decisions with `[ARCH:*]` tokens
 - `implementation-decisions.template.md` - Template for implementation decisions with `[IMPL:*]` tokens
+- `processes.template.md` - Template for process tracking
 - `semantic-tokens.template.md` - Template for semantic token registry
 - `tasks.template.md` - Template for task tracking
 - `AGENTS.md` - Canonical AI agent operating guide (copy as-is)

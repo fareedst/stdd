@@ -826,6 +826,7 @@ This project follows AI-First Principles. Before making changes:
   - Must cross-reference both `[ARCH:*]` and `[REQ:*]` tokens
 - `stdd/semantic-tokens.md` - Central registry of all semantic tokens (copy from `semantic-tokens.template.md`)
 - `stdd/tasks.md` - Active task tracking document (copy from `tasks.template.md`)
+- `stdd/processes.md` - Active process tracking document (copy from `processes.template.md`)
 - `README.md` - Project overview and getting started guide
 
 ---

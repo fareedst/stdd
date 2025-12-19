@@ -58,6 +58,7 @@ This enhancement addresses the need to eliminate bugs related to code complexity
   - `requirements.template.md` - Template for project requirements
   - `architecture-decisions.template.md` - Template for architecture decisions
   - `implementation-decisions.template.md` - Template for implementation decisions
+  - `processes.template.md` - Template for process tracking
   - `semantic-tokens.template.md` - Template for semantic token registry
   - `tasks.template.md` - Template for task tracking
 - AI agent operating guide (`AGENTS.md`) and Cursor IDE loader (`.cursorrules` template)
@@ -68,6 +69,7 @@ This enhancement addresses the need to eliminate bugs related to code complexity
 - **Requirements Documentation** - Template file (`requirements.template.md`) for documenting requirements with `[REQ:*]` tokens
 - **Architecture Decisions** - Template file (`architecture-decisions.template.md`) for documenting architecture decisions with `[ARCH:*]` tokens
 - **Implementation Decisions** - Template file (`implementation-decisions.template.md`) for documenting implementation decisions with `[IMPL:*]` tokens
+- **Process Management** - Template file (`processes.template.md`) for repeatable processes
 - **Semantic Token System** - Template file (`semantic-tokens.template.md`) for central token registry and cross-referencing system
 - **Task Management** - Template file (`tasks.template.md`) for priority-based task tracking system
 - **Development Process** - Three-phase development process (Requirements → Pseudo-Code → Tasks → Implementation)

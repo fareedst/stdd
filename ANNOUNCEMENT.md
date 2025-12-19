@@ -46,6 +46,7 @@ Getting started with STDD in a new project takes just **5 minutes**:
 cp requirements.template.md requirements.md
 cp architecture-decisions.template.md architecture-decisions.md
 cp implementation-decisions.template.md implementation-decisions.md
+cp processes.template.md processes.md
 cp semantic-tokens.template.md semantic-tokens.md
 cp tasks.template.md tasks.md
 cp AGENTS.md AGENTS.md              # Canonical AI agent guide

@@ -762,5 +762,6 @@ STDD enables several metrics:
 - `requirements.template.md` - Template for requirements with `[REQ:*]` tokens (copy to your project as `requirements.md`)
 - `architecture-decisions.template.md` - Template for architecture decisions with `[ARCH:*]` tokens (copy to your project as `architecture-decisions.md`)
 - `implementation-decisions.template.md` - Template for implementation decisions with `[IMPL:*]` tokens (copy to your project as `implementation-decisions.md`)
+- `processes.template.md` - Template for process tracking (copy to your project as `processes.md`)
 - `semantic-tokens.template.md` - Template for semantic token registry (copy to your project as `semantic-tokens.md`)
 

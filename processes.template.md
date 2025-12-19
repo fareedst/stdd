@@ -54,7 +54,7 @@ Use the structure below for every process you document. Each entry should be kep
 
 #### Core Activities
 1. **Survey**
-   - Read `STDD.md`, `semantic-tokens.template.md`, and recent requirements to understand intent.
+   - Read `STDD.md`, `semantic-tokens.md`, and recent requirements to understand intent.
    - Tag findings with `[PROC:PROJECT_SURVEY_AND_SETUP]` and record them in the project knowledge base.
 2. **Build**
    - Confirm required toolchains (language runtime, STDD tooling) are installed and share the list on the onboarding checklist.
