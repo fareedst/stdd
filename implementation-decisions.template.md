@@ -1,6 +1,6 @@
 # Implementation Decisions
 
-**STDD Methodology Version**: 1.0.2
+**STDD Methodology Version**: 1.1.0
 
 ## Overview
 This document captures detailed implementation decisions for this project, including specific APIs, data structures, and algorithms. All decisions are cross-referenced with architecture decisions using `[ARCH:*]` tokens and requirements using `[REQ:*]` tokens for traceability.

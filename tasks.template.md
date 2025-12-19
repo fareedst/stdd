@@ -1,6 +1,6 @@
 # Tasks and Incomplete Subtasks
 
-**STDD Methodology Version**: 1.0.2
+**STDD Methodology Version**: 1.1.0
 
 ## Overview
 This document tracks all tasks and subtasks for implementing this project. Tasks are organized by priority and implementation phase.
@@ -84,6 +84,26 @@ This document tracks all tasks and subtasks for implementing this project. Tasks
 - [x] Documentation updated
 
 **Priority Rationale**: P0 because this is the foundation for all future work.
+
+## P0: Promote Processes into Core Methodology [REQ:STDD_SETUP] [ARCH:STDD_STRUCTURE] [IMPL:STDD_FILES]
+
+**Status**: ✅ Complete
+
+**Description**: Align every methodology reference (docs, templates, registry files) to STDD v1.1.0 after elevating Processes into the primary STDD workflow.
+
+**Dependencies**: None
+
+**Subtasks**:
+- [x] Update STDD version references across methodology docs and guides
+- [x] Update all template files and project copies with the new version marker
+- [x] Refresh `VERSION`, `CHANGELOG.md`, and supporting metadata to announce v1.1.0
+
+**Completion Criteria**:
+- [x] All semantic references cite STDD v1.1.0
+- [x] VERSION file, changelog, and documentation agree on the new version
+- [x] Tasks and supporting docs reflect completion of this work
+
+**Priority Rationale**: Processes are now a primary STDD concern; all consumers must see the v1.1.0 upgrade immediately to maintain alignment.
 
 ## Phase 2: Core Components
 

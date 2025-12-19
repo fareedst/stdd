@@ -2,7 +2,7 @@
 
 **Scope**: Entire repository (root unless overridden by nested `AGENTS.md` files)
 
-**STDD Methodology Version**: 1.0.2
+**STDD Methodology Version**: 1.1.0
 
 This document centralizes every instruction AI coding assistants must follow while working in STDD repositories. It supersedes reminders in `.ai-agent-instructions`, `.cursorrules`, and README snippets. Treat it as the canonical reference when configuring prompts, IDE rules, or agent workflows.
 

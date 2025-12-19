@@ -5,6 +5,20 @@ All notable changes to the STDD (Semantic Token-Driven Development) methodology 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2025-12-19
+
+### Added
+
+- **Processes as a Primary STDD Pillar** [PROC:PROJECT_SURVEY_AND_SETUP] [PROC:BUILD_PIPELINE_VALIDATION]: Elevated processes from optional guidance to a core methodology component so operational rituals remain traceable to requirements, architecture, and implementation tokens.
+
+### Changed
+
+- **Version Alignment**: Updated every methodology guide, template, and project copy to cite STDD v1.1.0 so downstream projects instantly inherit the processes-first workflow expectations.
+
+### Rationale
+
+Adding processes to the primary STDD methodology is a major capability improvement that affects every consumer of these templates, necessitating a version bump.
+
 ## [1.0.2] - 2025-01-27
 
 ### Added

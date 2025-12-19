@@ -1,6 +1,6 @@
 # STDD Processes
 
-**STDD Methodology Version**: 1.0.2
+**STDD Methodology Version**: 1.1.0
 
 Process documentation is the missing link that keeps tooling, rituals, and expectations traceable back to requirements. This guide defines how to record repeatable processes with semantic tokens so that every operational step you take is measurable, auditable, and associated with the intent that drove it.
 
