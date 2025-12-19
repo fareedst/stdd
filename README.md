@@ -121,6 +121,7 @@ cp .cursorrules .cursorrules  # Copy cursor rules if using Cursor
 - Use semantic tokens in code comments
 - Use semantic tokens in test names/comments
 - Update documentation AS YOU WORK (not at the end)
+- **MANDATORY**: After you finish any code or test changes, verify semantic tokens in the modified source, tests, and documentation still align with the same `[REQ:*]`, `[ARCH:*]`, `[IMPL:*]`, and `[TEST:*]` tokens, and refresh `semantic-tokens.md` before claiming completion.
 - Mark tasks complete in `tasks.md` as you finish them
 
 ## Project File Structure
@@ -205,10 +206,11 @@ your-project/
    - **DURING implementation**: Update documentation as decisions are made or refined
    - **DURING implementation**: Update `tasks.md` as subtasks are completed
 5. **Completion Phase**: 
-   - Verify all documentation is up-to-date
-   - Mark tasks complete in `tasks.md`
-   - Remove completed subtasks
-   - Ensure all semantic tokens are documented
+- Verify all documentation is up-to-date and mirrors the semantic tokens referenced by the finished code and tests
+- Mark tasks complete in `tasks.md`
+- Remove completed subtasks
+- Ensure the semantic tokens registered in `semantic-tokens.md` match the tokens used across code, tests, and documentation for these changes
+
 
 ## For AI Agents
 
