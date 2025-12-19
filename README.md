@@ -23,6 +23,7 @@ This repository contains:
 ### Methodology Documentation (Reference Only)
 - `STDD.md` - STDD methodology overview (for beginners, intermediate, and experts)
 - `ai-principles.md` - Complete STDD principles and process guide
+- `stdd-language-spec.md` - STDD language specification (pseudo-code templates with semantic tokens)
 - `conversation-template.md` - Template conversation demonstrating STDD workflow
 - `.cursorrules` - Cursor IDE rules for AI agents (template)
 - `CHANGELOG.md` - Version history of the STDD methodology
@@ -42,8 +43,9 @@ This repository contains:
 Read these documents in order:
 1. `STDD.md` - Overview of STDD methodology
 2. `ai-principles.md` - Complete STDD principles and process guide
-3. `conversation-template.md` - Example conversation showing STDD in practice (recommended)
-4. `.cursorrules` - Cursor IDE rules (if using Cursor)
+3. `stdd-language-spec.md` - STDD language specification (optional, for advanced users)
+4. `conversation-template.md` - Example conversation showing STDD in practice (recommended)
+5. `.cursorrules` - Cursor IDE rules (if using Cursor)
 
 ### Step 2: Copy Templates to Your Project
 
@@ -237,6 +239,7 @@ The semantic token system and development process remain the same regardless of 
 ### Methodology Documentation (Reference)
 - `STDD.md` - STDD methodology overview (for beginners, intermediate, and experts)
 - `ai-principles.md` - Complete STDD principles and process guide
+- `stdd-language-spec.md` - STDD language specification (pseudo-code templates with semantic tokens)
 - `conversation-template.md` - Template conversation demonstrating STDD workflow
 - `CHANGELOG.md` - Version history
 

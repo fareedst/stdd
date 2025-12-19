@@ -114,6 +114,8 @@ function checkFile(fileState) {
 }
 ```
 
+**Note**: The STDD language (see `stdd-language-spec.md`) allows pseudo-code templates to use the same syntax as implementations, enabling seamless progression from planning to code.
+
 ### Key Benefits
 
 1. **Traceability**: Every code decision can be traced back to its requirement
@@ -132,6 +134,8 @@ function checkFile(fileState) {
 | **Documentation** | Tests as docs | Explicit multi-level docs | Comprehensive |
 
 **STDD complements TDD**: Use STDD for planning and design, TDD for implementation.
+
+**Note**: The STDD language (see `stdd-language-spec.md`) provides a way to write pseudo-code templates with semantic tokens that can progressively refine into implementations, using the same syntax for both planning and code.
 
 ### Workflow Example
 
@@ -339,6 +343,371 @@ git checkout -b feature/REQ_USER_AUTH
 
 This pattern ensures each module is validated independently before integration, reducing complexity-related bugs.
 
+### STDD Language: Pseudo-Code Templates with Semantic Tokens
+
+The STDD methodology includes a language specification that makes semantic tokens first-class constructs, enabling requirements to be embedded directly in source code. The STDD language uniquely supports **pseudo-code templates** that progressively refine into implementations, bridging the gap between planning (Phase 1) and implementation (Phase 3).
+
+#### Key Innovation: Pseudo-Code as Templates
+
+The STDD language uses the same syntax for both pseudo-code (planning) and implementation (code), allowing functions to start as templates with semantic tokens and progressively refine into complete implementations:
+
+```stdd
+// PHASE 1: Pseudo-Code Template (Planning)
+[REQ:USER_LOGIN] [ARCH:AUTHENTICATION] [IMPL:PASSWORD_HASH]
+def authenticate(user: String, password: String): Bool {
+  // TODO: Hash password using secure algorithm [IMPL:PASSWORD_HASH]
+  // TODO: Verify against database
+  return false  // Placeholder
+}
+
+// PHASE 2: Partial Implementation (Refinement)
+[REQ:USER_LOGIN] [ARCH:AUTHENTICATION] [IMPL:PASSWORD_HASH]
+def authenticate(user: String, password: String): Bool {
+  hashed = bcrypt.hash(password)  // Implemented
+  // TODO: Verify against database
+  return false  // Placeholder
+}
+
+// PHASE 3: Complete Implementation
+[REQ:USER_LOGIN] [ARCH:AUTHENTICATION] [IMPL:PASSWORD_HASH]
+def authenticate(user: String, password: String): Bool {
+  hashed = bcrypt.hash(password)
+  return db.verify(user, hashed)  // Complete
+}
+```
+
+#### Core Features
+
+1. **First-Class Semantic Tokens**: Tokens are language constructs, not comments
+   
+   Tokens are declared as first-class language constructs with required metadata:
+   
+   ```stdd
+   // Requirement declaration (REQ:*)
+   req USER_LOGIN {
+     description: "Users must authenticate securely"
+     rationale: "Security requirement for access control"
+     priority: P0
+   }
+   
+   // Architecture declaration (ARCH:*)
+   // Must reference at least one [REQ:*]
+   arch AUTHENTICATION {
+     description: "Password-based authentication system"
+     rationale: "Simple, secure, widely understood"
+     depends: [REQ:USER_LOGIN]  // Required: must reference REQ
+   }
+   
+   // Implementation declaration (IMPL:*)
+   // Must reference at least one [ARCH:*] and one [REQ:*]
+   impl PASSWORD_HASH {
+     description: "Hash passwords using bcrypt"
+     rationale: "Industry standard, secure hashing"
+     depends: [ARCH:AUTHENTICATION, REQ:USER_LOGIN]  // Required: must reference ARCH and REQ
+   }
+   ```
+   
+   **Token Declaration Requirements**:
+   - `description`: Required for all token types (preserves "what")
+   - `rationale`: Required for all token types (preserves "why")
+   - `depends`: Required for ARCH (must reference REQ) and IMPL (must reference ARCH and REQ)
+   - `priority`: Optional for REQ (P0, P1, P2, P3)
+   
+   **Key Difference from Comments**: Unlike comments which are ignored by compilers, tokens are:
+   - Parsed and validated by the compiler
+   - Queryable at runtime
+   - Used for documentation generation
+   - Enforced for dependency validation
+   - Tracked for coverage analysis
+
+2. **Compile-Time Validation**: Token dependencies validated at compile time
+   
+   The compiler enforces STDD dependency rules:
+   
+   ```stdd
+   // Valid: ARCH references REQ
+   arch AUTHENTICATION {
+     depends: [REQ:USER_LOGIN]  // ✓ Valid
+   }
+   
+   // Valid: IMPL references both ARCH and REQ
+   impl PASSWORD_HASH {
+     depends: [ARCH:AUTHENTICATION, REQ:USER_LOGIN]  // ✓ Valid
+   }
+   
+   // Compile-time error: ARCH missing REQ dependency
+   arch INVALID_ARCH {
+     depends: []  // ✗ Error: ARCH must reference at least one REQ
+   }
+   
+   // Compile-time error: IMPL missing ARCH dependency
+   impl INVALID_IMPL {
+     depends: [REQ:USER_LOGIN]  // ✗ Error: IMPL must reference at least one ARCH
+   }
+   
+   // Compile-time error: Reference to non-existent token
+   impl INVALID_IMPL {
+     depends: [ARCH:NONEXISTENT, REQ:USER_LOGIN]  // ✗ Error: ARCH:NONEXISTENT not found
+   }
+   ```
+   
+   **Validation Rules**:
+   - `[ARCH:*]` must reference at least one valid `[REQ:*]`
+   - `[IMPL:*]` must reference at least one valid `[ARCH:*]` and one valid `[REQ:*]`
+   - Every `[REQ:*]` must have at least one test (compile-time error if missing)
+   - All token references must resolve to declared tokens
+   - Circular dependencies are detected and rejected
+
+3. **Runtime Traceability**: Tokens queryable at runtime
+   
+   All tokens are available in a runtime registry with complete traceability:
+   
+   ```stdd
+   // Query requirement and its complete traceability chain
+   req = TokenRegistry.find(REQ:USER_LOGIN)
+   req.description      // "Users must authenticate securely"
+   req.rationale        // "Security requirement for access control"
+   req.priority         // P0
+   req.architectures    // [ARCH:AUTHENTICATION] - all ARCH that depend on this REQ
+   req.implementations  // [IMPL:PASSWORD_HASH, IMPL:TOKEN_GENERATION]
+   req.tests            // [test "user login", test "login failure"]
+   req.code             // [authenticate(), login()] - all code implementing this REQ
+   
+   // Find all code implementing a requirement
+   trace(REQ:USER_LOGIN)  
+   // Returns: [authenticate(), login(), hash_password(), generate_token()]
+   
+   // Check test coverage
+   coverage(REQ:USER_LOGIN)  
+   // Returns: 100% (all requirements have implementations and tests)
+   
+   // Find orphaned code (code without tokens)
+   orphans()  
+   // Returns: [helper_function(), utility_method()] - code without token annotations
+   
+   // Complete traceability chain
+   trace_chain(REQ:USER_LOGIN)
+   // Returns: REQ:USER_LOGIN → ARCH:AUTHENTICATION → IMPL:PASSWORD_HASH → hash_password() → test "password hashing"
+   ```
+
+4. **Template Completion Tracking**: Compiler tracks template → implementation progress
+   
+   The compiler tracks the evolution from templates to implementations:
+   
+   ```stdd
+   // Template (incomplete)
+   [REQ:USER_LOGIN] [ARCH:AUTHENTICATION] [IMPL:PASSWORD_HASH]
+   def authenticate(user: String, password: String): Bool {
+     // TODO: Hash password
+     // TODO: Verify against database
+     return false  // Placeholder
+   }
+   
+   // Compiler reports:
+   Template Analysis:
+     Total Functions: 25
+     Complete: 20
+     Templates (TODO): 3
+     Partial: 2
+     
+     Incomplete by Requirement:
+       [REQ:USER_LOGIN]: 1 template, 0 partial
+       [REQ:FILE_MONITORING]: 0 templates, 1 partial
+   ```
+   
+   **Tracking Features**:
+   - Identifies functions with `TODO:` comments (templates)
+   - Identifies functions with placeholder returns (partial)
+   - Reports completion status by requirement
+   - Warns about incomplete implementations
+   - Tracks progress from template → partial → complete
+
+5. **STDD-Compliant Documentation Generation**: Auto-generates STDD documentation files
+   
+   The language can auto-generate complete STDD documentation from token metadata:
+   
+   ```stdd
+   // Generate all STDD documentation
+   generate_docs()
+   
+   // Outputs:
+   // - requirements.md: All req declarations with descriptions, rationale, priority
+   // - architecture-decisions.md: All arch declarations with cross-references to REQ
+   // - implementation-decisions.md: All impl declarations with cross-references to ARCH and REQ
+   // - semantic-tokens.md: Central registry of all tokens with relationships
+   // - Test coverage report: Requirements covered by tests
+   // - Traceability matrix: Complete REQ → ARCH → IMPL → Code → Tests chain
+   ```
+   
+   **Documentation Features**:
+   - Extracts all token metadata (description, rationale, dependencies)
+   - Generates cross-reference links between tokens
+   - Creates traceability matrices
+   - Reports test coverage by requirement
+   - Maintains token registry with relationships
+   - Updates documentation as code evolves
+
+#### Benefits
+
+- **Same Syntax**: No translation needed from pseudo-code to code
+- **Token Preservation**: Semantic tokens maintain intent throughout refinement
+- **Progressive Refinement**: Templates naturally evolve into implementations
+- **STDD Alignment**: Supports complete STDD workflow from Phase 1 to Phase 3
+- **Intent Preservation**: Tokens preserve "why" (rationale) alongside "what" (description) and "how" (implementation)
+
+#### Complete Example: From Template to Implementation
+
+Here's a complete example showing how the STDD language features work together:
+
+```stdd
+// ============================================
+// STEP 1: Declare Tokens (First-Class Constructs)
+// ============================================
+
+req USER_LOGIN {
+  description: "Users must authenticate securely"
+  rationale: "Security requirement for access control"
+  priority: P0
+}
+
+arch AUTHENTICATION {
+  description: "Password-based authentication system"
+  rationale: "Simple, secure, widely understood"
+  depends: [REQ:USER_LOGIN]
+}
+
+impl PASSWORD_HASH {
+  description: "Hash passwords using bcrypt"
+  rationale: "Industry standard, secure hashing"
+  depends: [ARCH:AUTHENTICATION, REQ:USER_LOGIN]
+}
+
+// ============================================
+// STEP 2: Write Template (Phase 1: Planning)
+// ============================================
+
+[REQ:USER_LOGIN] [ARCH:AUTHENTICATION] [IMPL:PASSWORD_HASH]
+def authenticate(user: String, password: String): Bool {
+  // TODO: Hash password using secure algorithm [IMPL:PASSWORD_HASH]
+  // TODO: Verify against database
+  return false  // Placeholder
+}
+
+// Compiler accepts this template and tracks it as incomplete
+
+// ============================================
+// STEP 3: Refine Template (Phase 3: Implementation)
+// ============================================
+
+[REQ:USER_LOGIN] [ARCH:AUTHENTICATION] [IMPL:PASSWORD_HASH]
+def authenticate(user: String, password: String): Bool {
+  // [IMPL:PASSWORD_HASH] Hash password using bcrypt
+  hashed = bcrypt.hash(password)
+  
+  // TODO: Verify against database
+  return false  // Placeholder
+}
+
+// Compiler tracks this as partial implementation
+
+// ============================================
+// STEP 4: Complete Implementation
+// ============================================
+
+[REQ:USER_LOGIN] [ARCH:AUTHENTICATION] [IMPL:PASSWORD_HASH]
+def authenticate(user: String, password: String): Bool {
+  // [IMPL:PASSWORD_HASH] Hash password using bcrypt
+  hashed = bcrypt.hash(password)
+  
+  // [IMPL:DB_VERIFICATION] Verify against database
+  return db.verify(user, hashed)
+}
+
+// Compiler marks this as complete
+
+// ============================================
+// STEP 5: Write Tests (Required for REQ)
+// ============================================
+
+test "user login" [REQ:USER_LOGIN] {
+  result = authenticate("alice", "password123")
+  assert result == true
+}
+
+// Compiler validates: REQ:USER_LOGIN now has test coverage ✓
+
+// ============================================
+// STEP 6: Runtime Queries
+// ============================================
+
+// Query the requirement
+req = TokenRegistry.find(REQ:USER_LOGIN)
+// req.implementations → [IMPL:PASSWORD_HASH, IMPL:DB_VERIFICATION]
+// req.tests → [test "user login"]
+// req.code → [authenticate()]
+
+// Trace all code for this requirement
+trace(REQ:USER_LOGIN)  
+// Returns: [authenticate()]
+
+// Check coverage
+coverage(REQ:USER_LOGIN)  
+// Returns: 100%
+
+// ============================================
+// STEP 7: Generate Documentation
+// ============================================
+
+generate_docs()
+// Auto-generates:
+// - requirements.md with REQ:USER_LOGIN
+// - architecture-decisions.md with ARCH:AUTHENTICATION
+// - implementation-decisions.md with IMPL:PASSWORD_HASH
+// - semantic-tokens.md with all tokens and relationships
+```
+
+#### Integration with STDD Workflow
+
+The STDD language seamlessly integrates with the STDD methodology:
+
+1. **Phase 1 (Requirements → Pseudo-Code)**: Write templates with semantic tokens
+   - Declare `req`, `arch`, `impl` tokens
+   - Write function templates with `TODO:` comments
+   - Compiler validates token dependencies
+
+2. **Phase 2 (Pseudo-Code → Tasks)**: Templates define task structure
+   - Templates show what needs to be implemented
+   - Token annotations show which requirements are being satisfied
+   - Task breakdown based on template structure
+
+3. **Phase 3 (Tasks → Implementation)**: Refine templates into complete code
+   - Replace `TODO:` comments with actual code
+   - Replace placeholder returns with real implementations
+   - Compiler tracks completion progress
+
+4. **All Phases**: Same syntax, same tokens, complete traceability
+   - No translation needed between planning and implementation
+   - Tokens maintain intent throughout the process
+   - Complete traceability from requirements to code
+
+#### Language Specification
+
+For complete language specification, see `stdd-language-spec.md` in the STDD repository. The specification includes:
+
+- Complete syntax definition
+- Token declaration and annotation syntax
+- Module system with validation support
+- Test integration with requirement coverage
+- Compile-time and runtime features
+- IDE integration capabilities
+- Complete examples
+
+**Note**: The STDD language is a specification for a language that makes semantic tokens first-class. It can be:
+- Implemented as a new programming language
+- Used as a template/pseudo-code notation for any language
+- Integrated into existing languages via tooling/annotations
+- Used as a planning notation that maps to any implementation language
+
 ### Metrics and Measurement
 
 STDD enables several metrics:
@@ -371,6 +740,9 @@ STDD enables several metrics:
 - **Visualization**: Graph-based traceability visualization
 - **Standards**: Industry-standard token formats
 - **Frameworks**: STDD frameworks for different languages/domains
+- **STDD Language Implementation**: Full implementation of the STDD language specification
+- **Language Tooling**: Compilers, interpreters, and tooling for STDD language
+- **Cross-Language Support**: STDD language templates for popular languages (Python, JavaScript, Go, etc.)
 
 ---
 
@@ -380,10 +752,13 @@ STDD enables several metrics:
 
 **Key Takeaway**: Semantic tokens are not just labels—they are the mechanism that preserves intent from requirements through architecture, implementation, tests, and code, ensuring that the original purpose and reasoning are never lost.
 
+**STDD Language**: The methodology includes a language specification (`stdd-language-spec.md`) that makes semantic tokens first-class constructs, enabling pseudo-code templates that progressively refine into implementations. This bridges the gap between planning (Phase 1) and implementation (Phase 3) using the same syntax throughout.
+
 ---
 
 **For more information**, see:
 - `ai-principles.md` - Complete STDD principles and process guide
+- `stdd-language-spec.md` - STDD language specification (pseudo-code templates with semantic tokens)
 - `requirements.template.md` - Template for requirements with `[REQ:*]` tokens (copy to your project as `requirements.md`)
 - `architecture-decisions.template.md` - Template for architecture decisions with `[ARCH:*]` tokens (copy to your project as `architecture-decisions.md`)
 - `implementation-decisions.template.md` - Template for implementation decisions with `[IMPL:*]` tokens (copy to your project as `implementation-decisions.md`)
