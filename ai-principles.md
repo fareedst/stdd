@@ -68,19 +68,28 @@ This acknowledgment confirms that the AI agent has:
    - Tests MUST reference the requirements they validate using semantic tokens.
    - Test names should include semantic tokens (e.g., `test('duplicate prevention REQ_DUPLICATE_PREVENTION')`).
 
-4. **Incremental Task Tracking**
+4. **Code/Test Token Parity** `[PROC:TOKEN_AUDIT]`
+   - Code without `[REQ:*]/[ARCH:*]/[IMPL:*]` markers or tests without `[REQ:*]/[TEST:*]` references is considered unusable intent.
+   - Before submitting changes, agents MUST perform a token audit to confirm every new/modified source file and test carries the correct tokens and backlinks to documentation.
+   - Missing tokens block task completion until the audit succeeds.
+
+5. **Automated Token Validation** `[PROC:TOKEN_VALIDATION]`
+   - Run `./scripts/validate_tokens.sh` (or the project-specific equivalent) before marking tasks done to ensure semantic tokens exist in the registry and maintain traceability.
+   - Validation failures MUST be documented and resolved before proceeding.
+
+6. **Incremental Task Tracking**
    - Every requirement implementation MUST be broken down into trackable tasks and subtasks.
    - Tasks have explicit priorities: **P0 (Critical)** > **P1 (Important)** > **P2 (Nice-to-have)** > **P3 (Future)**.
 
-5. **Priority-Based Implementation**
+7. **Priority-Based Implementation**
    - **Most Important**: Tests, Code, Basic Functions
    - **Least Important**: Environment Orchestration, Enhanced Security, Automated Deployment
 
-6. **Complete Task Completion**
+8. **Complete Task Completion**
    - When all subtasks for a task are complete, remove subtasks and mark the parent task complete.
    - Maintain a clean task list showing only active work.
 
-7. **Extensive Debug Output During Development**
+9. **Extensive Debug Output During Development**
    - Use extensive diagnostic output (logging functions, debug flags) liberally during initial implementation and debugging
    - Debug output helps AI agents understand execution flow, data transformations, and state changes
    - Include diagnostic output in test functions to trace behavior when tests fail
@@ -91,7 +100,7 @@ This acknowledgment confirms that the AI agent has:
    - Debug output controlled by `debug` flags or build tags can be conditionally enabled/disabled without removal
    - **Rationale**: AI agents benefit from visibility into execution flow, especially when debugging complex logic like configuration merging, state management, or data transformations. Debug statements that document architecture or implementation decisions serve as inline documentation of key decision points and execution paths. Keeping debug output in code provides ongoing value for future debugging and understanding code behavior.
 
-8. **Separation of Concerns**
+10. **Separation of Concerns**
    - **Principle**: Each component, function, or module should have a single, well-defined responsibility
    - **When logic is difficult to implement or test within a large application context:**
      - Extract it into a pure function or isolated module
@@ -102,7 +111,7 @@ This acknowledgment confirms that the AI agent has:
    - **Application**: Apply consistently when designing new features, refactoring existing code, or when complexity makes testing or reasoning difficult
    - **Rationale**: Separating simple, reusable logic from complex application logic enables independent testing, reduces coupling, and makes code easier to understand and maintain. Pure functions with single responsibilities are easier to reason about, test, and reuse across different contexts.
 
-9. **Independent Module Validation Before Integration** (MANDATORY - Required for [REQ:MODULE_VALIDATION])
+11. **Independent Module Validation Before Integration** (MANDATORY - Required for [REQ:MODULE_VALIDATION])
    - **MANDATORY**: Logical modules MUST be validated independently before integration into code satisfying specific requirements
    - **MANDATORY**: Each module must have clear boundaries, interfaces, and validation criteria defined before development
    - **MANDATORY**: Module validation must include:
@@ -232,6 +241,29 @@ Each token type serves a specific role in preserving intent:
 - Use UPPER_SNAKE_CASE for identifiers
 - Be descriptive but concise
 - Example: `[REQ:DUPLICATE_PREVENTION]` not `[REQ:DP]`
+
+### Token Trace Checklist `[PROC:TOKEN_AUDIT]`
+
+1. Confirm the requirement token exists in `requirements.md` with satisfaction + validation criteria.
+2. Ensure the architecture decision references the requirement and introduces an `[ARCH:*]` token.
+3. Record the implementation decision with `[IMPL:*]` connecting back to both `[ARCH:*]` and `[REQ:*]`.
+4. Annotate the code change with the same `[IMPL:*]`/`[ARCH:*]`/`[REQ:*]` triplet.
+5. Name and document the test with the `[REQ:*]` token (and `[TEST:*]` if defined) so validation can be tied directly to intent.
+6. Update `semantic-tokens.md` and run `./scripts/validate_tokens.sh` to prove the trace is intact.
+
+#### Intent Chain Example
+
+```text
+[REQ:CUSTOM_FORMATS] → [ARCH:FORMAT_PIPELINE] → [IMPL:PLACEHOLDER_ENGINE]
+ ├─ Code: `// [IMPL:PLACEHOLDER_ENGINE] [ARCH:FORMAT_PIPELINE] [REQ:CUSTOM_FORMATS]`
+ └─ Test: `testCustomFormats_REQ_CUSTOM_FORMATS()` with inline comment `[REQ:CUSTOM_FORMATS] validates placeholder expansion`
+```
+
+### Token Drift Troubleshooting
+
+- If any link in the chain is missing, log the drift under `[PROC:TOKEN_AUDIT]` in `tasks.md` and block the task until fixed.
+- Treat missing tokens as bugs: document the gap in `implementation-decisions.md` with a remediation plan.
+- Rerun `./scripts/validate_tokens.sh` after every fix to confirm the registry and references are synchronized.
 
 ### Cross-Reference Format
 
@@ -611,6 +643,11 @@ Create and maintain `semantic-tokens.md` with:
    - **AFTER completion**: Verify all documentation is current and accurate
    - **AFTER completion**: Use Feature Documentation Format for comprehensive feature documentation
 
+7. **Enforce Token Coverage** `[PROC:TOKEN_AUDIT]` / `[PROC:TOKEN_VALIDATION]`
+   - Run `./scripts/validate_tokens.sh` (or project equivalent) before requesting review; treat failures as blockers.
+   - Confirm every touched code file includes the relevant `[IMPL:*] [ARCH:*] [REQ:*]` comment and that every test references its `[REQ:*]` token in the name and body.
+   - Log the audit result in `tasks.md` and `implementation-decisions.md` so future agents see when token coverage was proved.
+
 ---
 
 ## 📝 Task Tracking System
@@ -796,10 +833,13 @@ This project follows AI-First Principles. Before making changes:
 - [ ] Keep debug output in code unless explicitly requested to be removed - it is not intrusive and provides ongoing value
 - [ ] **MANDATORY**: Update `semantic-tokens.md` when creating new tokens
 - [ ] **MANDATORY**: Update documentation AS YOU WORK - do not defer until the end
+- [ ] **MANDATORY**: Perform the `[PROC:TOKEN_AUDIT]` checklist to confirm every code/test change carries the correct tokens
+- [ ] **MANDATORY**: Run `./scripts/validate_tokens.sh` (or repo-specific equivalent) whenever tokens are added or moved
 
 **AFTER COMPLETING WORK:**
 
 - [ ] **MANDATORY**: All semantic tokens documented in `semantic-tokens.md`
+- [ ] **MANDATORY**: Record the latest `[PROC:TOKEN_AUDIT]` and `[PROC:TOKEN_VALIDATION]` results in `tasks.md` / `implementation-decisions.md`
 - [ ] **MANDATORY**: Documentation updated with implementation status:
   - `architecture-decisions.md` reflects all architectural decisions made
   - `implementation-decisions.md` reflects all implementation decisions made

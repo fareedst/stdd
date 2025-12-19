@@ -47,10 +47,23 @@ When implementing features:
 5. **ALWAYS** update `semantic-tokens.md` registry when creating new tokens
 6. **ALWAYS** document any `[PROC:*]` process tokens in `processes.md` when defining operational workflows
 
+### Token Audit Workflow `[PROC:TOKEN_AUDIT]`
+
+- Map requirement → architecture → implementation tokens before touching code.
+- Annotate every code edit with `[IMPL:*] [ARCH:*] [REQ:*]` (same triplet used in documentation).
+- Require tests to include the `[REQ:*]` (and optional `[TEST:*]`) identifiers in both the test name and supporting comments.
+- Record the audit result inside the relevant task/subtask so future agents can see when the chain was verified.
+
+### Automated Validation `[PROC:TOKEN_VALIDATION]`
+
+- Run `./scripts/validate_tokens.sh` (or repo-specific equivalent) after each audit to ensure every referenced token exists in the registry.
+- Treat validation failures as blocking defects until the registry and documents are synchronized.
+- Capture validation outputs in `implementation-decisions.md` so audits remain reproducible.
+
 ### Token Validation Requirements
 
 Before marking features complete:
-1. **ALWAYS** run token validation scripts
+1. **ALWAYS** run token validation scripts (e.g., `./scripts/validate_tokens.sh`) and store the `[PROC:TOKEN_VALIDATION]` result in `implementation-decisions.md`.
 2. **ALWAYS** ensure token consistency across all layers
 3. **ALWAYS** verify token traceability in documentation
 4. **ALWAYS** check that all cross-references are valid
@@ -141,6 +154,8 @@ When referencing other tokens:
 
 - `[PROC:PROJECT_SURVEY_AND_SETUP]` - Survey and readiness process supporting `[REQ:STDD_SETUP]` and `[ARCH:STDD_STRUCTURE]`
 - `[PROC:BUILD_PIPELINE_VALIDATION]` - Build/deploy validation tied to `[REQ:MODULE_VALIDATION]`
+- `[PROC:TOKEN_AUDIT]` - Mandatory checklist ensuring every requirement → architecture → implementation → code/test path is annotated and documented
+- `[PROC:TOKEN_VALIDATION]` - Automated validation workflow (e.g., `./scripts/validate_tokens.sh`) that proves all referenced tokens exist in the registry
 - Add your process tokens here
 
 ## Usage Examples
@@ -153,6 +168,7 @@ function exampleFunction() {
     // ...
 }
 ```
+> **NOTE**: Code merged without these annotations is considered incomplete because it fails `[PROC:TOKEN_AUDIT]`.
 
 ### In Tests
 ```[your-language]
@@ -161,6 +177,7 @@ function testExampleFeature_REQ_EXAMPLE_FEATURE() {
     // Test implementation
 }
 ```
+> **NOTE**: Tests without `[REQ:*]` markers are rejected during `[PROC:TOKEN_VALIDATION]` because they cannot prove intent.
 
 ### In Documentation
 ```markdown

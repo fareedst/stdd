@@ -25,6 +25,14 @@ When documenting implementation decisions, use this format:
 
 **Code Markers**: Specific code locations, function names, or patterns to look for
 
+**Token Coverage** `[PROC:TOKEN_AUDIT]`:
+- Which files/functions must carry the `[IMPL:*] [ARCH:*] [REQ:*]` annotations
+- Which tests (names + locations) must reference the matching `[REQ:*]`
+
+**Validation Evidence** `[PROC:TOKEN_VALIDATION]`:
+- Latest `./scripts/validate_tokens.sh` (or repo equivalent) output summary
+- Date/commit hash of the validation run
+
 **Cross-References**: [ARCH:RELATED_ARCHITECTURE], [REQ:RELATED_REQUIREMENT]
 ```
 
@@ -34,6 +42,8 @@ When documenting implementation decisions, use this format:
 - Each decision MUST include `[IMPL:*]` token and cross-reference both `[ARCH:*]` and `[REQ:*]` tokens
 - Implementation decisions are dependent on both architecture decisions and requirements
 - DO NOT defer implementation documentation - record decisions as they are made
+- Record where code/tests are annotated so `[PROC:TOKEN_AUDIT]` can succeed later.
+- Include the most recent `[PROC:TOKEN_VALIDATION]` run information so future contributors know the last verified state.
 - **Language-Specific Implementation**: Language-specific implementation details (APIs, libraries, syntax patterns, idioms) belong in implementation decisions. Code examples in documentation should use `[your-language]` placeholders or be language-agnostic pseudo-code unless demonstrating a specific language requirement. Requirements and architecture decisions should remain language-agnostic.
 
 ---
@@ -41,6 +51,7 @@ When documenting implementation decisions, use this format:
 
 ### Config Type
 ```[your-language]
+// [IMPL:CONFIG_STRUCT] [ARCH:CONFIG_STRUCTURE] [REQ:CONFIGURATION]
 type Config struct {
     // Add your configuration fields here
     Field1 string
@@ -115,8 +126,8 @@ type ExampleStruct struct {
 ```[your-language]
 // Unit test structure for your language
 // Example pattern:
-function testExampleFeature() {
-    // Define test cases
+function testExampleFeature_REQ_EXAMPLE_FEATURE() {
+    // [REQ:EXAMPLE_FEATURE] Validates expected behavior
     testCases = [
         {
             name: "test case 1",
@@ -132,16 +143,19 @@ function testExampleFeature() {
     }
 }
 ```
+> **Remember**: Without the `[REQ:*]` suffix + inline comment, this test fails `[PROC:TOKEN_AUDIT]`.
 
 ### Integration Test Structure
 ```[your-language]
 // Integration test structure for your language
-function testIntegrationScenario() {
+function testIntegrationScenario_REQ_EXAMPLE_FEATURE() {
+    // [REQ:EXAMPLE_FEATURE] End-to-end validation comment
     // Setup: Prepare test environment
     // Execute: Run integration scenario
     // Verify: Assert expected outcomes
 }
 ```
+> **Log** the execution of these tests alongside your `[PROC:TOKEN_VALIDATION]` run so future audits see when behavior was last verified.
 
 ## 5. Code Style and Conventions [IMPL:CODE_STYLE]
 

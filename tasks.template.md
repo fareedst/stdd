@@ -27,12 +27,14 @@ This document tracks all tasks and subtasks for implementing this project. Tasks
 - [ ] Subtask 1 [REQ:X] [IMPL:Y]
 - [ ] Subtask 2 [REQ:X] [IMPL:Z]
 - [ ] Subtask 3 [TEST:X]
+- [ ] Token audit & validation [PROC:TOKEN_AUDIT] [PROC:TOKEN_VALIDATION]
 
 **Completion Criteria**:
 - [ ] All subtasks complete
 - [ ] Code implements requirement
 - [ ] Tests pass with semantic token references
 - [ ] Documentation updated
+- [ ] `[PROC:TOKEN_AUDIT]` and `[PROC:TOKEN_VALIDATION]` outcomes logged
 
 **Priority Rationale**: Why this is P0/P1/P2/P3
 ```
@@ -51,7 +53,11 @@ This document tracks all tasks and subtasks for implementing this project. Tasks
    - Every task MUST reference at least one semantic token
    - Cross-reference to related tokens
 
-4. **Completion Criteria Must Be Met**
+4. **Token Audits & Validation Required**
+   - Every task must include a `[PROC:TOKEN_AUDIT]` subtask and capture its result
+   - `./scripts/validate_tokens.sh` (or repo-specific equivalent) must run before closing the task, with results logged under `[PROC:TOKEN_VALIDATION]`
+
+5. **Completion Criteria Must Be Met**
    - All criteria must be checked before marking complete
    - Documentation must be updated
 
@@ -124,11 +130,13 @@ This document tracks all tasks and subtasks for implementing this project. Tasks
 - [ ] Integrate validated modules [REQ:MODULE_VALIDATION]
 - [ ] Write integration tests for combined behavior
 - [ ] Write end-to-end tests [REQ:EXAMPLE_FEATURE]
+- [ ] Run `[PROC:TOKEN_AUDIT]` + `./scripts/validate_tokens.sh` and record outcomes [PROC:TOKEN_VALIDATION]
 
 **Completion Criteria**:
 - [ ] All modules identified and documented
 - [ ] All modules validated independently before integration
 - [ ] Integration tests pass
 - [ ] All documentation updated
+- [ ] Token audit + validation logged
 
 

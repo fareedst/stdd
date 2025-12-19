@@ -22,6 +22,10 @@ When documenting architecture decisions, use this format:
 - Alternative 1: Why it was rejected
 - Alternative 2: Why it was rejected
 
+**Token Coverage** `[PROC:TOKEN_AUDIT]`:
+- Code files expected to carry `[IMPL:*] [ARCH:*] [REQ:*]` comments
+- Tests expected to reference `[REQ:*]` / `[TEST:*]` tokens that validate this decision
+
 **Cross-References**: [REQ:RELATED_REQUIREMENT], [ARCH:OTHER_DECISION]
 ```
 
@@ -31,6 +35,8 @@ When documenting architecture decisions, use this format:
 - Each decision MUST include `[ARCH:*]` token and cross-reference `[REQ:*]` tokens
 - Architecture decisions are dependent on requirements
 - DO NOT defer architecture documentation - record decisions as they are made
+- Document the expected code + test touchpoints so `[PROC:TOKEN_AUDIT]` has concrete files/functions to verify.
+- Capture the intended validation tooling (e.g., references to `./scripts/validate_tokens.sh`) so `[PROC:TOKEN_VALIDATION]` remains reproducible.
 - **Language Selection**: Language selection, runtime choices, and language-specific architectural patterns belong in architecture decisions. Document language choice with `[ARCH:LANGUAGE_SELECTION]` token when it's an architectural decision (not a requirement). Language-specific patterns (e.g., async/await, goroutines, callbacks) should be documented here. Requirements should remain language-agnostic unless language selection is itself a specific requirement.
 
 ---
@@ -52,6 +58,10 @@ When documenting architecture decisions, use this format:
 - Root-level files: Clutters the root directory.
 - `.github` or `.docs` folder: `stdd` is more specific to the methodology.
 
+**Token Coverage** `[PROC:TOKEN_AUDIT]`:
+- Code: `// [IMPL:STDD_FILES] [ARCH:STDD_STRUCTURE] [REQ:STDD_SETUP]` comments in bootstrap scripts.
+- Tests: `TestSTDDSetup_REQ_STDD_SETUP` ensures docs + registry exist.
+
 **Cross-References**: [REQ:STDD_SETUP]
 
 ## 3. Core Architecture Decision [ARCH:EXAMPLE_DECISION] [REQ:EXAMPLE_FEATURE]
@@ -69,6 +79,10 @@ When documenting architecture decisions, use this format:
 - High-level approach
 - Key components
 - Integration points
+
+**Token Coverage** `[PROC:TOKEN_AUDIT]`:
+- Code: Annotate entry points with `[IMPL:EXAMPLE_IMPLEMENTATION] [ARCH:EXAMPLE_DECISION] [REQ:EXAMPLE_FEATURE]`.
+- Tests: `testCoreFeature_REQ_EXAMPLE_FEATURE` plus inline `[REQ:EXAMPLE_FEATURE]` comments validate behavior.
 
 ## 4. Data Management [ARCH:DATA_MANAGEMENT] [REQ:DATA_REQUIREMENT]
 
