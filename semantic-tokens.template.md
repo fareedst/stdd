@@ -45,6 +45,7 @@ When implementing features:
 3. **ALWAYS** add `[IMPL:*]` tokens to code comments
 4. **ALWAYS** reference `[REQ:*]` tokens in test names/comments
 5. **ALWAYS** update `semantic-tokens.md` registry when creating new tokens
+6. **ALWAYS** document any `[PROC:*]` process tokens in `processes.md` when defining operational workflows
 
 ### Token Validation Requirements
 
@@ -66,6 +67,7 @@ Before marking features complete:
 - `[ARCH:*]` - Architecture decisions - **High-level design choices that preserve intent**
 - `[IMPL:*]` - Implementation decisions - **Low-level choices that preserve intent**
 - `[TEST:*]` - Test specifications - **Validation of intent**
+- `[PROC:*]` - Process definitions for survey/build/test/deploy work that stay linked to `[REQ:*]`
 
 ## Token Naming Convention
 
@@ -133,6 +135,14 @@ When referencing other tokens:
 - `[IMPL:FEATURE]` depends on `[ARCH:DESIGN]` and `[REQ:FEATURE]`
 - `[ARCH:DESIGN]` depends on `[REQ:FEATURE]`
 
+## Process Tokens Registry
+
+**📖 Full details**: See `processes.md`
+
+- `[PROC:PROJECT_SURVEY_AND_SETUP]` - Survey and readiness process supporting `[REQ:STDD_SETUP]` and `[ARCH:STDD_STRUCTURE]`
+- `[PROC:BUILD_PIPELINE_VALIDATION]` - Build/deploy validation tied to `[REQ:MODULE_VALIDATION]`
+- Add your process tokens here
+
 ## Usage Examples
 
 ### In Code Comments
@@ -173,7 +183,7 @@ Every feature must have proper token coverage across all layers:
 ### Token Format Validation
 
 1. **Token Format**: Must follow `[TYPE:IDENTIFIER]` pattern exactly
-2. **Token Types**: Must use valid types (`REQ`, `ARCH`, `IMPL`, `TEST`)
+2. **Token Types**: Must use valid types (`REQ`, `ARCH`, `IMPL`, `TEST`, `PROC`)
 3. **Identifier Format**: Must use UPPER_SNAKE_CASE
 4. **Cross-References**: Implementation tokens must reference architecture and requirement tokens
 
@@ -183,7 +193,6 @@ Every feature must have proper token coverage across all layers:
 2. Every architecture decision must have corresponding implementation tokens
 3. Every test must link to specific requirements via `[REQ:*]` tokens
 4. All tokens must be discoverable through automated validation
-
 ## Token Creation Requirements
 
 When implementing features:
@@ -192,3 +201,5 @@ When implementing features:
 3. **ALWAYS** add `[IMPL:*]` tokens to code comments
 4. **ALWAYS** reference `[REQ:*]` tokens in test names/comments
 5. **ALWAYS** update `semantic-tokens.md` registry when creating new tokens
+6. **ALWAYS** document any `[PROC:*]` process tokens in `processes.md` when defining operational workflows
+
