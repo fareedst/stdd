@@ -29,6 +29,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Integration phase (after validation)
   - Task structure and code markers
 
+- **Template bootstrap script**: `copy_files.sh` copies every STDD template file into a target project’s `stdd/` directory, making STDD installation as easy as downloading the repository somewhere convenient and running the script from the desired project root.
+
 ### Changed
 
 - **Development Process**: Enhanced Phase 1, Phase 2, and Phase 3 to include module identification, development, validation, and integration steps

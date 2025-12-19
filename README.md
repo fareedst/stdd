@@ -52,10 +52,18 @@ Read these documents in order:
 
 ### Step 2: Copy Templates to Your Project
 
-Copy the template files from the [STDD repository](https://github.com/fareedst/stdd) to your project root and remove the `.template` suffix:
+**Recommended:** Download or clone the STDD repository somewhere convenient, then run `./copy_files.sh /path/to/project` (or `./copy_files.sh` if you are already in the project directory). The script copies every `.template` file into the target project's `stdd/` directory, removes the `.template` suffix for you, and will never overwrite an existing `AGENTS.md` or `.cursorrules` file that may already be present in the destination.
+
+```bash
+# From the STDD repo root—adjust the target path as needed
+./copy_files.sh /path/to/your/project
+```
+
+**Alternative (manual):**
 
 ```bash
 # In your project directory (after cloning/downloading the STDD repository)
+mkdir -p stdd
 cp requirements.template.md stdd/requirements.md
 cp architecture-decisions.template.md stdd/architecture-decisions.md
 cp implementation-decisions.template.md stdd/implementation-decisions.md
