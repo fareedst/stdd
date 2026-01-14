@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="1050" viewBox="0 0 600 1050" fill="none">
+
+  <style>
+    .title { font: 700 22px 'Inter', sans-serif; fill: #111827; }
+    .step-num { font: 700 14px 'Inter', sans-serif; }
+    .step-title { font: 700 16px 'Inter', sans-serif; }
+    .desc { font: 400 13px 'Inter', sans-serif; fill: #111827; }
+    .file { font: italic 400 12px 'Courier New', monospace; fill: #6b7280; }
+    .arrow { stroke: #9ca3af; stroke-width: 3; marker-end: url(#arrowhead); }
+  </style>
+
+  <!-- Arrow Marker -->
+  <defs>
+    <marker id="arrowhead" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#9ca3af"></path>
+    </marker>
+  </defs>
+
+  <!-- Optional Timeline Line -->
+  <line x1="80" y1="40" x2="80" y2="1000" stroke="#9ca3af" stroke-dasharray="5,5" stroke-width="2"></line>
+  <!-- Circles for steps -->
+  <circle cx="80" cy="100" r="6" fill="#ffffff" stroke="#9ca3af" stroke-width="2"></circle>
+  <circle cx="80" cy="240" r="6" fill="#ffffff" stroke="#9ca3af" stroke-width="2"></circle>
+  <circle cx="80" cy="380" r="6" fill="#ffffff" stroke="#9ca3af" stroke-width="2"></circle>
+  <circle cx="80" cy="520" r="6" fill="#ffffff" stroke="#9ca3af" stroke-width="2"></circle>
+  <circle cx="80" cy="660" r="6" fill="#ffffff" stroke="#9ca3af" stroke-width="2"></circle>
+  <circle cx="80" cy="800" r="6" fill="#ffffff" stroke="#9ca3af" stroke-width="2"></circle>
+  <circle cx="80" cy="940" r="6" fill="#ffffff" stroke="#9ca3af" stroke-width="2"></circle>
+
+  <!-- Header -->
+  <text x="300" y="30" class="title" text-anchor="middle">New Requirement Workflow</text>
+
+  <!-- Cards -->
+  <!-- Function: drawCard(y, titleColor, borderColor, bgColor, stepNum, title, desc, file) -->
+  <!-- Step 1 -->
+  <rect x="50" y="40" width="500" height="120" rx="12" ry="12" fill="#ede9fe" stroke="#6d28d9" stroke-width="2"></rect>
+  <text x="66" y="64" class="step-num" fill="#6d28d9">1</text>
+  <text x="66" y="84" class="step-title" fill="#6d28d9">User submits new requirement to agent</text>
+  <text x="66" y="108" class="desc">User initiates the process by submitting a new requirement</text>
+
+  <!-- Arrow 1-2 -->
+  <line x1="300" y1="160" x2="300" y2="180" class="arrow"></line>
+
+  <!-- Step 2 -->
+  <rect x="50" y="180" width="500" height="120" rx="12" ry="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"></rect>
+  <text x="66" y="204" class="step-num" fill="#2563eb">2</text>
+  <text x="66" y="224" class="step-title" fill="#2563eb">Agent adds details to requirements.md per STDD</text>
+  <text x="66" y="248" class="desc">Agent documents the requirement following STDD methodology</text>
+  <text x="66" y="268" class="file">→ requirements.md</text>
+
+  <!-- Arrow 2-3 -->
+  <line x1="300" y1="300" x2="300" y2="320" class="arrow"></line>
+
+  <!-- Step 3 -->
+  <rect x="50" y="320" width="500" height="120" rx="12" ry="12" fill="#fae8ff" stroke="#c026d3" stroke-width="2"></rect>
+  <text x="66" y="344" class="step-num" fill="#c026d3">3</text>
+  <text x="66" y="364" class="step-title" fill="#c026d3">STDD process adds tasks and subtasks to tasks.md</text>
+  <text x="66" y="388" class="desc">Tasks are created and organized with priorities</text>
+  <text x="66" y="408" class="file">→ tasks.md</text>
+
+  <!-- Arrow 3-4 -->
+  <line x1="300" y1="440" x2="300" y2="460" class="arrow"></line>
+
+  <!-- Step 4 -->
+  <linearGradient id="archimpl" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="50%" stop-color="#cffafe"></stop>
+    <stop offset="50%" stop-color="#d1fae5"></stop>
+  </linearGradient>
+  <rect x="50" y="460" width="500" height="120" rx="12" ry="12" fill="url(#archimpl)" stroke="#0891b2" stroke-width="2"></rect>
+  <text x="66" y="484" class="step-num" fill="#0891b2">4</text>
+  <text x="66" y="504" class="step-title" fill="#0891b2">STDD process adds semantic tokens, architectural, and implementation decisions</text>
+  <text x="66" y="528" class="desc">Decisions are documented across architecture and implementation layers</text>
+  <text x="66" y="548" class="file">→ semantic-tokens.md, architecture-decisions.md, implementation-decisions.md</text>
+
+  <!-- Arrow 4-5 -->
+  <line x1="300" y1="580" x2="300" y2="600" class="arrow"></line>
+
+  <!-- Step 5 -->
+  <rect x="50" y="600" width="500" height="120" rx="12" ry="12" fill="#d1fae5" stroke="#059669" stroke-width="2"></rect>
+  <text x="66" y="624" class="step-num" fill="#059669">5</text>
+  <text x="66" y="644" class="step-title" fill="#059669">Code and tests are developed</text>
+  <text x="66" y="668" class="desc">Implementation follows architecture and implementation decisions</text>
+  <text x="66" y="688" class="file">→ Code, Tests</text>
+
+  <!-- Arrow 5-6 -->
+  <line x1="300" y1="720" x2="300" y2="740" class="arrow"></line>
+
+  <!-- Step 6 -->
+  <rect x="50" y="740" width="500" height="120" rx="12" ry="12" fill="#fae8ff" stroke="#c026d3" stroke-width="2"></rect>
+  <text x="66" y="764" class="step-num" fill="#c026d3">6</text>
+  <text x="66" y="784" class="step-title" fill="#c026d3">Iterate until code and tests are complete</text>
+  <text x="66" y="808" class="desc">Iterative refinement until all requirements are met</text>
+  <!-- Iteration Icon -->
+  <text x="490" y="764" font-size="24px" fill="#c026d3">↻</text>
+
+  <!-- Arrow 6-7 -->
+  <line x1="300" y1="860" x2="300" y2="880" class="arrow"></line>
+
+  <!-- Step 7 -->
+  <rect x="50" y="880" width="500" height="120" rx="12" ry="12" fill="#f9fafb" stroke="#111827" stroke-width="2"></rect>
+  <!-- Multi-color top border -->
+  <rect x="50" y="880" width="500" height="6" fill="url(#multicolor)"></rect>
+  <text x="66" y="904" class="step-num" fill="#111827">7</text>
+  <text x="66" y="924" class="step-title" fill="#111827">Code, tests and STDD documents updated to link</text>
+  <text x="66" y="944" class="desc">all content with semantic tokens</text>
+  <text x="66" y="964" class="file">→ All documents, Code, Tests</text>
+
+  <!-- Multi-color gradient definition -->
+  <linearGradient id="multicolor" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%" stop-color="#2563eb"></stop>
+    <stop offset="25%" stop-color="#0891b2"></stop>
+    <stop offset="50%" stop-color="#059669"></stop>
+    <stop offset="75%" stop-color="#f59e0b"></stop>
+    <stop offset="100%" stop-color="#c026d3"></stop>
+  </linearGradient>
+
+</svg>

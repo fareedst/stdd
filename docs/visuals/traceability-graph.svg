@@ -1,0 +1,80 @@
+<svg width="900" height="500" viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" role="img">
+  <style>
+    .node {
+      height: 50px;
+      rx: 8;
+      ry: 8;
+      font-family: Inter, sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      fill: white;
+    }
+    .edge {
+      stroke: #9ca3af;
+      stroke-width: 2;
+      fill: none;
+      marker-end: url(#arrowhead);
+    }
+    .label {
+      font-size: 10px;
+      fill: #6b7280;
+      font-family: sans-serif;
+      text-anchor: middle;
+    }
+  </style>
+
+  <!-- Arrowhead Marker -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#9ca3af"></path>
+    </marker>
+  </defs>
+
+  <!-- Root Node -->
+  <rect x="360" y="40" width="180" height="50" fill="#2563eb" stroke="#1e40af" stroke-width="2" rx="8" ry="8"></rect>
+  <text x="372" y="70" fill="#ffffff" text-anchor="start">[REQ:CFG_005]</text>
+
+  <!-- ARCH Nodes -->
+  <rect x="140" y="140" width="200" height="50" fill="#0891b2" stroke="#0e7490" stroke-width="2" rx="8" ry="8"></rect>
+  <text x="152" y="170" fill="#ffffff" text-anchor="start">[ARCH:CFG_PARSER]</text>
+
+  <rect x="540" y="140" width="220" height="50" fill="#0891b2" stroke="#0e7490" stroke-width="2" rx="8" ry="8"></rect>
+  <text x="552" y="170" fill="#ffffff" text-anchor="start">[ARCH:CFG_VALIDATOR]</text>
+
+  <!-- IMPL Nodes -->
+  <rect x="100" y="280" width="180" height="50" fill="#059669" stroke="#047857" stroke-width="2" rx="8" ry="8"></rect>
+  <text x="112" y="310" fill="#ffffff" text-anchor="start">[IMPL:TOKENIZER]</text>
+
+  <rect x="320" y="280" width="200" height="50" fill="#059669" stroke="#047857" stroke-width="2" rx="8" ry="8"></rect>
+  <text x="332" y="310" fill="#ffffff" text-anchor="start">[IMPL:AST_BUILDER]</text>
+
+  <rect x="560" y="280" width="260" height="50" fill="#059669" stroke="#047857" stroke-width="2" rx="8" ry="8"></rect>
+  <text x="572" y="310" fill="#ffffff" text-anchor="start">[IMPL:VALIDATION_ENGINE]</text>
+
+  <!-- Test Node -->
+  <rect x="310" y="420" width="280" height="50" fill="#d97706" stroke="#b45309" stroke-width="2" rx="8" ry="8"></rect>
+  <text x="322" y="450" fill="#ffffff" text-anchor="start">testFormatPipeline_REQ_CFG_005</text>
+
+  <!-- EDGES -->
+
+  <!-- REQ -> ARCH -->
+  <line class="edge" x1="450" y1="90" x2="240" y2="140"></line>
+  <line class="edge" x1="450" y1="90" x2="650" y2="140"></line>
+  <text x="340" y="125" class="label">defines</text>
+  <text x="560" y="125" class="label">defines</text>
+
+  <!-- ARCH -> IMPL -->
+  <line class="edge" x1="240" y1="190" x2="190" y2="280"></line>
+  <line class="edge" x1="240" y1="190" x2="420" y2="280"></line>
+  <line class="edge" x1="650" y1="190" x2="690" y2="280"></line>
+  <text x="300" y="245" class="label">implements</text>
+  <text x="510" y="245" class="label">implements</text>
+  <text x="660" y="245" class="label">implements</text>
+
+  <!-- IMPL -> TEST -->
+  <line class="edge" x1="190" y1="330" x2="450" y2="420"></line>
+  <line class="edge" x1="420" y1="330" x2="450" y2="420"></line>
+  <line class="edge" x1="690" y1="330" x2="450" y2="420"></line>
+  <text x="400" y="390" class="label">validates</text>
+
+</svg>
