@@ -4,15 +4,15 @@
 
 ## 🎯 Semantic Token-Driven Development (STDD)
 
-This project follows **Semantic Token-Driven Development (STDD)**, a methodology where semantic tokens (`[REQ:*]`, `[ARCH:*]`, `[IMPL:*]`) are the central mechanism for preserving intent throughout the entire development lifecycle.
+This project follows **Semantic Token-Driven Development (STDD)**, a methodology where semantic tokens (`[REQ-*]`, `[ARCH-*]`, `[IMPL-*]`) are the central mechanism for preserving intent throughout the entire development lifecycle.
 
 ### How Semantic Tokens Preserve Intent
 
 Semantic tokens create a **traceable chain of intent** that ensures the original purpose and reasoning are never lost:
 
-1. **Requirements** (`[REQ:*]`) define the "what" and "why" - the original intent
-2. **Architecture** decisions (`[ARCH:*]`) explain the "how" at a high level and link back to requirements via cross-references
-3. **Implementation** decisions (`[IMPL:*]`) explain the "how" at a low level and link back to both architecture and requirements
+1. **Requirements** (`[REQ-*]`) define the "what" and "why" - the original intent
+2. **Architecture** decisions (`[ARCH-*]`) explain the "how" at a high level and link back to requirements via cross-references
+3. **Implementation** decisions (`[IMPL-*]`) explain the "how" at a low level and link back to both architecture and requirements
 4. **Tests** validate requirements are met, referencing the same tokens in test names and comments
 5. **Code** comments include tokens, maintaining the connection to original intent
 
@@ -57,7 +57,7 @@ This acknowledgment confirms that the AI agent has:
 ### Core Principles
 
 1. **Semantic Token Cross-Referencing**
-   - All code, tests, requirements, architecture decisions, and implementation decisions MUST be cross-referenced using semantic tokens (e.g., `[REQ:FEATURE]`, `[IMPL:IMPLEMENTATION]`).
+   - All code, tests, requirements, architecture decisions, and implementation decisions MUST be cross-referenced using semantic tokens (e.g., `[REQ-FEATURE]`, `[IMPL-IMPLEMENTATION]`).
    - Semantic tokens provide traceability from requirements → architecture → implementation → tests.
 
 2. **Documentation-First Development**
@@ -68,12 +68,12 @@ This acknowledgment confirms that the AI agent has:
    - Tests MUST reference the requirements they validate using semantic tokens.
    - Test names should include semantic tokens (e.g., `test('duplicate prevention REQ_DUPLICATE_PREVENTION')`).
 
-4. **Code/Test Token Parity** `[PROC:TOKEN_AUDIT]`
-   - Code without `[REQ:*]/[ARCH:*]/[IMPL:*]` markers or tests without `[REQ:*]/[TEST:*]` references is considered unusable intent.
+4. **Code/Test Token Parity** `[PROC-TOKEN_AUDIT]`
+   - Code without `[REQ-*]/[ARCH-*]/[IMPL-*]` markers or tests without `[REQ-*]/[TEST-*]` references is considered unusable intent.
    - Before submitting changes, agents MUST perform a token audit to confirm every new/modified source file and test carries the correct tokens and backlinks to documentation.
    - Missing tokens block task completion until the audit succeeds.
 
-5. **Automated Token Validation** `[PROC:TOKEN_VALIDATION]`
+5. **Automated Token Validation** `[PROC-TOKEN_VALIDATION]`
    - Run `./scripts/validate_tokens.sh` (or the project-specific equivalent) before marking tasks done to ensure semantic tokens exist in the registry and maintain traceability.
    - Validation failures MUST be documented and resolved before proceeding.
 
@@ -111,7 +111,7 @@ This acknowledgment confirms that the AI agent has:
    - **Application**: Apply consistently when designing new features, refactoring existing code, or when complexity makes testing or reasoning difficult
    - **Rationale**: Separating simple, reusable logic from complex application logic enables independent testing, reduces coupling, and makes code easier to understand and maintain. Pure functions with single responsibilities are easier to reason about, test, and reuse across different contexts.
 
-11. **Independent Module Validation Before Integration** (MANDATORY - Required for [REQ:MODULE_VALIDATION])
+11. **Independent Module Validation Before Integration** (MANDATORY - Required for [REQ-MODULE_VALIDATION])
    - **MANDATORY**: Logical modules MUST be validated independently before integration into code satisfying specific requirements
    - **MANDATORY**: Each module must have clear boundaries, interfaces, and validation criteria defined before development
    - **MANDATORY**: Module validation must include:
@@ -134,16 +134,16 @@ All project documentation MUST include these sections with semantic token cross-
 
 #### 1. Requirements Section
 - Lists all functional and non-functional requirements
-- Each requirement has a unique semantic token: `[REQ:IDENTIFIER]`
+- Each requirement has a unique semantic token: `[REQ-IDENTIFIER]`
 - Each requirement includes:
   - **Description**: What the requirement specifies
   - **Rationale**: Why the requirement exists
   - **Satisfaction Criteria**: How we know the requirement is satisfied (acceptance criteria, success conditions)
   - **Validation Criteria**: How we verify/validate the requirement is met (testing approach, verification methods, success metrics)
-- Example: `[REQ:FEATURE] Description of the feature requirement`
+- Example: `[REQ-FEATURE] Description of the feature requirement`
 - Implementation status: ✅ (Implemented) or ⏳ (Planned)
 - **Note**: Validation criteria defined in requirements inform the testing strategy in `architecture-decisions.md` and specific test implementations in `implementation-decisions.md`
-- **Language Discussions**: Requirements MUST be language-agnostic. Language selection, runtime choices, and language-specific implementation details belong in architecture decisions (`architecture-decisions.md`) or implementation decisions (`implementation-decisions.md`), NOT in requirements. The ONLY exception is when language selection is itself a specific requirement (e.g., `[REQ:USE_PYTHON]` for a Python-specific project requirement).
+- **Language Discussions**: Requirements MUST be language-agnostic. Language selection, runtime choices, and language-specific implementation details belong in architecture decisions (`architecture-decisions.md`) or implementation decisions (`implementation-decisions.md`), NOT in requirements. The ONLY exception is when language selection is itself a specific requirement (e.g., `[REQ-USE_PYTHON]` for a Python-specific project requirement).
 
 #### 2. Architecture Decisions Section
 - Documents high-level design choices
@@ -151,11 +151,11 @@ All project documentation MUST include these sections with semantic token cross-
 - **MANDATORY**: Must be updated IMMEDIATELY when architectural decisions are made
 - **DO NOT** defer architecture documentation - record decisions as they are made
 - Links to requirements via semantic tokens
-- Each decision MUST include semantic token `[ARCH:IDENTIFIER]` and cross-reference to `[REQ:*]` tokens
-- Example: `[ARCH:CONCURRENCY_MODEL] Uses Promises/async-await for async execution [REQ:ASYNC_EXECUTION]`
-- **Dependency**: Architecture decisions depend on requirements and should reference `[REQ:*]` tokens
+- Each decision MUST include semantic token `[ARCH-IDENTIFIER]` and cross-reference to `[REQ-*]` tokens
+- Example: `[ARCH-CONCURRENCY_MODEL] Uses Promises/async-await for async execution [REQ-ASYNC_EXECUTION]`
+- **Dependency**: Architecture decisions depend on requirements and should reference `[REQ-*]` tokens
 - **Update Timing**: Record in `architecture-decisions.md` during Phase 1 (Requirements → Pseudo-Code) and update as decisions evolve
-- **Language Discussions**: Language selection, runtime choices, and language-specific architectural patterns belong in architecture decisions. Document language choice with `[ARCH:LANGUAGE_SELECTION]` token when it's an architectural decision (not a requirement). Language-specific patterns (e.g., async/await, goroutines, callbacks) should be documented here.
+- **Language Discussions**: Language selection, runtime choices, and language-specific architectural patterns belong in architecture decisions. Document language choice with `[ARCH-LANGUAGE_SELECTION]` token when it's an architectural decision (not a requirement). Language-specific patterns (e.g., async/await, goroutines, callbacks) should be documented here.
 
 #### 3. Implementation Decisions Section
 - Documents low-level implementation choices
@@ -163,8 +163,8 @@ All project documentation MUST include these sections with semantic token cross-
 - **MANDATORY**: Must be updated IMMEDIATELY when implementation decisions are made
 - **DO NOT** defer implementation documentation - record decisions as they are made
 - Links to requirements and architecture via semantic tokens
-- Each decision MUST include semantic token `[IMPL:IDENTIFIER]` and cross-reference to `[ARCH:*]` and `[REQ:*]` tokens
-- Example: `[IMPL:DUPLICATE_PREVENTION] Track lastText string [ARCH:STATE_TRACKING] [REQ:DUPLICATE_PREVENTION]`
+- Each decision MUST include semantic token `[IMPL-IDENTIFIER]` and cross-reference to `[ARCH-*]` and `[REQ-*]` tokens
+- Example: `[IMPL-DUPLICATE_PREVENTION] Track lastText string [ARCH-STATE_TRACKING] [REQ-DUPLICATE_PREVENTION]`
 - **Dependency**: Implementation decisions depend on both architecture decisions and requirements
 - **Update Timing**: Record in `implementation-decisions.md` during Phase 1 (Requirements → Pseudo-Code) and update during Phase 3 (Implementation) as decisions are refined
 - **Language Discussions**: Language-specific implementation details (APIs, libraries, syntax patterns, idioms) belong in implementation decisions. Code examples in documentation should use `[your-language]` placeholders or be language-agnostic pseudo-code unless demonstrating a specific language requirement.
@@ -177,14 +177,14 @@ All project documentation MUST include these sections with semantic token cross-
 
 #### 5. Code References
 - Code comments MUST include semantic tokens
-- Example: `// [REQ:DUPLICATE_PREVENTION] Skip if text matches lastText`
+- Example: `// [REQ-DUPLICATE_PREVENTION] Skip if text matches lastText`
 - Cross-reference architecture and implementation tokens when relevant
-- Example: `// [IMPL:DUPLICATE_PREVENTION] [ARCH:STATE_TRACKING] [REQ:DUPLICATE_PREVENTION]`
+- Example: `// [IMPL-DUPLICATE_PREVENTION] [ARCH-STATE_TRACKING] [REQ-DUPLICATE_PREVENTION]`
 
 #### 6. Test References
 - Test names and comments MUST include semantic tokens
 - Example: `testDuplicatePrevention_REQ_DUPLICATE_PREVENTION()` (language-agnostic pattern)
-- Reference the requirement being validated: `// [REQ:DUPLICATE_PREVENTION] Validates duplicate prevention logic`
+- Reference the requirement being validated: `// [REQ-DUPLICATE_PREVENTION] Validates duplicate prevention logic`
 
 #### 7. Feature Documentation
 - Each feature should have comprehensive cross-references across all documentation layers
@@ -199,7 +199,7 @@ All project documentation MUST include these sections with semantic token cross-
 - Use clear, descriptive function names that indicate purpose
 - Include AI-friendly comments explaining "why" not just "what"
 - Reference related features and dependencies in comments
-- Example: `// [IMPL:DUPLICATE_PREVENTION] [ARCH:STATE_TRACKING] [REQ:DUPLICATE_PREVENTION] Prevents duplicate processing by tracking last processed text`
+- Example: `// [IMPL-DUPLICATE_PREVENTION] [ARCH-STATE_TRACKING] [REQ-DUPLICATE_PREVENTION] Prevents duplicate processing by tracking last processed text`
 
 ---
 
@@ -215,10 +215,10 @@ All project documentation MUST include these sections with semantic token cross-
 
 ### Token Types
 
-- `[REQ:*]` - Requirements (functional/non-functional) - **The source of intent**
-- `[ARCH:*]` - Architecture decisions - **High-level design choices that preserve intent**
-- `[IMPL:*]` - Implementation decisions - **Low-level choices that preserve intent**
-- `[TEST:*]` - Test specifications - **Validation of intent**
+- `[REQ-*]` - Requirements (functional/non-functional) - **The source of intent**
+- `[ARCH-*]` - Architecture decisions - **High-level design choices that preserve intent**
+- `[IMPL-*]` - Implementation decisions - **Low-level choices that preserve intent**
+- `[TEST-*]` - Test specifications - **Validation of intent**
 - `[CLI/Config]` - Configuration/CLI related
 - `[OS Integration]` - OS-specific integration
 - `[Logging]` - Logging related
@@ -229,39 +229,39 @@ All project documentation MUST include these sections with semantic token cross-
 
 Each token type serves a specific role in preserving intent:
 
-- **`[REQ:*]` tokens** capture the original "what" and "why" - the fundamental intent
-- **`[ARCH:*]` tokens** document how high-level design choices fulfill requirements, maintaining the connection to intent
-- **`[IMPL:*]` tokens** document how low-level implementation choices fulfill architecture and requirements, preserving the reasoning
-- **Cross-references** (`[ARCH:X] [REQ:Y]`) create explicit links that maintain traceability
+- **`[REQ-*]` tokens** capture the original "what" and "why" - the fundamental intent
+- **`[ARCH-*]` tokens** document how high-level design choices fulfill requirements, maintaining the connection to intent
+- **`[IMPL-*]` tokens** document how low-level implementation choices fulfill architecture and requirements, preserving the reasoning
+- **Cross-references** (`[ARCH-X] [REQ-Y]`) create explicit links that maintain traceability
 - **Test names** (`TestFeature_REQ_FEATURE`) explicitly validate that intent is preserved
-- **Code comments** (`// [REQ:FEATURE] Implementation`) maintain context even as code evolves
+- **Code comments** (`// [REQ-FEATURE] Implementation`) maintain context even as code evolves
 
 ### Token Naming Convention
 
 - Use UPPER_SNAKE_CASE for identifiers
 - Be descriptive but concise
-- Example: `[REQ:DUPLICATE_PREVENTION]` not `[REQ:DP]`
+- Example: `[REQ-DUPLICATE_PREVENTION]` not `[REQ-DP]`
 
-### Token Trace Checklist `[PROC:TOKEN_AUDIT]`
+### Token Trace Checklist `[PROC-TOKEN_AUDIT]`
 
 1. Confirm the requirement token exists in `requirements.md` with satisfaction + validation criteria.
-2. Ensure the architecture decision references the requirement and introduces an `[ARCH:*]` token.
-3. Record the implementation decision with `[IMPL:*]` connecting back to both `[ARCH:*]` and `[REQ:*]`.
-4. Annotate the code change with the same `[IMPL:*]`/`[ARCH:*]`/`[REQ:*]` triplet.
-5. Name and document the test with the `[REQ:*]` token (and `[TEST:*]` if defined) so validation can be tied directly to intent.
+2. Ensure the architecture decision references the requirement and introduces an `[ARCH-*]` token.
+3. Record the implementation decision with `[IMPL-*]` connecting back to both `[ARCH-*]` and `[REQ-*]`.
+4. Annotate the code change with the same `[IMPL-*]`/`[ARCH-*]`/`[REQ-*]` triplet.
+5. Name and document the test with the `[REQ-*]` token (and `[TEST-*]` if defined) so validation can be tied directly to intent.
 6. Update `semantic-tokens.md` and run `./scripts/validate_tokens.sh` to prove the trace is intact.
 
 #### Intent Chain Example
 
 ```text
-[REQ:CUSTOM_FORMATS] → [ARCH:FORMAT_PIPELINE] → [IMPL:PLACEHOLDER_ENGINE]
- ├─ Code: `// [IMPL:PLACEHOLDER_ENGINE] [ARCH:FORMAT_PIPELINE] [REQ:CUSTOM_FORMATS]`
- └─ Test: `testCustomFormats_REQ_CUSTOM_FORMATS()` with inline comment `[REQ:CUSTOM_FORMATS] validates placeholder expansion`
+[REQ-CUSTOM_FORMATS] → [ARCH-FORMAT_PIPELINE] → [IMPL-PLACEHOLDER_ENGINE]
+ ├─ Code: `// [IMPL-PLACEHOLDER_ENGINE] [ARCH-FORMAT_PIPELINE] [REQ-CUSTOM_FORMATS]`
+ └─ Test: `testCustomFormats_REQ_CUSTOM_FORMATS()` with inline comment `[REQ-CUSTOM_FORMATS] validates placeholder expansion`
 ```
 
 ### Token Drift Troubleshooting
 
-- If any link in the chain is missing, log the drift under `[PROC:TOKEN_AUDIT]` in `tasks.md` and block the task until fixed.
+- If any link in the chain is missing, log the drift under `[PROC-TOKEN_AUDIT]` in `tasks.md` and block the task until fixed.
 - Treat missing tokens as bugs: document the gap in `implementation-decisions.md` with a remediation plan.
 - Rerun `./scripts/validate_tokens.sh` after every fix to confirm the registry and references are synchronized.
 
@@ -270,7 +270,7 @@ Each token type serves a specific role in preserving intent:
 When referencing other tokens:
 
 ```markdown
-[IMPL:DUPLICATE_PREVENTION] Track lastText string [ARCH:STATE_TRACKING] [REQ:DUPLICATE_PREVENTION]
+[IMPL-DUPLICATE_PREVENTION] Track lastText string [ARCH-STATE_TRACKING] [REQ-DUPLICATE_PREVENTION]
 ```
 
 #### Feature Documentation Format
@@ -280,11 +280,11 @@ For comprehensive feature documentation, use this structured format that links a
 ```markdown
 ### [FEATURE-ID]: Feature Name
 
-**Requirement**: [REQ:IDENTIFIER] → See `requirements.md` § Section Name
-**Architecture**: [ARCH:IDENTIFIER] → See `architecture-decisions.md` § Decision Name  
-**Implementation**: [IMPL:IDENTIFIER] → See `implementation-decisions.md` § Implementation Name
+**Requirement**: [REQ-IDENTIFIER] → See `requirements.md` § Section Name
+**Architecture**: [ARCH-IDENTIFIER] → See `architecture-decisions.md` § Decision Name  
+**Implementation**: [IMPL-IDENTIFIER] → See `implementation-decisions.md` § Implementation Name
 **Tests**: `TestFeatureName_REQ_IDENTIFIER` → See `*_test.*` files
-**Code**: `// [REQ:IDENTIFIER] Implementation comment` → See source code files
+**Code**: `// [REQ-IDENTIFIER] Implementation comment` → See source code files
 
 **Description**: Brief description of what this feature accomplishes.
 ```
@@ -292,9 +292,9 @@ For comprehensive feature documentation, use this structured format that links a
 #### Bi-Directional Linking
 
 Each document should contain:
-- **Forward Links**: "This requirement is implemented by [ARCH:DESIGN] (see `architecture-decisions.md`)"
-- **Backward Links**: "This component implements [REQ:REQUIREMENT] (see `requirements.md`)"
-- **Sibling Links**: "Related to [IMPL:RELATED_FEATURE] (see `implementation-decisions.md`)"
+- **Forward Links**: "This requirement is implemented by [ARCH-DESIGN] (see `architecture-decisions.md`)"
+- **Backward Links**: "This component implements [REQ-REQUIREMENT] (see `requirements.md`)"
+- **Sibling Links**: "Related to [IMPL-RELATED_FEATURE] (see `implementation-decisions.md`)"
 
 This ensures traceability in both directions and helps AI assistants understand relationships.
 
@@ -306,7 +306,7 @@ This ensures traceability in both directions and helps AI assistants understand 
 
 This distinction is fundamental to STDD:
 
-- **Requirements (`[REQ:*]`)**: Describe WHAT the system should do and WHY
+- **Requirements (`[REQ-*]`)**: Describe WHAT the system should do and WHY
 - **Bugs**: Describe WHERE the implementation fails to meet a requirement
 
 ### Rules for Requirements
@@ -330,12 +330,12 @@ This distinction is fundamental to STDD:
 
 1. **Bugs are tracked in Architecture/Implementation Decisions**
    - Document bugs in `architecture-decisions.md` or `implementation-decisions.md`
-   - Use `[ARCH:*]` or `[IMPL:*]` tokens
-   - Cross-reference to the requirement that should be satisfied: `[REQ:*]`
+   - Use `[ARCH-*]` or `[IMPL-*]` tokens
+   - Cross-reference to the requirement that should be satisfied: `[REQ-*]`
 
 2. **Bug documentation format**
    ```markdown
-   ## N. Bug Description [ARCH:BUG_IDENTIFIER] [REQ:RELATED_REQUIREMENT]
+   ## N. Bug Description [ARCH-BUG_IDENTIFIER] [REQ-RELATED_REQUIREMENT]
    
    ### Issue: Brief description of the bug
    **Rationale:**
@@ -360,28 +360,28 @@ This distinction is fundamental to STDD:
 ```
 Is this describing WHAT the system should do?
 ├─ YES → It's a REQUIREMENT
-│   └─ Document in requirements.md with [REQ:*] token
+│   └─ Document in requirements.md with [REQ-*] token
 │   └─ Describe desired behavior, not the problem
 │
 └─ NO → Is this describing WHERE implementation fails?
     ├─ YES → It's a BUG
     │   └─ Document in architecture-decisions.md or implementation-decisions.md
-    │   └─ Use [ARCH:*] or [IMPL:*] token
-    │   └─ Cross-reference to [REQ:*] that should be satisfied
+    │   └─ Use [ARCH-*] or [IMPL-*] token
+    │   └─ Cross-reference to [REQ-*] that should be satisfied
     │   └─ Describe the fix approach
     │
     └─ NO → Is this describing HOW to implement something?
         └─ YES → It's an ARCHITECTURE or IMPLEMENTATION decision
             └─ Document in appropriate decisions file
-            └─ Use [ARCH:*] or [IMPL:*] token
-            └─ Cross-reference to [REQ:*]
+            └─ Use [ARCH-*] or [IMPL-*] token
+            └─ Cross-reference to [REQ-*]
 ```
 
 ### Examples
 
 #### ❌ Bad: Bug as Requirement
 ```markdown
-### [REQ:EXCLUDE_MERGE_FIX] Exclude Patterns Merge Strategy Fix Requirements
+### [REQ-EXCLUDE_MERGE_FIX] Exclude Patterns Merge Strategy Fix Requirements
 
 - **Description**: Fix configuration merge strategy for `exclude_patterns` to ensure patterns are accumulated...
 ```
@@ -389,7 +389,7 @@ Is this describing WHAT the system should do?
 
 #### ✅ Good: Requirement Describing Behavior
 ```markdown
-### [REQ:CFG_005] Layered Configuration Inheritance Requirements
+### [REQ-CFG_005] Layered Configuration Inheritance Requirements
 
 - **Description**: Array configuration fields default to merge (accumulate) strategy to preserve values...
 ```
@@ -397,7 +397,7 @@ Is this describing WHAT the system should do?
 
 #### ✅ Good: Bug Documented in Architecture Decision
 ```markdown
-## 23. Array Field Default Merge Strategy Implementation [ARCH:EXCLUDE_MERGE_FIX] [REQ:CFG_005]
+## 23. Array Field Default Merge Strategy Implementation [ARCH-EXCLUDE_MERGE_FIX] [REQ-CFG_005]
 
 ### Decision: Array fields default to "merge" strategy to satisfy CFG-005 requirement
 **Rationale:**
@@ -410,7 +410,7 @@ Is this describing WHAT the system should do?
 
 1. **Tasks can reference bugs**
    - Task descriptions can mention bug fixes
-   - Tasks should reference the requirement being satisfied: `[REQ:*]`
+   - Tasks should reference the requirement being satisfied: `[REQ-*]`
    - Example: "Implement CFG-005 requirement. Fixes bug where..."
 
 2. **Task priority rationale**
@@ -501,25 +501,25 @@ Create and maintain `semantic-tokens.md` with:
 
 1. **Identify Requirement**
    - Extract requirement from documentation
-   - Note semantic token: `[REQ:IDENTIFIER]`
+   - Note semantic token: `[REQ-IDENTIFIER]`
 
 2. **Architectural Decisions** (MANDATORY - Record IMMEDIATELY)
    - **IMMEDIATELY** document high-level approach in `architecture-decisions.md`
-   - **IMMEDIATELY** create `[ARCH:IDENTIFIER]` tokens
-   - **IMMEDIATELY** cross-reference: `[ARCH:IDENTIFIER] [REQ:IDENTIFIER]`
+   - **IMMEDIATELY** create `[ARCH-IDENTIFIER]` tokens
+   - **IMMEDIATELY** cross-reference: `[ARCH-IDENTIFIER] [REQ-IDENTIFIER]`
    - Each architecture decision MUST be recorded in `architecture-decisions.md` with semantic token links
-   - Architecture decisions are dependent on requirements and must reference `[REQ:*]` tokens
+   - Architecture decisions are dependent on requirements and must reference `[REQ-*]` tokens
    - **DO NOT** defer - record decisions as they are made, not at the end
 
 3. **Implementation Decisions** (MANDATORY - Record IMMEDIATELY)
    - **IMMEDIATELY** document low-level approach in `implementation-decisions.md`
-   - **IMMEDIATELY** create `[IMPL:IDENTIFIER]` tokens
-   - **IMMEDIATELY** cross-reference: `[IMPL:IDENTIFIER] [ARCH:IDENTIFIER] [REQ:IDENTIFIER]`
+   - **IMMEDIATELY** create `[IMPL-IDENTIFIER]` tokens
+   - **IMMEDIATELY** cross-reference: `[IMPL-IDENTIFIER] [ARCH-IDENTIFIER] [REQ-IDENTIFIER]`
    - Each implementation decision MUST be recorded in `implementation-decisions.md` with semantic token links
    - Implementation decisions are dependent on both architecture decisions and requirements
    - **DO NOT** defer - record decisions as they are made, not at the end
 
-4. **Module Identification** (MANDATORY - Required for [REQ:MODULE_VALIDATION])
+4. **Module Identification** (MANDATORY - Required for [REQ-MODULE_VALIDATION])
    - **IMMEDIATELY** identify logical modules that will be developed
    - **IMMEDIATELY** document module boundaries and responsibilities
    - **IMMEDIATELY** define module interfaces and contracts
@@ -534,7 +534,7 @@ Create and maintain `semantic-tokens.md` with:
    - Include module boundaries in pseudo-code
    - Example:
      ```text
-     // [REQ:DUPLICATE_PREVENTION]
+     // [REQ-DUPLICATE_PREVENTION]
      // Module: DuplicateDetection
      // Interface: isDuplicate(text, lastText) -> bool
      if text == lastText:
@@ -542,8 +542,8 @@ Create and maintain `semantic-tokens.md` with:
      ```
 
 6. **Update Documentation** (MANDATORY - Do IMMEDIATELY)
-   - **IMMEDIATELY** add architecture decisions to `architecture-decisions.md` with `[ARCH:*]` tokens and `[REQ:*]` cross-references
-   - **IMMEDIATELY** add implementation decisions to `implementation-decisions.md` with `[IMPL:*]` tokens and `[ARCH:*]` and `[REQ:*]` cross-references
+   - **IMMEDIATELY** add architecture decisions to `architecture-decisions.md` with `[ARCH-*]` tokens and `[REQ-*]` cross-references
+   - **IMMEDIATELY** add implementation decisions to `implementation-decisions.md` with `[IMPL-*]` tokens and `[ARCH-*]` and `[REQ-*]` cross-references
    - **IMMEDIATELY** document module boundaries and validation criteria
    - **IMMEDIATELY** update `semantic-tokens.md` with any new tokens created
    - **IMMEDIATELY** create tasks in `tasks.md` with priorities and semantic token references
@@ -556,8 +556,8 @@ Create and maintain `semantic-tokens.md` with:
    - **IMMEDIATELY** break down into discrete tasks in `tasks.md`
    - Each task MUST reference semantic tokens
    - **IMMEDIATELY** create separate tasks for module development and module validation
-   - Example: `Task: Implement duplicate prevention [REQ:DUPLICATE_PREVENTION]`
-   - Example: `Task: Validate DuplicateDetection module [REQ:MODULE_VALIDATION] [REQ:DUPLICATE_PREVENTION]`
+   - Example: `Task: Implement duplicate prevention [REQ-DUPLICATE_PREVENTION]`
+   - Example: `Task: Validate DuplicateDetection module [REQ-MODULE_VALIDATION] [REQ-DUPLICATE_PREVENTION]`
    - **DO NOT** start implementation until tasks are documented
 
 2. **Generate Subtasks** (MANDATORY - Record in `tasks.md`)
@@ -585,7 +585,7 @@ Create and maintain `semantic-tokens.md` with:
 1. **Work on Highest Priority Tasks First**
    - P0 tasks before P1, P1 before P2, etc.
 
-2. **Module Development and Validation** (MANDATORY - Required for [REQ:MODULE_VALIDATION])
+2. **Module Development and Validation** (MANDATORY - Required for [REQ-MODULE_VALIDATION])
    - **BEFORE integration**: Develop each logical module independently
    - **BEFORE integration**: Validate each module independently using:
      - Unit tests with mocked dependencies
@@ -643,9 +643,9 @@ Create and maintain `semantic-tokens.md` with:
    - **AFTER completion**: Verify all documentation is current and accurate
    - **AFTER completion**: Use Feature Documentation Format for comprehensive feature documentation
 
-7. **Enforce Token Coverage** `[PROC:TOKEN_AUDIT]` / `[PROC:TOKEN_VALIDATION]`
+7. **Enforce Token Coverage** `[PROC-TOKEN_AUDIT]` / `[PROC-TOKEN_VALIDATION]`
    - Run `./scripts/validate_tokens.sh` (or project equivalent) before requesting review; treat failures as blockers.
-   - Confirm every touched code file includes the relevant `[IMPL:*] [ARCH:*] [REQ:*]` comment and that every test references its `[REQ:*]` token in the name and body.
+   - Confirm every touched code file includes the relevant `[IMPL-*] [ARCH-*] [REQ-*]` comment and that every test references its `[REQ-*]` token in the name and body.
    - Log the audit result in `tasks.md` and `implementation-decisions.md` so future agents see when token coverage was proved.
 
 ---
@@ -655,7 +655,7 @@ Create and maintain `semantic-tokens.md` with:
 ### Task Format
 
 ```markdown
-## P0: Task Name [REQ:IDENTIFIER] [ARCH:IDENTIFIER] [IMPL:IDENTIFIER]
+## P0: Task Name [REQ-IDENTIFIER] [ARCH-IDENTIFIER] [IMPL-IDENTIFIER]
 
 **Status**: 🟡 In Progress | ✅ Complete | ⏸️ Blocked | ⏳ Pending
 
@@ -664,9 +664,9 @@ Create and maintain `semantic-tokens.md` with:
 **Dependencies**: List of other tasks/tokens this depends on.
 
 **Subtasks**:
-- [ ] Subtask 1 [REQ:X] [IMPL:Y]
-- [ ] Subtask 2 [REQ:X] [IMPL:Z]
-- [ ] Subtask 3 [TEST:X]
+- [ ] Subtask 1 [REQ-X] [IMPL-Y]
+- [ ] Subtask 2 [REQ-X] [IMPL-Z]
+- [ ] Subtask 3 [TEST-X]
 
 **Completion Criteria**:
 - [ ] All subtasks complete
@@ -742,7 +742,7 @@ MANDATORY: At the start of EVERY response, you MUST preface with:
 
 Then proceed to:
 1. Read and follow the AI-First Principles document (ai-principles.md) 
-2. Use semantic tokens [REQ:*], [ARCH:*], [IMPL:*] throughout
+2. Use semantic tokens [REQ-*], [ARCH-*], [IMPL-*] throughout
 3. Expand requirements into pseudo-code before coding
 4. Break work into trackable tasks with priorities
 5. Cross-reference everything using semantic tokens
@@ -817,13 +817,13 @@ This project follows AI-First Principles. Before making changes:
 - [ ] Use semantic tokens in all code comments
 - [ ] Use semantic tokens in test names/comments
 - [ ] Cross-reference requirements → architecture → implementation
-- [ ] **MANDATORY**: Identify logical modules and document module boundaries before development [REQ:MODULE_VALIDATION]
-- [ ] **MANDATORY**: Develop each logical module independently [REQ:MODULE_VALIDATION]
-- [ ] **MANDATORY**: Validate each module independently (unit tests with mocks, contract tests, edge cases, error handling) BEFORE integration [REQ:MODULE_VALIDATION]
-- [ ] **MANDATORY**: Only integrate modules after validation passes [REQ:MODULE_VALIDATION]
-- [ ] **MANDATORY**: Document module validation results [REQ:MODULE_VALIDATION]
-- [ ] **MANDATORY**: Record architecture decisions in `architecture-decisions.md` IMMEDIATELY when made (with `[ARCH:*]` tokens and `[REQ:*]` cross-references)
-- [ ] **MANDATORY**: Record implementation decisions in `implementation-decisions.md` IMMEDIATELY when made (with `[IMPL:*]` tokens and `[ARCH:*]` and `[REQ:*]` cross-references)
+- [ ] **MANDATORY**: Identify logical modules and document module boundaries before development [REQ-MODULE_VALIDATION]
+- [ ] **MANDATORY**: Develop each logical module independently [REQ-MODULE_VALIDATION]
+- [ ] **MANDATORY**: Validate each module independently (unit tests with mocks, contract tests, edge cases, error handling) BEFORE integration [REQ-MODULE_VALIDATION]
+- [ ] **MANDATORY**: Only integrate modules after validation passes [REQ-MODULE_VALIDATION]
+- [ ] **MANDATORY**: Document module validation results [REQ-MODULE_VALIDATION]
+- [ ] **MANDATORY**: Record architecture decisions in `architecture-decisions.md` IMMEDIATELY when made (with `[ARCH-*]` tokens and `[REQ-*]` cross-references)
+- [ ] **MANDATORY**: Record implementation decisions in `implementation-decisions.md` IMMEDIATELY when made (with `[IMPL-*]` tokens and `[ARCH-*]` and `[REQ-*]` cross-references)
 - [ ] **MANDATORY**: Break work into trackable tasks in `tasks.md` BEFORE starting implementation
 - [ ] **MANDATORY**: Assign appropriate priorities to all tasks
 - [ ] **MANDATORY**: Update `tasks.md` as subtasks are completed
@@ -833,17 +833,17 @@ This project follows AI-First Principles. Before making changes:
 - [ ] Keep debug output in code unless explicitly requested to be removed - it is not intrusive and provides ongoing value
 - [ ] **MANDATORY**: Update `semantic-tokens.md` when creating new tokens
 - [ ] **MANDATORY**: Update documentation AS YOU WORK - do not defer until the end
-- [ ] **MANDATORY**: Perform the `[PROC:TOKEN_AUDIT]` checklist to confirm every code/test change carries the correct tokens
+- [ ] **MANDATORY**: Perform the `[PROC-TOKEN_AUDIT]` checklist to confirm every code/test change carries the correct tokens
 - [ ] **MANDATORY**: Run `./scripts/validate_tokens.sh` (or repo-specific equivalent) whenever tokens are added or moved
 
 **AFTER COMPLETING WORK:**
 
 - [ ] **MANDATORY**: All semantic tokens documented in `semantic-tokens.md`
-- [ ] **MANDATORY**: Record the latest `[PROC:TOKEN_AUDIT]` and `[PROC:TOKEN_VALIDATION]` results in `tasks.md` / `implementation-decisions.md`
+- [ ] **MANDATORY**: Record the latest `[PROC-TOKEN_AUDIT]` and `[PROC-TOKEN_VALIDATION]` results in `tasks.md` / `implementation-decisions.md`
 - [ ] **MANDATORY**: Documentation updated with implementation status:
   - `architecture-decisions.md` reflects all architectural decisions made
   - `implementation-decisions.md` reflects all implementation decisions made
-  - Both cross-reference `[REQ:*]` tokens correctly
+  - Both cross-reference `[REQ-*]` tokens correctly
 - [ ] **MANDATORY**: Tests reference semantic tokens
 - [ ] **MANDATORY**: Tasks marked complete in `tasks.md`
 - [ ] **MANDATORY**: Subtasks removed from completed tasks
@@ -859,11 +859,11 @@ This project follows AI-First Principles. Before making changes:
 
 - `stdd/requirements.md` - Main design document with requirements (copy from `requirements.template.md` in STDD repository)
 - `stdd/architecture-decisions.md` - **Semantic-token-linked record of architecture decisions dependent on requirements** (copy from `architecture-decisions.template.md`)
-  - All `[ARCH:*]` tokens must be documented here
-  - Must cross-reference `[REQ:*]` tokens from requirements
+  - All `[ARCH-*]` tokens must be documented here
+  - Must cross-reference `[REQ-*]` tokens from requirements
 - `stdd/implementation-decisions.md` - **Semantic-token-linked record of implementation decisions dependent on architecture and requirements** (copy from `implementation-decisions.template.md`)
-  - All `[IMPL:*]` tokens must be documented here
-  - Must cross-reference both `[ARCH:*]` and `[REQ:*]` tokens
+  - All `[IMPL-*]` tokens must be documented here
+  - Must cross-reference both `[ARCH-*]` and `[REQ-*]` tokens
 - `stdd/semantic-tokens.md` - Central registry of all semantic tokens (copy from `semantic-tokens.template.md`)
 - `stdd/tasks.md` - Active task tracking document (copy from `tasks.template.md`)
 - `stdd/processes.md` - Active process tracking document (copy from `processes.template.md`)
@@ -897,5 +897,5 @@ This document should be:
 
 **Last Updated**: 2025-11-22
 **Version**: 1.1.0
-**STDD Methodology Version**: 1.2.0
+**STDD Methodology Version**: 1.3.0
 

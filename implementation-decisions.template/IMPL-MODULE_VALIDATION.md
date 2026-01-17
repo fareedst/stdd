@@ -1,6 +1,6 @@
-# [IMPL:MODULE_VALIDATION] Module Validation Implementation
+# [IMPL-MODULE_VALIDATION] Module Validation Implementation
 
-**Cross-References**: [ARCH:MODULE_VALIDATION] [REQ:MODULE_VALIDATION]  
+**Cross-References**: [ARCH-MODULE_VALIDATION] [REQ-MODULE_VALIDATION]  
 **Status**: Active  
 **Created**: 2025-12-18  
 **Last Updated**: 2025-12-18
@@ -13,8 +13,8 @@ Independent module validation before integration to eliminate complexity-related
 
 ## Rationale
 
-- Implements [REQ:MODULE_VALIDATION] requirement for independent module validation
-- Realizes [ARCH:MODULE_VALIDATION] architecture decision
+- Implements [REQ-MODULE_VALIDATION] requirement for independent module validation
+- Realizes [ARCH-MODULE_VALIDATION] architecture decision
 - Ensures modules are validated independently before integration to eliminate complexity-related bugs
 - Catches bugs early in the development cycle, before integration issues compound
 - Makes debugging easier by isolating issues to specific modules
@@ -83,8 +83,8 @@ function testModuleName_IndependentValidation() {
 
 ```[your-language]
 // Example: Integration after module validation
-// [REQ:MODULE_VALIDATION] Only integrate after module validation passes
-// [IMPL:MODULE_VALIDATION] [ARCH:MODULE_VALIDATION] [REQ:MODULE_VALIDATION]
+// [REQ-MODULE_VALIDATION] Only integrate after module validation passes
+// [IMPL-MODULE_VALIDATION] [ARCH-MODULE_VALIDATION] [REQ-MODULE_VALIDATION]
 function integrateModules(validatedModule1, validatedModule2) {
     // Integration code that combines validated modules
 }
@@ -106,19 +106,19 @@ function integrateModules(validatedModule1, validatedModule2) {
 Specific code locations, function names, or patterns to look for:
 - Module validation test files: `*_module_test.[ext]` or `*_validation_test.[ext]`
 - Integration test files: `*_integration_test.[ext]`
-- Code comments: `// [REQ:MODULE_VALIDATION] Module validated independently before integration`
+- Code comments: `// [REQ-MODULE_VALIDATION] Module validated independently before integration`
 
-## Token Coverage `[PROC:TOKEN_AUDIT]`
+## Token Coverage `[PROC-TOKEN_AUDIT]`
 
-Files/functions that must carry the `[IMPL:*] [ARCH:*] [REQ:*]` annotations:
-- [ ] Module implementation files with `[IMPL:MODULE_VALIDATION]` comments
-- [ ] Integration code with `[IMPL:MODULE_VALIDATION] [ARCH:MODULE_VALIDATION] [REQ:MODULE_VALIDATION]`
+Files/functions that must carry the `[IMPL-*] [ARCH-*] [REQ-*]` annotations:
+- [ ] Module implementation files with `[IMPL-MODULE_VALIDATION]` comments
+- [ ] Integration code with `[IMPL-MODULE_VALIDATION] [ARCH-MODULE_VALIDATION] [REQ-MODULE_VALIDATION]`
 
-Tests that must reference the matching `[REQ:*]`:
+Tests that must reference the matching `[REQ-*]`:
 - [ ] `testModuleName_IndependentValidation_REQ_MODULE_VALIDATION` - Module validation tests
 - [ ] `testIntegration_REQ_MODULE_VALIDATION` - Integration tests
 
-## Validation Evidence `[PROC:TOKEN_VALIDATION]`
+## Validation Evidence `[PROC-TOKEN_VALIDATION]`
 
 | Date | Commit | Validation Result | Notes |
 |------|--------|-------------------|-------|
@@ -133,7 +133,7 @@ Latest `./scripts/validate_tokens.sh` output summary:
 
 - Depends on: —
 - Supersedes: —
-- See also: [ARCH:MODULE_VALIDATION], [REQ:MODULE_VALIDATION]
+- See also: [ARCH-MODULE_VALIDATION], [REQ-MODULE_VALIDATION]
 
 ---
 

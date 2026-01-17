@@ -6,7 +6,7 @@
 
 ## Overview
 
-The STDD Language is a programming language designed from the ground up to support Semantic Token-Driven Development (STDD). It makes semantic tokens (`[REQ:*]`, `[ARCH:*]`, `[IMPL:*]`) first-class language constructs, enabling requirements to be embedded directly in source code with compile-time and runtime traceability.
+The STDD Language is a programming language designed from the ground up to support Semantic Token-Driven Development (STDD). It makes semantic tokens (`[REQ-*]`, `[ARCH-*]`, `[IMPL-*]`) first-class language constructs, enabling requirements to be embedded directly in source code with compile-time and runtime traceability.
 
 ### STDD Requirements Compliance
 
@@ -48,19 +48,19 @@ req USER_LOGIN {
 }
 
 // Architecture declaration (ARCH:*)
-// Must reference at least one [REQ:*]
+// Must reference at least one [REQ-*]
 arch AUTHENTICATION {
   description: "Password-based authentication system"
   rationale: "Simple, secure, widely understood"
-  depends: [REQ:USER_LOGIN]  // Required: must reference REQ
+  depends: [REQ-USER_LOGIN]  // Required: must reference REQ
 }
 
 // Implementation declaration (IMPL:*)
-// Must reference at least one [ARCH:*] and one [REQ:*]
+// Must reference at least one [ARCH-*] and one [REQ-*]
 impl PASSWORD_HASH {
   description: "Hash passwords using bcrypt"
   rationale: "Industry standard, secure hashing"
-  depends: [ARCH:AUTHENTICATION, REQ:USER_LOGIN]  // Required: must reference ARCH and REQ
+  depends: [ARCH-AUTHENTICATION, REQ:USER_LOGIN]  // Required: must reference ARCH and REQ
 }
 ```
 
@@ -77,7 +77,7 @@ Functions can start as pseudo-code templates with semantic tokens and progressiv
 ```stdd
 // PHASE 1: Pseudo-Code Template (Planning)
 // Semantic tokens define the template structure
-[REQ:USER_LOGIN] [ARCH:AUTHENTICATION] [IMPL:PASSWORD_HASH]
+[REQ-USER_LOGIN] [ARCH-AUTHENTICATION] [IMPL-PASSWORD_HASH]
 def authenticate(user: String, password: String): Bool {
   // TODO: Hash password using secure algorithm
   // TODO: Verify against database
@@ -86,9 +86,9 @@ def authenticate(user: String, password: String): Bool {
 }
 
 // PHASE 2: Partial Implementation (Refinement)
-[REQ:USER_LOGIN] [ARCH:AUTHENTICATION] [IMPL:PASSWORD_HASH]
+[REQ-USER_LOGIN] [ARCH-AUTHENTICATION] [IMPL-PASSWORD_HASH]
 def authenticate(user: String, password: String): Bool {
-  // [IMPL:PASSWORD_HASH] Hash password using bcrypt
+  // [IMPL-PASSWORD_HASH] Hash password using bcrypt
   hashed = bcrypt.hash(password)
   
   // TODO: Verify against database
@@ -97,12 +97,12 @@ def authenticate(user: String, password: String): Bool {
 }
 
 // PHASE 3: Complete Implementation
-[REQ:USER_LOGIN] [ARCH:AUTHENTICATION] [IMPL:PASSWORD_HASH]
+[REQ-USER_LOGIN] [ARCH-AUTHENTICATION] [IMPL-PASSWORD_HASH]
 def authenticate(user: String, password: String): Bool {
-  // [IMPL:PASSWORD_HASH] Hash password using bcrypt
+  // [IMPL-PASSWORD_HASH] Hash password using bcrypt
   hashed = bcrypt.hash(password)
   
-  // [IMPL:DB_VERIFICATION] Verify against database
+  // [IMPL-DB_VERIFICATION] Verify against database
   return db.verify(user, hashed)
 }
 ```
@@ -119,11 +119,11 @@ def authenticate(user: String, password: String): Bool {
 Tokens apply to code blocks automatically:
 
 ```stdd
-[REQ:FILE_MONITORING] {
+[REQ-FILE_MONITORING] {
   // All code in this block traces to FILE_MONITORING
-  [ARCH:POLLING_STRATEGY] {
+  [ARCH-POLLING_STRATEGY] {
     // Nested token scoping
-    [IMPL:FILE_STATE_TRACKING] {
+    [IMPL-FILE_STATE_TRACKING] {
       def check_file(path: String): Bool {
         // Implementation automatically traces to all parent tokens
         return file_modified(path)
@@ -142,7 +142,7 @@ Query tokens as first-class operations:
 trace(REQ:USER_LOGIN)  // Returns list of functions/modules
 
 // Verify token dependencies
-verify(IMPL:PASSWORD_HASH)  // Validates [ARCH:AUTHENTICATION] and [REQ:USER_LOGIN] exist
+verify(IMPL:PASSWORD_HASH)  // Validates [ARCH-AUTHENTICATION] and [REQ-USER_LOGIN] exist
 
 // Check token coverage
 coverage(REQ:USER_LOGIN)  // Returns: 100% (all requirements have implementations)
@@ -158,11 +158,11 @@ The compiler validates token relationships:
 ```stdd
 // This would fail at compile time:
 impl INVALID_IMPL {
-  depends: [ARCH:NONEXISTENT]  // Error: ARCH:NONEXISTENT not found
+  depends: [ARCH-NONEXISTENT]  // Error: ARCH:NONEXISTENT not found
 }
 
 // This would also fail:
-[IMPL:INVALID_IMPL]  // Error: IMPL:INVALID_IMPL depends on undefined ARCH:NONEXISTENT
+[IMPL-INVALID_IMPL]  // Error: IMPL:INVALID_IMPL depends on undefined ARCH:NONEXISTENT
 def some_function() { }
 ```
 
@@ -172,14 +172,14 @@ Types can carry token information:
 
 ```stdd
 // Type with requirement annotation
-type AuthenticatedUser [REQ:USER_LOGIN] {
+type AuthenticatedUser [REQ-USER_LOGIN] {
   username: String
   token: String
 }
 
 // Function signature with token traceability
-[REQ:USER_LOGIN] [ARCH:AUTHENTICATION]
-def login(credentials: Credentials [REQ:USER_LOGIN]): AuthenticatedUser [REQ:USER_LOGIN] {
+[REQ-USER_LOGIN] [ARCH-AUTHENTICATION]
+def login(credentials: Credentials [REQ-USER_LOGIN]): AuthenticatedUser [REQ-USER_LOGIN] {
   // Implementation
 }
 ```
@@ -190,23 +190,23 @@ Tests automatically reference requirements and validate coverage:
 
 ```stdd
 // Test function with automatic token tracing
-test "user login" [REQ:USER_LOGIN] {
+test "user login" [REQ-USER_LOGIN] {
   user = login("alice", "password123")
   assert user.authenticated == true
 }
 
 // Test for architecture decision
-test "authentication flow" [ARCH:AUTHENTICATION] [REQ:USER_LOGIN] {
+test "authentication flow" [ARCH-AUTHENTICATION] [REQ-USER_LOGIN] {
   // Test architecture implementation
 }
 
 // Test for implementation detail
-test "password hashing" [IMPL:PASSWORD_HASH] [ARCH:AUTHENTICATION] [REQ:USER_LOGIN] {
+test "password hashing" [IMPL-PASSWORD_HASH] [ARCH-AUTHENTICATION] [REQ-USER_LOGIN] {
   // Test implementation detail
 }
 
 // Test coverage validation (compile-time)
-// Compiler ensures every [REQ:*] has at least one test
+// Compiler ensures every [REQ-*] has at least one test
 // Error if REQ:USER_LOGIN has no tests
 
 // Runtime test coverage query
@@ -220,20 +220,20 @@ Modules define token-scoped boundaries and support independent validation:
 
 ```stdd
 // Module declaration with token boundaries
-module Authentication [REQ:USER_LOGIN] [ARCH:AUTHENTICATION] {
+module Authentication [REQ-USER_LOGIN] [ARCH-AUTHENTICATION] {
   // Module interface - defines contract
   interface {
-    [IMPL:PASSWORD_HASH] def hash_password(pwd: String): String
-    [IMPL:TOKEN_GENERATION] def generate_token(user: User): String
+    [IMPL-PASSWORD_HASH] def hash_password(pwd: String): String
+    [IMPL-TOKEN_GENERATION] def generate_token(user: User): String
   }
   
   // Module implementation
-  [IMPL:PASSWORD_HASH]
+  [IMPL-PASSWORD_HASH]
   def hash_password(pwd: String): String {
     return bcrypt.hash(pwd)
   }
   
-  [IMPL:TOKEN_GENERATION]
+  [IMPL-TOKEN_GENERATION]
   def generate_token(user: User): String {
     return jwt.generate(user)
   }
@@ -242,28 +242,28 @@ module Authentication [REQ:USER_LOGIN] [ARCH:AUTHENTICATION] {
 // Module validation - must pass before integration
 validate Authentication {
   // Unit tests with mocks
-  test "hash_password with mock" [REQ:USER_LOGIN] {
+  test "hash_password with mock" [REQ-USER_LOGIN] {
     // Test implementation
   }
   
   // Contract validation
-  test "hash_password contract" [IMPL:PASSWORD_HASH] {
+  test "hash_password contract" [IMPL-PASSWORD_HASH] {
     // Verify input/output contract
   }
   
   // Edge cases
-  test "hash_password edge cases" [IMPL:PASSWORD_HASH] {
+  test "hash_password edge cases" [IMPL-PASSWORD_HASH] {
     // Test edge cases
   }
   
   // Error handling
-  test "hash_password error handling" [IMPL:PASSWORD_HASH] {
+  test "hash_password error handling" [IMPL-PASSWORD_HASH] {
     // Test error scenarios
   }
 }
 
 // Import with token verification
-import Authentication [REQ:USER_LOGIN]  // Verifies module satisfies requirement
+import Authentication [REQ-USER_LOGIN]  // Verifies module satisfies requirement
 ```
 
 ## Pseudo-Code Templates
@@ -276,7 +276,7 @@ Pseudo-code templates use the same syntax as implementations but with placeholde
 
 ```stdd
 // Template: Function signature with tokens defines the contract
-[REQ:FILE_MONITORING] [ARCH:POLLING_STRATEGY] [IMPL:FILE_STATE_TRACKING]
+[REQ-FILE_MONITORING] [ARCH-POLLING_STRATEGY] [IMPL-FILE_STATE_TRACKING]
 def monitor_file(path: String, interval: Int) {
   // Template body with TODO markers
   // TODO: Initialize state tracking
@@ -286,12 +286,12 @@ def monitor_file(path: String, interval: Int) {
 }
 
 // Refined template: More detail, still pseudo-code
-[REQ:FILE_MONITORING] [ARCH:POLLING_STRATEGY] [IMPL:FILE_STATE_TRACKING]
+[REQ-FILE_MONITORING] [ARCH-POLLING_STRATEGY] [IMPL-FILE_STATE_TRACKING]
 def monitor_file(path: String, interval: Int) {
-  // [IMPL:FILE_STATE_TRACKING] Initialize state tracking
+  // [IMPL-FILE_STATE_TRACKING] Initialize state tracking
   last_mtime = 0  // Placeholder: actual initialization
   
-  // [ARCH:POLLING_STRATEGY] Loop to check file modifications
+  // [ARCH-POLLING_STRATEGY] Loop to check file modifications
   loop {
     // TODO: Get current file modification time
     // TODO: Compare with last_mtime
@@ -301,12 +301,12 @@ def monitor_file(path: String, interval: Int) {
 }
 
 // Implementation: Complete code
-[REQ:FILE_MONITORING] [ARCH:POLLING_STRATEGY] [IMPL:FILE_STATE_TRACKING]
+[REQ-FILE_MONITORING] [ARCH-POLLING_STRATEGY] [IMPL-FILE_STATE_TRACKING]
 def monitor_file(path: String, interval: Int) {
-  // [IMPL:FILE_STATE_TRACKING] Initialize state tracking
+  // [IMPL-FILE_STATE_TRACKING] Initialize state tracking
   last_mtime = 0
   
-  // [ARCH:POLLING_STRATEGY] Loop to check file modifications
+  // [ARCH-POLLING_STRATEGY] Loop to check file modifications
   loop {
     current_mtime = file.mtime(path)
     if current_mtime > last_mtime {
@@ -330,11 +330,11 @@ Template Analysis:
   Templates (TODO): 2
   Partial: 1
   
-  [REQ:USER_LOGIN]
+  [REQ-USER_LOGIN]
     authenticate() - Complete
     login() - Template (3 TODOs)
     
-  [REQ:FILE_MONITORING]
+  [REQ-FILE_MONITORING]
     monitor_file() - Complete
     check_file() - Partial (1 TODO)
 ```
@@ -345,21 +345,21 @@ Modules can also be templates:
 
 ```stdd
 // Module template with interface defined
-module Authentication [REQ:USER_LOGIN] [ARCH:AUTHENTICATION] {
+module Authentication [REQ-USER_LOGIN] [ARCH-AUTHENTICATION] {
   // Interface defines the contract (template)
   interface {
-    [IMPL:PASSWORD_HASH] def hash_password(pwd: String): String
-    [IMPL:TOKEN_GENERATION] def generate_token(user: User): String
+    [IMPL-PASSWORD_HASH] def hash_password(pwd: String): String
+    [IMPL-TOKEN_GENERATION] def generate_token(user: User): String
   }
   
   // Implementation can be template or complete
-  [IMPL:PASSWORD_HASH]
+  [IMPL-PASSWORD_HASH]
   def hash_password(pwd: String): String {
     // TODO: Implement bcrypt hashing
     return ""  // Placeholder
   }
   
-  [IMPL:TOKEN_GENERATION]
+  [IMPL-TOKEN_GENERATION]
   def generate_token(user: User): String {
     // Complete implementation
     return jwt.generate(user)
@@ -374,7 +374,7 @@ The language uses a single, flexible syntax that adapts to different abstraction
 ### High-Level (Expressive)
 
 ```stdd
-[REQ:FILE_MONITORING] [ARCH:POLLING_STRATEGY] [IMPL:FILE_STATE_TRACKING]
+[REQ-FILE_MONITORING] [ARCH-POLLING_STRATEGY] [IMPL-FILE_STATE_TRACKING]
 def monitor_file(path: String, interval: Int) {
   last_mtime = 0
   loop {
@@ -391,7 +391,7 @@ def monitor_file(path: String, interval: Int) {
 ### Mid-Level (Functional)
 
 ```stdd
-[REQ:FILE_MONITORING] [ARCH:POLLING_STRATEGY]
+[REQ-FILE_MONITORING] [ARCH-POLLING_STRATEGY]
 def check_file(path: String): Bool {
   current = file.mtime(path)
   last = state.get(path, 0)
@@ -406,7 +406,7 @@ def check_file(path: String): Bool {
 ### Low-Level (Direct)
 
 ```stdd
-[REQ:PERFORMANCE] [IMPL:OPTIMIZED_LOOP]
+[REQ-PERFORMANCE] [IMPL-OPTIMIZED_LOOP]
 def fast_copy(source: *Byte, dest: *Byte, count: Int) {
   // Direct memory operations when needed
   memcpy(dest, source, count)
@@ -419,15 +419,15 @@ Tokens can be composed flexibly:
 
 ```stdd
 // Multiple tokens on one function
-[REQ:USER_LOGIN] [ARCH:AUTHENTICATION] [IMPL:PASSWORD_HASH]
+[REQ-USER_LOGIN] [ARCH-AUTHENTICATION] [IMPL-PASSWORD_HASH]
 def authenticate(user: String, password: String): Bool {
   hashed = bcrypt.hash(password)
   return db.verify(user, hashed)
 }
 
 // Token scoping for multiple functions
-[REQ:FILE_MONITORING] {
-  [ARCH:POLLING_STRATEGY] {
+[REQ-FILE_MONITORING] {
+  [ARCH-POLLING_STRATEGY] {
     def check_file(path: String): Bool { ... }
     def update_state(path: String): Void { ... }
   }
@@ -441,18 +441,18 @@ def authenticate(user: String, password: String): Bool {
 The compiler builds a dependency graph:
 
 ```
-[REQ:USER_LOGIN]
-  └─ [ARCH:AUTHENTICATION]
-      └─ [IMPL:PASSWORD_HASH]
-      └─ [IMPL:TOKEN_GENERATION]
+[REQ-USER_LOGIN]
+  └─ [ARCH-AUTHENTICATION]
+      └─ [IMPL-PASSWORD_HASH]
+      └─ [IMPL-TOKEN_GENERATION]
 ```
 
 ### Validation Rules
 
-1. **Requirement Coverage**: Every `[REQ:*]` must have at least one implementation
-2. **Dependency Chain**: `[IMPL:*]` must reference valid `[ARCH:*]` and `[REQ:*]`
-3. **Architecture Chain**: `[ARCH:*]` must reference valid `[REQ:*]`
-4. **Test Coverage**: Every `[REQ:*]` must have at least one test (compile-time error if missing)
+1. **Requirement Coverage**: Every `[REQ-*]` must have at least one implementation
+2. **Dependency Chain**: `[IMPL-*]` must reference valid `[ARCH-*]` and `[REQ-*]`
+3. **Architecture Chain**: `[ARCH-*]` must reference valid `[REQ-*]`
+4. **Test Coverage**: Every `[REQ-*]` must have at least one test (compile-time error if missing)
 5. **Orphan Detection**: Code without tokens generates warnings
 6. **Module Validation**: Modules must pass validation before integration
 7. **Token Completeness**: All token declarations must include description and rationale
@@ -477,8 +477,8 @@ Template Analysis:
   Partial: 2
   
   Incomplete by Requirement:
-    [REQ:USER_LOGIN]: 1 template, 0 partial
-    [REQ:FILE_MONITORING]: 0 templates, 1 partial
+    [REQ-USER_LOGIN]: 1 template, 0 partial
+    [REQ-FILE_MONITORING]: 0 templates, 1 partial
 ```
 
 ### Template Validation
@@ -487,7 +487,7 @@ The compiler validates templates:
 
 ```stdd
 // Valid template: Has tokens, has TODOs, has placeholder return
-[REQ:USER_LOGIN] [ARCH:AUTHENTICATION]
+[REQ-USER_LOGIN] [ARCH-AUTHENTICATION]
 def login(user: String): Bool {
   // TODO: Implement login logic
   return false  // Placeholder
@@ -500,7 +500,7 @@ def login(user: String): Bool {  // Warning: No token annotations
 }
 
 // Invalid template: Missing placeholder
-[REQ:USER_LOGIN]
+[REQ-USER_LOGIN]
 def login(user: String): Bool {
   // TODO: Implement login logic
   // Error: Missing return statement (no placeholder)
@@ -522,8 +522,8 @@ req = registry.find(REQ:USER_LOGIN)
 req.description      // "Users must be able to authenticate securely"
 req.rationale        // "Security requirement for access control"
 req.priority         // P0
-req.architectures    // [ARCH:AUTHENTICATION] - all ARCH that depend on this REQ
-req.implementations  // [IMPL:PASSWORD_HASH, IMPL:TOKEN_GENERATION] - all IMPL that depend on this REQ
+req.architectures    // [ARCH-AUTHENTICATION] - all ARCH that depend on this REQ
+req.implementations  // [IMPL-PASSWORD_HASH, IMPL:TOKEN_GENERATION] - all IMPL that depend on this REQ
 req.tests            // [test "user login", test "login failure"] - all tests for this REQ
 req.code             // [authenticate(), login()] - all code implementing this REQ
 
@@ -531,16 +531,16 @@ req.code             // [authenticate(), login()] - all code implementing this R
 arch = registry.find(ARCH:AUTHENTICATION)
 arch.description     // "Password-based authentication system"
 arch.rationale       // "Simple, secure, widely understood"
-arch.requirements    // [REQ:USER_LOGIN] - REQ this ARCH depends on
-arch.implementations // [IMPL:PASSWORD_HASH] - IMPL that depend on this ARCH
+arch.requirements    // [REQ-USER_LOGIN] - REQ this ARCH depends on
+arch.implementations // [IMPL-PASSWORD_HASH] - IMPL that depend on this ARCH
 arch.tests           // [test "authentication flow"] - tests for this ARCH
 
 // Query implementation tokens
 impl = registry.find(IMPL:PASSWORD_HASH)
 impl.description     // "Hash passwords using bcrypt"
 impl.rationale       // "Industry standard, secure hashing"
-impl.requirements    // [REQ:USER_LOGIN] - REQ this IMPL depends on
-impl.architectures    // [ARCH:AUTHENTICATION] - ARCH this IMPL depends on
+impl.requirements    // [REQ-USER_LOGIN] - REQ this IMPL depends on
+impl.architectures    // [ARCH-AUTHENTICATION] - ARCH this IMPL depends on
 impl.tests           // [test "password hashing"] - tests for this IMPL
 impl.code            // [hash_password()] - code implementing this IMPL
 
@@ -559,9 +559,9 @@ trace.enable(REQ:USER_LOGIN)
 
 // When authenticate() is called:
 // Trace output:
-//   [REQ:USER_LOGIN] authenticate() called
-//   [ARCH:AUTHENTICATION] Using password-based auth
-//   [IMPL:PASSWORD_HASH] Hashing password with bcrypt
+//   [REQ-USER_LOGIN] authenticate() called
+//   [ARCH-AUTHENTICATION] Using password-based auth
+//   [IMPL-PASSWORD_HASH] Hashing password with bcrypt
 ```
 
 ### Documentation Generation
@@ -573,9 +573,9 @@ Auto-generate STDD-compliant documentation from tokens:
 docs = generate_docs()
 
 // Output includes STDD-compliant structure:
-// - requirements.md: All [REQ:*] tokens with descriptions, rationale, priority
-// - architecture-decisions.md: All [ARCH:*] tokens with cross-references to [REQ:*]
-// - implementation-decisions.md: All [IMPL:*] tokens with cross-references to [ARCH:*] and [REQ:*]
+// - requirements.md: All [REQ-*] tokens with descriptions, rationale, priority
+// - architecture-decisions.md: All [ARCH-*] tokens with cross-references to [REQ-*]
+// - implementation-decisions.md: All [IMPL-*] tokens with cross-references to [ARCH-*] and [REQ-*]
 // - semantic-tokens.md: Central registry of all tokens with relationships
 // - Test coverage report: Requirements covered by tests
 // - Traceability matrix: Complete REQ → ARCH → IMPL → Code → Tests chain
@@ -623,8 +623,8 @@ Validator.check_orphans()
 
 ### Token Navigation
 
-- Jump from `[REQ:*]` to all implementations
-- Jump from `[IMPL:*]` to requirements and architecture
+- Jump from `[REQ-*]` to all implementations
+- Jump from `[IMPL-*]` to requirements and architecture
 - Visualize token dependency graphs
 - Highlight orphaned code
 
@@ -658,13 +658,13 @@ req USER_LOGIN {
 arch AUTHENTICATION {
   description: "Password-based authentication system"
   rationale: "Simple, secure, widely understood"
-  depends: [REQ:USER_LOGIN]
+  depends: [REQ-USER_LOGIN]
 }
 
 impl PASSWORD_HASH {
   description: "bcrypt password hashing"
   rationale: "Industry standard, secure hashing"
-  depends: [ARCH:AUTHENTICATION, REQ:USER_LOGIN]
+  depends: [ARCH-AUTHENTICATION, REQ:USER_LOGIN]
 }
 
 // ============================================
@@ -672,10 +672,10 @@ impl PASSWORD_HASH {
 // ============================================
 
 // Template: Function signature with tokens defines structure
-[REQ:USER_LOGIN] [ARCH:AUTHENTICATION] [IMPL:PASSWORD_HASH]
+[REQ-USER_LOGIN] [ARCH-AUTHENTICATION] [IMPL-PASSWORD_HASH]
 def authenticate(user: String, password: String): Bool {
   // Template body - semantic tokens provide the structure
-  // TODO: Hash password using secure algorithm [IMPL:PASSWORD_HASH]
+  // TODO: Hash password using secure algorithm [IMPL-PASSWORD_HASH]
   // TODO: Verify against database
   // TODO: Return authentication result
   return false  // Placeholder
@@ -685,9 +685,9 @@ def authenticate(user: String, password: String): Bool {
 // PHASE 3: Partial Implementation
 // ============================================
 
-[REQ:USER_LOGIN] [ARCH:AUTHENTICATION] [IMPL:PASSWORD_HASH]
+[REQ-USER_LOGIN] [ARCH-AUTHENTICATION] [IMPL-PASSWORD_HASH]
 def authenticate(user: String, password: String): Bool {
-  // [IMPL:PASSWORD_HASH] Hash password using bcrypt
+  // [IMPL-PASSWORD_HASH] Hash password using bcrypt
   hashed = bcrypt.hash(password)
   
   // TODO: Verify against database
@@ -699,12 +699,12 @@ def authenticate(user: String, password: String): Bool {
 // PHASE 4: Complete Implementation
 // ============================================
 
-[REQ:USER_LOGIN] [ARCH:AUTHENTICATION] [IMPL:PASSWORD_HASH]
+[REQ-USER_LOGIN] [ARCH-AUTHENTICATION] [IMPL-PASSWORD_HASH]
 def authenticate(user: String, password: String): Bool {
-  // [IMPL:PASSWORD_HASH] Hash password using bcrypt
+  // [IMPL-PASSWORD_HASH] Hash password using bcrypt
   hashed = bcrypt.hash(password)
   
-  // [IMPL:DB_VERIFICATION] Verify against database
+  // [IMPL-DB_VERIFICATION] Verify against database
   return db.verify(user, hashed)
 }
 
@@ -713,14 +713,14 @@ def authenticate(user: String, password: String): Bool {
 // ============================================
 
 // Test template
-test "user login" [REQ:USER_LOGIN] {
+test "user login" [REQ-USER_LOGIN] {
   // TODO: Test successful login
   // TODO: Test failed login
   // TODO: Test edge cases
 }
 
 // Complete test
-test "user login" [REQ:USER_LOGIN] {
+test "user login" [REQ-USER_LOGIN] {
   result = authenticate("alice", "password123")
   assert result == true
 }
@@ -754,13 +754,13 @@ req FILE_MONITORING {
 arch AUTHENTICATION {
   description: "Password-based authentication system"
   rationale: "Simple, secure, widely understood"
-  depends: [REQ:USER_LOGIN]  // Must reference REQ
+  depends: [REQ-USER_LOGIN]  // Must reference REQ
 }
 
 arch POLLING_STRATEGY {
   description: "Poll files periodically"
   rationale: "Simpler than file system events, cross-platform"
-  depends: [REQ:FILE_MONITORING]  // Must reference REQ
+  depends: [REQ-FILE_MONITORING]  // Must reference REQ
 }
 
 // ============================================
@@ -770,26 +770,26 @@ arch POLLING_STRATEGY {
 impl PASSWORD_HASH {
   description: "bcrypt password hashing"
   rationale: "Industry standard, secure hashing"
-  depends: [ARCH:AUTHENTICATION, REQ:USER_LOGIN]  // Must reference ARCH and REQ
+  depends: [ARCH-AUTHENTICATION, REQ:USER_LOGIN]  // Must reference ARCH and REQ
 }
 
 impl FILE_STATE_TRACKING {
   description: "Track file modification times"
   rationale: "Efficient way to detect changes"
-  depends: [ARCH:POLLING_STRATEGY, REQ:FILE_MONITORING]  // Must reference ARCH and REQ
+  depends: [ARCH-POLLING_STRATEGY, REQ:FILE_MONITORING]  // Must reference ARCH and REQ
 }
 
 // ============================================
 // PHASE 4: Code Implementation
 // ============================================
 
-[REQ:USER_LOGIN] [ARCH:AUTHENTICATION] [IMPL:PASSWORD_HASH]
+[REQ-USER_LOGIN] [ARCH-AUTHENTICATION] [IMPL-PASSWORD_HASH]
 def authenticate(user: String, password: String): Bool {
   hashed = bcrypt.hash(password)
   return db.verify(user, hashed)
 }
 
-[REQ:FILE_MONITORING] [ARCH:POLLING_STRATEGY] [IMPL:FILE_STATE_TRACKING]
+[REQ-FILE_MONITORING] [ARCH-POLLING_STRATEGY] [IMPL-FILE_STATE_TRACKING]
 def monitor_file(path: String, interval: Int) {
   last_mtime = 0
   loop {
@@ -807,24 +807,24 @@ def monitor_file(path: String, interval: Int) {
 // ============================================
 
 // Test for requirement
-test "user login" [REQ:USER_LOGIN] {
+test "user login" [REQ-USER_LOGIN] {
   result = authenticate("alice", "password123")
   assert result == true
 }
 
 // Test for architecture
-test "authentication flow" [ARCH:AUTHENTICATION] [REQ:USER_LOGIN] {
+test "authentication flow" [ARCH-AUTHENTICATION] [REQ-USER_LOGIN] {
   // Test architecture implementation
 }
 
 // Test for implementation
-test "password hashing" [IMPL:PASSWORD_HASH] [ARCH:AUTHENTICATION] [REQ:USER_LOGIN] {
+test "password hashing" [IMPL-PASSWORD_HASH] [ARCH-AUTHENTICATION] [REQ-USER_LOGIN] {
   hashed = bcrypt.hash("test")
   assert hashed != "test"
 }
 
 // Test for file monitoring requirement
-test "file monitoring" [REQ:FILE_MONITORING] {
+test "file monitoring" [REQ-FILE_MONITORING] {
   // Test implementation
 }
 
@@ -908,7 +908,7 @@ The language bridges STDD Phase 1 (Requirements → Pseudo-Code) and Phase 3 (Im
 
 1. **Planning Phase**: Write pseudo-code templates with semantic tokens
    ```stdd
-   [REQ:FEATURE] [ARCH:DESIGN] [IMPL:APPROACH]
+   [REQ-FEATURE] [ARCH-DESIGN] [IMPL-APPROACH]
    def function_name(params): ReturnType {
      // TODO: Step 1
      // TODO: Step 2
@@ -918,7 +918,7 @@ The language bridges STDD Phase 1 (Requirements → Pseudo-Code) and Phase 3 (Im
 
 2. **Refinement Phase**: Progressively fill in implementations
    ```stdd
-   [REQ:FEATURE] [ARCH:DESIGN] [IMPL:APPROACH]
+   [REQ-FEATURE] [ARCH-DESIGN] [IMPL-APPROACH]
    def function_name(params): ReturnType {
      // Step 1 implemented
      result = step1()
@@ -929,7 +929,7 @@ The language bridges STDD Phase 1 (Requirements → Pseudo-Code) and Phase 3 (Im
 
 3. **Implementation Phase**: Complete the function
    ```stdd
-   [REQ:FEATURE] [ARCH:DESIGN] [IMPL:APPROACH]
+   [REQ-FEATURE] [ARCH-DESIGN] [IMPL-APPROACH]
    def function_name(params): ReturnType {
      result = step1()
      return step2(result)
@@ -964,9 +964,9 @@ This language specification ensures complete compliance with STDD methodology:
 
 4. ✅ **Module Validation Support**: Built-in `validate` blocks support independent module validation before integration
    - **Language Feature**: `validate` blocks for modules, compile-time enforcement
-   - **STDD Requirement**: [REQ:MODULE_VALIDATION] - Independent module validation before integration
+   - **STDD Requirement**: [REQ-MODULE_VALIDATION] - Independent module validation before integration
 
-5. ✅ **Test Coverage Enforcement**: Compile-time requirement that every [REQ:*] has at least one test
+5. ✅ **Test Coverage Enforcement**: Compile-time requirement that every [REQ-*] has at least one test
    - **Language Feature**: Compile-time validation that all REQ have tests
    - **STDD Requirement**: Tests validate requirements are met
 

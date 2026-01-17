@@ -1,6 +1,6 @@
 # Tasks and Incomplete Subtasks
 
-**STDD Methodology Version**: 1.2.0
+**STDD Methodology Version**: 1.3.0
 
 ## Overview
 This document tracks all tasks and subtasks for implementing this project. Tasks are organized by priority and implementation phase.
@@ -15,7 +15,7 @@ This document tracks all tasks and subtasks for implementing this project. Tasks
 ## Task Format
 
 ```markdown
-## P0: Task Name [REQ:IDENTIFIER] [ARCH:IDENTIFIER] [IMPL:IDENTIFIER]
+## P0: Task Name [REQ-IDENTIFIER] [ARCH-IDENTIFIER] [IMPL-IDENTIFIER]
 
 **Status**: 🟡 In Progress | ✅ Complete | ⏸️ Blocked | ⏳ Pending
 
@@ -24,17 +24,17 @@ This document tracks all tasks and subtasks for implementing this project. Tasks
 **Dependencies**: List of other tasks/tokens this depends on.
 
 **Subtasks**:
-- [ ] Subtask 1 [REQ:X] [IMPL:Y]
-- [ ] Subtask 2 [REQ:X] [IMPL:Z]
-- [ ] Subtask 3 [TEST:X]
-- [ ] Token audit & validation [PROC:TOKEN_AUDIT] [PROC:TOKEN_VALIDATION]
+- [ ] Subtask 1 [REQ-X] [IMPL-Y]
+- [ ] Subtask 2 [REQ-X] [IMPL-Z]
+- [ ] Subtask 3 [TEST-X]
+- [ ] Token audit & validation [PROC-TOKEN_AUDIT] [PROC-TOKEN_VALIDATION]
 
 **Completion Criteria**:
 - [ ] All subtasks complete
 - [ ] Code implements requirement
 - [ ] Tests pass with semantic token references
 - [ ] Documentation updated
-- [ ] `[PROC:TOKEN_AUDIT]` and `[PROC:TOKEN_VALIDATION]` outcomes logged
+- [ ] `[PROC-TOKEN_AUDIT]` and `[PROC-TOKEN_VALIDATION]` outcomes logged
 
 **Priority Rationale**: Why this is P0/P1/P2/P3
 ```
@@ -54,8 +54,8 @@ This document tracks all tasks and subtasks for implementing this project. Tasks
    - Cross-reference to related tokens
 
 4. **Token Audits & Validation Required**
-   - Every task must include a `[PROC:TOKEN_AUDIT]` subtask and capture its result
-   - `./scripts/validate_tokens.sh` (or repo-specific equivalent) must run before closing the task, with results logged under `[PROC:TOKEN_VALIDATION]`
+   - Every task must include a `[PROC-TOKEN_AUDIT]` subtask and capture its result
+   - `./scripts/validate_tokens.sh` (or repo-specific equivalent) must run before closing the task, with results logged under `[PROC-TOKEN_VALIDATION]`
 
 5. **Completion Criteria Must Be Met**
    - All criteria must be checked before marking complete
@@ -70,7 +70,7 @@ This document tracks all tasks and subtasks for implementing this project. Tasks
 
 ## Active Tasks
 
-## P0: Setup STDD Methodology [REQ:STDD_SETUP] [ARCH:STDD_STRUCTURE] [IMPL:STDD_FILES]
+## P0: Setup STDD Methodology [REQ-STDD_SETUP] [ARCH-STDD_STRUCTURE] [IMPL-STDD_FILES]
 
 **Status**: ✅ Complete
 
@@ -91,7 +91,7 @@ This document tracks all tasks and subtasks for implementing this project. Tasks
 
 **Priority Rationale**: P0 because this is the foundation for all future work.
 
-## P0: Promote Processes into Core Methodology [REQ:STDD_SETUP] [ARCH:STDD_STRUCTURE] [IMPL:STDD_FILES]
+## P0: Promote Processes into Core Methodology [REQ-STDD_SETUP] [ARCH-STDD_STRUCTURE] [IMPL-STDD_FILES]
 
 **Status**: ✅ Complete
 
@@ -116,21 +116,21 @@ This document tracks all tasks and subtasks for implementing this project. Tasks
 ### Task 2.1: Core Feature Implementation
 **Status:** ⏳ Pending  
 **Priority:** P0 (Critical)  
-**Semantic Tokens:** `[REQ:EXAMPLE_FEATURE]`, `[ARCH:EXAMPLE_DECISION]`, `[IMPL:EXAMPLE_IMPLEMENTATION]`
+**Semantic Tokens:** `[REQ-EXAMPLE_FEATURE]`, `[ARCH-EXAMPLE_DECISION]`, `[IMPL-EXAMPLE_IMPLEMENTATION]`
 
 **Description**: Implement the core feature according to requirements and architecture.
 
 **Subtasks**:
-- [ ] Identify logical modules and document module boundaries [REQ:MODULE_VALIDATION]
-- [ ] Define module interfaces and validation criteria [REQ:MODULE_VALIDATION]
+- [ ] Identify logical modules and document module boundaries [REQ-MODULE_VALIDATION]
+- [ ] Define module interfaces and validation criteria [REQ-MODULE_VALIDATION]
 - [ ] Develop Module 1 independently
-- [ ] Validate Module 1 independently (unit tests, contract tests, edge cases, error handling) [REQ:MODULE_VALIDATION]
+- [ ] Validate Module 1 independently (unit tests, contract tests, edge cases, error handling) [REQ-MODULE_VALIDATION]
 - [ ] Develop Module 2 independently
-- [ ] Validate Module 2 independently (unit tests, contract tests, edge cases, error handling) [REQ:MODULE_VALIDATION]
-- [ ] Integrate validated modules [REQ:MODULE_VALIDATION]
+- [ ] Validate Module 2 independently (unit tests, contract tests, edge cases, error handling) [REQ-MODULE_VALIDATION]
+- [ ] Integrate validated modules [REQ-MODULE_VALIDATION]
 - [ ] Write integration tests for combined behavior
-- [ ] Write end-to-end tests [REQ:EXAMPLE_FEATURE]
-- [ ] Run `[PROC:TOKEN_AUDIT]` + `./scripts/validate_tokens.sh` and record outcomes [PROC:TOKEN_VALIDATION]
+- [ ] Write end-to-end tests [REQ-EXAMPLE_FEATURE]
+- [ ] Run `[PROC-TOKEN_AUDIT]` + `./scripts/validate_tokens.sh` and record outcomes [PROC-TOKEN_VALIDATION]
 
 **Completion Criteria**:
 - [ ] All modules identified and documented

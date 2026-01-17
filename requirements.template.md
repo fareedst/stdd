@@ -1,9 +1,9 @@
 # Requirements Directory
 
-**STDD Methodology Version**: 1.2.0
+**STDD Methodology Version**: 1.3.0
 
 ## Overview
-This document serves as the **central listing/registry** for all requirements in this project. Each requirement has a unique semantic token `[REQ:IDENTIFIER]` for traceability.
+This document serves as the **central listing/registry** for all requirements in this project. Each requirement has a unique semantic token `[REQ-IDENTIFIER]` for traceability.
 
 **For detailed information about how requirements are fulfilled, see:**
 - **Architecture decisions**: See `architecture-decisions.md` for high-level design choices that fulfill requirements
@@ -51,7 +51,7 @@ Each requirement includes:
 
 ### Core Functionality
 
-### [REQ:STDD_SETUP] STDD Methodology Setup
+### [REQ-STDD_SETUP] STDD Methodology Setup
 
 **Priority: P0 (Critical)**
 
@@ -64,12 +64,12 @@ Each requirement includes:
 - **Validation Criteria**:
   - Manual verification of file existence.
   - AI agent acknowledgment of principles.
-- **Architecture**: See `architecture-decisions.md` § STDD Project Structure [ARCH:STDD_STRUCTURE]
-- **Implementation**: See `implementation-decisions.md` § STDD File Creation [IMPL:STDD_FILES]
+- **Architecture**: See `architecture-decisions.md` § STDD Project Structure [ARCH-STDD_STRUCTURE]
+- **Implementation**: See `implementation-decisions.md` § STDD File Creation [IMPL-STDD_FILES]
 
 **Status**: ✅ Implemented
 
-### [REQ:MODULE_VALIDATION] Independent Module Validation Before Integration
+### [REQ-MODULE_VALIDATION] Independent Module Validation Before Integration
 
 **Priority: P0 (Critical)**
 
@@ -90,12 +90,12 @@ Each requirement includes:
   - Code review verification that integration code references validated modules.
   - Verification that module validation results are documented.
   - Verification that integration tests validate the combined behavior of validated modules.
-- **Architecture**: See `architecture-decisions.md` § Module Validation Strategy [ARCH:MODULE_VALIDATION]
-- **Implementation**: See `implementation-decisions.md` § Module Validation Implementation [IMPL:MODULE_VALIDATION]
+- **Architecture**: See `architecture-decisions.md` § Module Validation Strategy [ARCH-MODULE_VALIDATION]
+- **Implementation**: See `implementation-decisions.md` § Module Validation Implementation [IMPL-MODULE_VALIDATION]
 
 **Status**: ✅ Implemented
 
-### [REQ:IDENTIFIER] Requirement Name
+### [REQ-IDENTIFIER] Requirement Name
 
 **Priority: P0 (Critical) | P1 (Important) | P2 (Nice-to-have) | P3 (Future)**
 
@@ -110,18 +110,18 @@ Each requirement includes:
   - Testing approach
   - Verification methods
   - Success metrics
-- **Architecture**: See `architecture-decisions.md` § Decision Name [ARCH:IDENTIFIER]
-- **Implementation**: See `implementation-decisions.md` § Implementation Name [IMPL:IDENTIFIER]
+- **Architecture**: See `architecture-decisions.md` § Decision Name [ARCH-IDENTIFIER]
+- **Implementation**: See `implementation-decisions.md` § Implementation Name [IMPL-IDENTIFIER]
 
 **Status**: ✅ Implemented | ⏳ Planned
 ```
 
 ## Notes
 
-- All requirements MUST be documented here with `[REQ:*]` tokens
+- All requirements MUST be documented here with `[REQ-*]` tokens
 - Requirements describe WHAT the system should do and WHY, not HOW
 - Requirements MUST NOT describe bugs or implementation details
-- **Language-Agnostic Requirements**: Requirements MUST be language-agnostic. Language selection, runtime choices, and language-specific implementation details belong in architecture decisions (`architecture-decisions.md`) or implementation decisions (`implementation-decisions.md`), NOT in requirements. The ONLY exception is when language selection is itself a specific requirement (e.g., `[REQ:USE_PYTHON]` for a Python-specific project requirement). When documenting requirements, focus on behavior and capabilities, not on how they are implemented in a specific language.
+- **Language-Agnostic Requirements**: Requirements MUST be language-agnostic. Language selection, runtime choices, and language-specific implementation details belong in architecture decisions (`architecture-decisions.md`) or implementation decisions (`implementation-decisions.md`), NOT in requirements. The ONLY exception is when language selection is itself a specific requirement (e.g., `[REQ-USE_PYTHON]` for a Python-specific project requirement). When documenting requirements, focus on behavior and capabilities, not on how they are implemented in a specific language.
 
 ## Future Enhancements (Out of Scope)
 
@@ -132,7 +132,7 @@ The following features are documented but marked as future enhancements:
 
 ### Core Functionality
 
-### [REQ:IDENTIFIER] Requirement Name
+### [REQ-IDENTIFIER] Requirement Name
 
 **Priority: P0 (Critical) | P1 (Important) | P2 (Nice-to-have) | P3 (Future)**
 
@@ -147,13 +147,13 @@ The following features are documented but marked as future enhancements:
   - Testing approach
   - Verification methods
   - Success metrics
-- **Architecture**: See `architecture-decisions.md` § Decision Name [ARCH:IDENTIFIER]
-- **Implementation**: See `implementation-decisions.md` § Implementation Name [IMPL:IDENTIFIER]
+- **Architecture**: See `architecture-decisions.md` § Decision Name [ARCH-IDENTIFIER]
+- **Implementation**: See `implementation-decisions.md` § Implementation Name [IMPL-IDENTIFIER]
 
 **Status**: ✅ Implemented | ⏳ Planned
 ```
 
-### 2. [REQ:ANOTHER_FEATURE] Another Feature Name
+### 2. [REQ-ANOTHER_FEATURE] Another Feature Name
 
 **Priority: P0 (Critical)**
 
@@ -170,19 +170,19 @@ The following features are documented but marked as future enhancements:
 
 ## Non-Functional Requirements
 
-### 1. Performance [REQ:PERFORMANCE]
+### 1. Performance [REQ-PERFORMANCE]
 - Requirement description
 - Metrics or targets
 
-### 2. Reliability [REQ:RELIABILITY]
+### 2. Reliability [REQ-RELIABILITY]
 - Requirement description
 - Availability targets
 
-### 3. Maintainability [REQ:MAINTAINABILITY]
+### 3. Maintainability [REQ-MAINTAINABILITY]
 - Requirement description
 - Code quality standards
 
-### 4. Usability [REQ:USABILITY]
+### 4. Usability [REQ-USABILITY]
 - Requirement description
 - User experience goals
 

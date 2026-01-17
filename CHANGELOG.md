@@ -5,6 +5,58 @@ All notable changes to the STDD (Semantic Token-Driven Development) methodology 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-01-17
+
+### Added
+
+- **Unified Semantic Token Format**: Standardized all semantic tokens from colon format (`[TYPE:IDENTIFIER]`) to hyphen format (`[TYPE-IDENTIFIER]`)
+  - Enables single regex pattern for both text and filenames
+  - Consistent mental model - tokens look the same everywhere
+  - Simplified tooling - no format translation needed
+  - Easier searchability - agents can use one pattern for all contexts
+
+- **Scalable Architecture Decisions Structure**: Transformed `architecture-decisions.template.md` from a monolithic file into an index + detail files pattern for scalability
+  - Main file now serves as a lightweight **index** with a table of all architecture decisions
+  - Individual decisions stored in `architecture-decisions/` directory as separate files (e.g., `ARCH-STDD_STRUCTURE.md`)
+  - Mirrors the implementation-decisions structure from v1.2.0
+  - Status tracking per decision: Active, Deprecated, Template, Superseded
+  - Optional domain-based grouping for very large projects
+
+- **Token Format Migration Guide** (`migrate-semantic-token-format.md`): Comprehensive AI agent instructions for migrating existing projects from colon-based tokens to hyphen-based tokens
+  - Pre-migration checklist
+  - Automated sed/grep commands for bulk replacement
+  - Universal migration script
+  - Post-migration verification steps
+  - Rollback procedure
+
+- **Architecture Decisions Migration Guide** (`migrate-architecture-decisions.md`): Comprehensive AI agent instructions for migrating existing projects from monolithic architecture-decisions files to the new scalable structure
+  - Pre-migration checklist
+  - Step-by-step migration process with commands
+  - Post-migration verification
+  - Handling special cases (missing tokens, duplicates, cross-references)
+  - Complete worked example
+  - Rollback procedure
+
+- **Example Architecture Detail Files** (`architecture-decisions.template/`): Complete reference implementations
+  - `ARCH-STDD_STRUCTURE.md`
+  - `ARCH-MODULE_VALIDATION.md`
+  - `ARCH-EXAMPLE_DECISION.md`
+
+### Changed
+
+- **All Documentation Files**: Updated to use hyphen-based token format (`[TYPE-IDENTIFIER]`)
+- **`architecture-decisions.template.md`**: Now contains index table, detail file template, and instructions for the new structure
+- **`semantic-tokens.template.md`**: Updated Architecture Tokens Registry reference to point to both index and detail files directory
+- **Version Alignment**: Updated all methodology files to STDD v1.3.0
+
+### Rationale
+
+**Token Format Change**: The colon (`:`) character is invalid in filenames on many operating systems. Previously this required different patterns for tokens in text vs. filenames. The hyphen format unifies both, enabling single-pattern matching and simplified tooling.
+
+**Architecture Decisions Structure**: As projects grow, monolithic documentation files become unwieldy for both humans and AI agents. This change (mirroring the v1.2.0 implementation-decisions change) preserves all information while enabling faster navigation, cleaner git history, reduced merge conflicts, and domain-based organization.
+
+---
+
 ## [1.2.0] - 2026-01-17
 
 ### Added
@@ -12,7 +64,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Scalable Implementation Decisions Structure**: Transformed `implementation-decisions.template.md` from a monolithic file into an index + detail files pattern for scalability
   - Main file now serves as a lightweight **index** with a table of all implementation decisions
   - Individual decisions stored in `implementation-decisions/` directory as separate files (e.g., `IMPL-CONFIG_STRUCT.md`)
-  - Filename convention: Replace `:` with `-` to handle OS filename restrictions (`[IMPL:TOKEN]` → `IMPL-TOKEN.md`)
+  - Filename convention: Replace `:` with `-` to handle OS filename restrictions (`[IMPL-TOKEN]` → `IMPL-TOKEN.md`)
   - Status tracking per decision: Active, Deprecated, Template, Superseded
   - Optional domain-based grouping for very large projects
 
@@ -46,7 +98,7 @@ As projects grow, monolithic documentation files become unwieldy for both humans
 
 ### Added
 
-- **Processes as a Primary STDD Pillar** [PROC:PROJECT_SURVEY_AND_SETUP] [PROC:BUILD_PIPELINE_VALIDATION]: Elevated processes from optional guidance to a core methodology component so operational rituals remain traceable to requirements, architecture, and implementation tokens.
+- **Processes as a Primary STDD Pillar** [PROC-PROJECT_SURVEY_AND_SETUP] [PROC-BUILD_PIPELINE_VALIDATION]: Elevated processes from optional guidance to a core methodology component so operational rituals remain traceable to requirements, architecture, and implementation tokens.
 
 ### Changed
 
@@ -60,20 +112,20 @@ Adding processes to the primary STDD methodology is a major capability improveme
 
 ### Added
 
-- **Module Validation Requirement** [REQ:MODULE_VALIDATION]: Mandatory requirement for independent module validation before integration
+- **Module Validation Requirement** [REQ-MODULE_VALIDATION]: Mandatory requirement for independent module validation before integration
   - Logical modules must be validated independently before integration into code satisfying specific requirements
   - Each module must have clear boundaries, interfaces, and validation criteria defined before development
   - Modules must pass independent validation (unit tests with mocks, integration tests with test doubles, contract validation, edge case testing, error handling validation) before integration
   - Integration only occurs after module validation passes
   - **Rationale**: Eliminates bugs related to code complexity by ensuring each module works correctly in isolation before combining with other modules
 
-- **Module Validation Architecture Decision** [ARCH:MODULE_VALIDATION]: Architecture decision documenting the module validation strategy
+- **Module Validation Architecture Decision** [ARCH-MODULE_VALIDATION]: Architecture decision documenting the module validation strategy
   - Module identification requirements
   - Validation approach (unit testing, integration testing with test doubles, contract validation, edge case testing, error handling validation)
   - Integration requirements
   - Alternatives considered and rationale for rejection
 
-- **Module Validation Implementation Decision** [IMPL:MODULE_VALIDATION]: Implementation decision documenting how module validation is implemented
+- **Module Validation Implementation Decision** [IMPL-MODULE_VALIDATION]: Implementation decision documenting how module validation is implemented
   - Module identification phase
   - Module development phase
   - Module validation phase (before integration)
@@ -119,9 +171,9 @@ This enhancement addresses the need to eliminate bugs related to code complexity
 - Version file (`VERSION`) containing methodology version
 
 ### Methodology Components
-- **Requirements Documentation** - Template file (`requirements.template.md`) for documenting requirements with `[REQ:*]` tokens
-- **Architecture Decisions** - Template file (`architecture-decisions.template.md`) for documenting architecture decisions with `[ARCH:*]` tokens
-- **Implementation Decisions** - Template file (`implementation-decisions.template.md`) for documenting implementation decisions with `[IMPL:*]` tokens
+- **Requirements Documentation** - Template file (`requirements.template.md`) for documenting requirements with `[REQ-*]` tokens
+- **Architecture Decisions** - Template file (`architecture-decisions.template.md`) for documenting architecture decisions with `[ARCH-*]` tokens
+- **Implementation Decisions** - Template file (`implementation-decisions.template.md`) for documenting implementation decisions with `[IMPL-*]` tokens
 - **Process Management** - Template file (`processes.template.md`) for repeatable processes
 - **Semantic Token System** - Template file (`semantic-tokens.template.md`) for central token registry and cross-referencing system
 - **Task Management** - Template file (`tasks.template.md`) for priority-based task tracking system

@@ -6,7 +6,7 @@ We're excited to announce the **first official release** of **Semantic Token-Dri
 
 ## What is STDD?
 
-**Semantic Token-Driven Development (STDD)** is a documentation-first methodology that uses semantic tokens (`[REQ:*]`, `[ARCH:*]`, `[IMPL:*]`) to create a traceable chain from requirements through architecture and implementation to tests and code. Unlike traditional development approaches, STDD ensures that the original purpose and reasoning behind every decision are **never lost**, even as codebases evolve over time.
+**Semantic Token-Driven Development (STDD)** is a documentation-first methodology that uses semantic tokens (`[REQ-*]`, `[ARCH-*]`, `[IMPL-*]`) to create a traceable chain from requirements through architecture and implementation to tests and code. Unlike traditional development approaches, STDD ensures that the original purpose and reasoning behind every decision are **never lost**, even as codebases evolve over time.
 
 ### The Core Innovation
 
@@ -60,9 +60,9 @@ Update the code examples in the templates to match your chosen language:
 
 ### Step 3: Start Using STDD (1 minute)
 
-1. Define your first requirement with a `[REQ:*]` token
-2. Document architecture decisions with `[ARCH:*]` tokens
-3. Document implementation decisions with `[IMPL:*]` tokens
+1. Define your first requirement with a `[REQ-*]` token
+2. Document architecture decisions with `[ARCH-*]` tokens
+3. Document implementation decisions with `[IMPL-*]` tokens
 4. Reference tokens in your code comments and tests
 
 **That's it!** You're now using STDD.
@@ -73,7 +73,7 @@ You don't need to rewrite your entire codebase to adopt STDD. Here's a practical
 
 ### Phase 1: Start with New Features (Week 1)
 - Use STDD for all **new features** going forward
-- Create `[REQ:*]` tokens for new requirements
+- Create `[REQ-*]` tokens for new requirements
 - Document architecture and implementation decisions with tokens
 - Reference tokens in new code
 
@@ -121,21 +121,21 @@ Here's how STDD works in practice:
 
 **Requirement:**
 ```markdown
-## [REQ:USER_AUTHENTICATION] User Authentication
+## [REQ-USER_AUTHENTICATION] User Authentication
 Users must be able to log in securely using email and password.
 ```
 
 **Architecture Decision:**
 ```markdown
-## [ARCH:PASSWORD_HASHING] Password Hashing Strategy [REQ:USER_AUTHENTICATION]
+## [ARCH-PASSWORD_HASHING] Password Hashing Strategy [REQ-USER_AUTHENTICATION]
 Use bcrypt for password hashing with cost factor 12.
 Rationale: Industry standard, secure, and well-tested.
 ```
 
 **Implementation:**
 ```example
-// [REQ:USER_AUTHENTICATION] Hash password before storage
-// [IMPL:BCRYPT_HASH] [ARCH:PASSWORD_HASHING] [REQ:USER_AUTHENTICATION]
+// [REQ-USER_AUTHENTICATION] Hash password before storage
+// [IMPL-BCRYPT_HASH] [ARCH-PASSWORD_HASHING] [REQ-USER_AUTHENTICATION]
 func hashPassword(password string) (string, error) {
     hashed, err := bcrypt.GenerateFromPassword([]byte(password), 12)
     return string(hashed), err
@@ -145,7 +145,7 @@ func hashPassword(password string) (string, error) {
 **Test:**
 ```example
 func TestUserAuthentication_REQ_USER_AUTHENTICATION(t *testing.T) {
-    // Test validates [REQ:USER_AUTHENTICATION] is met
+    // Test validates [REQ-USER_AUTHENTICATION] is met
     // ...
 }
 ```

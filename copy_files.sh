@@ -9,7 +9,8 @@
 #   - Base files (.cursorrules, AGENTS.md, ai-principles.md) in project root
 #   - Template files (requirements.md, etc.) in stdd/
 #   - implementation-decisions/ directory in stdd/ with example detail files
-#   - Migration guide for converting monolithic implementation-decisions files
+#   - architecture-decisions/ directory in stdd/ with example detail files
+#   - Migration guides for converting monolithic decision files and token formats
 #
 # Designed for macOS (Bash 3.2+) and Ubuntu (Bash 5.x+).
 #
@@ -29,8 +30,10 @@ fi
 
 STDD_DIR="${TARGET_PROJECT_DIR}/stdd"
 IMPL_DECISIONS_DIR="${STDD_DIR}/implementation-decisions"
+ARCH_DECISIONS_DIR="${STDD_DIR}/architecture-decisions"
 mkdir -p "${STDD_DIR}"
 mkdir -p "${IMPL_DECISIONS_DIR}"
+mkdir -p "${ARCH_DECISIONS_DIR}"
 
 BASE_FILES=(
   ".cursorrules"
@@ -98,10 +101,37 @@ if [[ -d "${IMPL_TEMPLATE_DIR}" ]]; then
   fi
 fi
 
-# Copy migration guide (reference document)
-MIGRATION_GUIDE="${SCRIPT_DIR}/migrate-implementation-decisions.md"
-MIGRATION_DEST="${STDD_DIR}/migrate-implementation-decisions.md"
-if [[ -f "${MIGRATION_GUIDE}" && ! -f "${MIGRATION_DEST}" ]]; then
-  cp -p "${MIGRATION_GUIDE}" "${MIGRATION_DEST}"
-  echo "Copied migration guide into ${STDD_DIR}."
+# Copy architecture decision detail file examples
+ARCH_TEMPLATE_DIR="${SCRIPT_DIR}/architecture-decisions.template"
+if [[ -d "${ARCH_TEMPLATE_DIR}" ]]; then
+  arch_count=0
+  for detail_file in "${ARCH_TEMPLATE_DIR}"/*.md; do
+    if [[ -f "${detail_file}" ]]; then
+      filename="$(basename "${detail_file}")"
+      dest="${ARCH_DECISIONS_DIR}/${filename}"
+      if [[ ! -f "${dest}" ]]; then
+        cp -p "${detail_file}" "${dest}"
+        ((arch_count++)) || true
+      fi
+    fi
+  done
+  if [[ ${arch_count} -gt 0 ]]; then
+    echo "Copied ${arch_count} architecture decision example(s) into ${ARCH_DECISIONS_DIR}."
+  fi
 fi
+
+# Copy migration guides (reference documents)
+MIGRATION_GUIDES=(
+  "migrate-implementation-decisions.md"
+  "migrate-architecture-decisions.md"
+  "migrate-semantic-token-format.md"
+)
+
+for guide in "${MIGRATION_GUIDES[@]}"; do
+  src="${SCRIPT_DIR}/${guide}"
+  dest="${STDD_DIR}/${guide}"
+  if [[ -f "${src}" && ! -f "${dest}" ]]; then
+    cp -p "${src}" "${dest}"
+  fi
+done
+echo "Copied migration guides into ${STDD_DIR}."

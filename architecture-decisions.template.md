@@ -1,208 +1,178 @@
 # Architecture Decisions
 
-**STDD Methodology Version**: 1.2.0
+**STDD Methodology Version**: 1.3.0
 
 ## Overview
-This document captures the high-level architectural decisions for this project. All decisions are cross-referenced with requirements using semantic tokens `[REQ:*]` and assigned architecture tokens `[ARCH:*]` for traceability.
 
-## Template Structure
+This document serves as the **index** for all architecture decisions in this project. Each architecture decision is stored in its own file within the `architecture-decisions/` directory for scalability.
 
-When documenting architecture decisions, use this format:
+All decisions are cross-referenced with requirements using `[REQ-*]` tokens for traceability.
+
+## Directory Structure
+
+```
+stdd/
+├── architecture-decisions.md              # This index file
+├── architecture-decisions/                # Detail files directory
+│   ├── ARCH-STDD_STRUCTURE.md
+│   ├── ARCH-MODULE_VALIDATION.md
+│   ├── ARCH-LANGUAGE_SELECTION.md
+│   └── ...
+```
+
+## Filename Convention
+
+Token names use the same format in text and filenames:
+
+| Token Format | Filename Format |
+|--------------|-----------------|
+| `[ARCH-CONFIG_STRUCTURE]` | `ARCH-CONFIG_STRUCTURE.md` |
+| `[ARCH-MODULE_VALIDATION]` | `ARCH-MODULE_VALIDATION.md` |
+
+**Rule**: Remove brackets, keep hyphen, append `.md`
+
+## Notes
+
+- All architecture decisions MUST be recorded IMMEDIATELY when made
+- Each decision MUST include `[ARCH-*]` token and cross-reference `[REQ-*]` tokens
+- Architecture decisions are dependent on requirements
+- DO NOT defer architecture documentation - record decisions as they are made
+- Document the expected code + test touchpoints so `[PROC-TOKEN_AUDIT]` has concrete files/functions to verify
+- Capture the intended validation tooling (e.g., references to `./scripts/validate_tokens.sh`) so `[PROC-TOKEN_VALIDATION]` remains reproducible
+- **Language Selection**: Language selection, runtime choices, and language-specific architectural patterns belong in architecture decisions. Document language choice with `[ARCH-LANGUAGE_SELECTION]` token when it's an architectural decision (not a requirement). Language-specific patterns (e.g., async/await, goroutines, callbacks) should be documented here. Requirements should remain language-agnostic unless language selection is itself a specific requirement.
+
+## How to Add a New Architecture Decision
+
+1. **Create a new detail file** in `architecture-decisions/` using the naming convention above
+2. **Use the detail file template** (see below)
+3. **Add an entry to the index table** below
+4. **Update `semantic-tokens.md`** registry with the new `[ARCH-*]` token
+
+---
+
+## Architecture Decisions Index
+
+| Token | Title | Status | Cross-References | Detail File |
+|-------|-------|--------|------------------|-------------|
+| `[ARCH-STDD_STRUCTURE]` | STDD Project Structure | Active | [REQ-STDD_SETUP] | [Detail](architecture-decisions/ARCH-STDD_STRUCTURE.md) |
+| `[ARCH-MODULE_VALIDATION]` | Module Validation Strategy | Active | [REQ-MODULE_VALIDATION] | [Detail](architecture-decisions/ARCH-MODULE_VALIDATION.md) |
+| `[ARCH-LANGUAGE_SELECTION]` | Language and Runtime Selection | Template | — | [Detail](architecture-decisions/ARCH-LANGUAGE_SELECTION.md) |
+| `[ARCH-EXAMPLE_DECISION]` | Core Architecture Example | Template | [REQ-EXAMPLE_FEATURE] | [Detail](architecture-decisions/ARCH-EXAMPLE_DECISION.md) |
+| `[ARCH-ERROR_HANDLING]` | Error Handling Strategy | Template | [REQ-ERROR_HANDLING] | [Detail](architecture-decisions/ARCH-ERROR_HANDLING.md) |
+| `[ARCH-TESTING_STRATEGY]` | Testing Strategy | Template | — | [Detail](architecture-decisions/ARCH-TESTING_STRATEGY.md) |
+
+### Status Values
+
+- **Active**: Currently in use and maintained
+- **Deprecated**: No longer recommended; kept for historical reference
+- **Template**: Example/template entry for reference
+- **Superseded**: Replaced by another decision (note the replacement in the detail file)
+
+---
+
+## Detail File Template
+
+Use this template when creating a new architecture decision file in `architecture-decisions/`:
 
 ```markdown
-## N. Decision Title [ARCH:IDENTIFIER] [REQ:RELATED_REQUIREMENT]
+# [ARCH-IDENTIFIER] Architecture Decision Title
 
-### Decision: Brief description of the architectural decision
-**Rationale:**
+**Cross-References**: [REQ-RELATED_REQUIREMENT]  
+**Status**: Active  
+**Created**: YYYY-MM-DD  
+**Last Updated**: YYYY-MM-DD
+
+---
+
+## Decision
+
+Brief description of the architectural decision.
+
+## Rationale
+
 - Why this decision was made
 - What problems it solves
 - What benefits it provides
 
-**Alternatives Considered:**
-- Alternative 1: Why it was rejected
-- Alternative 2: Why it was rejected
+## Alternatives Considered
 
-**Token Coverage** `[PROC:TOKEN_AUDIT]`:
-- Code files expected to carry `[IMPL:*] [ARCH:*] [REQ:*]` comments
-- Tests expected to reference `[REQ:*]` / `[TEST:*]` tokens that validate this decision
+- **Alternative 1**: Why it was rejected
+- **Alternative 2**: Why it was rejected
 
-**Cross-References**: [REQ:RELATED_REQUIREMENT], [ARCH:OTHER_DECISION]
-```
+## Implementation Approach
 
-## Notes
-
-- All architecture decisions MUST be recorded here IMMEDIATELY when made
-- Each decision MUST include `[ARCH:*]` token and cross-reference `[REQ:*]` tokens
-- Architecture decisions are dependent on requirements
-- DO NOT defer architecture documentation - record decisions as they are made
-- Document the expected code + test touchpoints so `[PROC:TOKEN_AUDIT]` has concrete files/functions to verify.
-- Capture the intended validation tooling (e.g., references to `./scripts/validate_tokens.sh`) so `[PROC:TOKEN_VALIDATION]` remains reproducible.
-- **Language Selection**: Language selection, runtime choices, and language-specific architectural patterns belong in architecture decisions. Document language choice with `[ARCH:LANGUAGE_SELECTION]` token when it's an architectural decision (not a requirement). Language-specific patterns (e.g., async/await, goroutines, callbacks) should be documented here. Requirements should remain language-agnostic unless language selection is itself a specific requirement.
-
----
-
-**Rationale:**
-- Clear separation of concerns
-- Standard project layout
-- Testable components
-
-## 3. STDD Project Structure [ARCH:STDD_STRUCTURE] [REQ:STDD_SETUP]
-
-### Decision: Centralized `stdd/` Directory
-**Rationale:**
-- Keeps documentation close to code but organized in a dedicated namespace.
-- Ensures the AI agent can easily find all context in one place.
-- Separates meta-documentation from project source code.
-
-**Alternatives Considered:**
-- Root-level files: Clutters the root directory.
-- `.github` or `.docs` folder: `stdd` is more specific to the methodology.
-
-**Token Coverage** `[PROC:TOKEN_AUDIT]`:
-- Code: `// [IMPL:STDD_FILES] [ARCH:STDD_STRUCTURE] [REQ:STDD_SETUP]` comments in bootstrap scripts.
-- Tests: `TestSTDDSetup_REQ_STDD_SETUP` ensures docs + registry exist.
-
-**Cross-References**: [REQ:STDD_SETUP]
-
-## 3. Core Architecture Decision [ARCH:EXAMPLE_DECISION] [REQ:EXAMPLE_FEATURE]
-
-### Decision: [Your Architecture Choice]
-**Rationale:**
-- Matches requirement [REQ:EXAMPLE_FEATURE]
-- Provides benefits X, Y, Z
-- Simpler implementation
-
-**Alternatives Considered:**
-- Alternative approach: More complex, less maintainable
-
-**Implementation:**
 - High-level approach
 - Key components
 - Integration points
 
-**Token Coverage** `[PROC:TOKEN_AUDIT]`:
-- Code: Annotate entry points with `[IMPL:EXAMPLE_IMPLEMENTATION] [ARCH:EXAMPLE_DECISION] [REQ:EXAMPLE_FEATURE]`.
-- Tests: `testCoreFeature_REQ_EXAMPLE_FEATURE` plus inline `[REQ:EXAMPLE_FEATURE]` comments validate behavior.
+## Token Coverage `[PROC-TOKEN_AUDIT]`
 
-## 4. Data Management [ARCH:DATA_MANAGEMENT] [REQ:DATA_REQUIREMENT]
+Code files expected to carry `[IMPL-*] [ARCH-*] [REQ-*]` comments:
+- [ ] `path/to/implementation.ext` - Description
 
-### Decision: [Your Data Management Approach]
-**Rationale:**
-- Reason 1
-- Reason 2
+Tests expected to reference `[REQ-*]` / `[TEST-*]` tokens:
+- [ ] `testFeatureName_REQ_IDENTIFIER` in `path/to/test_file.ext`
 
-**Implementation:**
-- Storage approach
-- Data access patterns
-- Consistency model
+## Validation Evidence `[PROC-TOKEN_VALIDATION]`
 
-## 5. Error Handling Strategy [ARCH:ERROR_HANDLING] [REQ:ERROR_HANDLING]
+| Date | Commit | Validation Result | Notes |
+|------|--------|-------------------|-------|
+| YYYY-MM-DD | `abc1234` | ✅ Pass | Initial validation |
 
-### Decision: [Your Error Handling Approach]
-**Rationale:**
-- Idiomatic for chosen language/framework
-- Clear error propagation
-- Easy to test
+## Related Decisions
 
-**Pattern:**
-- Error types
-- Error propagation
-- Error reporting
+- Depends on: [REQ-REQUIREMENT]
+- Informs: [IMPL-IMPLEMENTATION]
+- See also: [ARCH-RELATED_DECISION]
 
-## 6. Testing Strategy [ARCH:TESTING_STRATEGY]
+---
 
-### Decision: [Your Testing Approach]
-**Rationale:**
-- Comprehensive test coverage
-- Fast unit tests
-- Integration tests for end-to-end scenarios
-- Aligns with validation criteria defined in requirements [REQ:*]
+*Last validated: YYYY-MM-DD by [agent/contributor]*
+```
 
-**Structure:**
-- Unit test organization
-- Integration test organization
-- Test fixtures and utilities
+---
 
-**Note**: This testing strategy implements the validation criteria specified in `requirements.md`. Each requirement's validation criteria informs what types of tests are needed (unit, integration, manual verification, etc.).
+## Quick Reference: Creating a New Architecture Decision
 
-## 7. Dependency Management [ARCH:DEPENDENCY_MANAGEMENT]
+```bash
+# 1. Create the detail file
+touch stdd/architecture-decisions/ARCH-YOUR_TOKEN.md
 
-### Decision: [Your Dependency Management Approach]
-**Rationale:**
-- Reduce external dependencies
-- Faster builds
-- Fewer security concerns
+# 2. Copy the template above into the new file
 
-**Allowed Dependencies:**
-- Standard library only (or minimal external dependencies)
-- Consider external packages only if standard library is insufficient
+# 3. Fill in the details
 
-## 8. Build and Distribution [ARCH:BUILD_DISTRIBUTION]
+# 4. Add entry to the index table in this file
 
-### Decision: [Your Build and Distribution Approach]
-**Rationale:**
-- Easy deployment
-- No runtime dependencies
-- Cross-platform support
+# 5. Update semantic-tokens.md registry
+```
 
-**Build Targets:**
-- Platform 1
-- Platform 2
-- Platform 3
+---
 
-## 9. Code Organization Principles [ARCH:CODE_ORGANIZATION]
+## Grouping by Domain (Optional)
 
-### Decision: [Your Code Organization Approach]
-**Rationale:**
-- Testable components
-- Clear responsibilities
-- Easy to extend
-- Maintainable codebase
+For very large projects, organize detail files by domain:
 
-**Principles:**
-- Each module has a single, clear responsibility
-- Functions are small and focused
-- Interfaces where appropriate for testability
-- Avoid global state where possible
+```
+architecture-decisions/
+├── core/
+│   ├── ARCH-STDD_STRUCTURE.md
+│   └── ARCH-MODULE_VALIDATION.md
+├── auth/
+│   ├── ARCH-AUTH_FLOW.md
+│   └── ARCH-SESSION_MGMT.md
+└── api/
+    └── ARCH-REST_DESIGN.md
+```
 
-## 10. Module Validation Strategy [ARCH:MODULE_VALIDATION] [REQ:MODULE_VALIDATION]
+When using subdirectories, update the Detail File column in the index:
+```markdown
+| `[ARCH-AUTH_FLOW]` | Auth Flow | Active | ... | [Detail](architecture-decisions/auth/ARCH-AUTH_FLOW.md) |
+```
 
-### Decision: Independent Module Validation Before Integration
-**Rationale:**
-- Eliminates bugs related to code complexity by ensuring each module works correctly in isolation
-- Reduces integration complexity by validating modules independently before combining them
-- Catches bugs early in the development cycle, before integration issues compound
-- Ensures each module meets its defined contract before integration
-- Makes debugging easier by isolating issues to specific modules
-- Enables parallel development of modules when dependencies are properly mocked
+---
 
-**Module Identification Requirements:**
-- Modules must be identified and documented before development begins
-- Each module must have clear boundaries and responsibilities
-- Module interfaces and contracts must be defined and documented
-- Module dependencies must be identified and documented
-- Module validation criteria must be specified (what "validated" means for each module)
+## Migration from Monolithic File
 
-**Validation Approach:**
-- **Unit Testing**: Each module must have comprehensive unit tests with mocked dependencies
-- **Integration Testing with Test Doubles**: Modules must be tested with mocks, stubs, or fakes for dependencies
-- **Contract Validation**: Input/output validation to ensure modules meet their defined contracts
-- **Edge Case Testing**: Modules must be tested with edge cases and boundary conditions
-- **Error Handling Validation**: Modules must be tested for proper error handling and error propagation
-
-**Integration Requirements:**
-- Integration tasks must be separate from module development and validation tasks
-- Integration only occurs after module validation passes
-- Integration tests validate the combined behavior of validated modules
-- Module validation results must be documented before integration
-
-**Alternatives Considered:**
-- **Big Bang Integration**: Integrating all modules at once without independent validation
-  - Rejected: Too complex, makes debugging difficult, bugs compound
-- **Minimal Validation**: Only basic unit tests before integration
-  - Rejected: Insufficient to catch complexity-related bugs, doesn't validate contracts properly
-- **Post-Integration Validation Only**: Validating only after integration
-  - Rejected: Doesn't catch module-level bugs early, increases debugging complexity
-
-**Cross-References**: [REQ:MODULE_VALIDATION], [IMPL:MODULE_VALIDATION]
+If migrating from a single monolithic `architecture-decisions.md` file, see `migrate-architecture-decisions.md` for step-by-step instructions.
 

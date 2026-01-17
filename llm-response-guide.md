@@ -22,20 +22,20 @@ Read these documents in order:
 
 1. **Define Requirements** (`requirements.md`)
    - List all functional and non-functional requirements
-   - Assign `[REQ:*]` tokens to each requirement
+   - Assign `[REQ-*]` tokens to each requirement
    - Mark status: ⏳ Planned or ✅ Implemented
    - Customize the template structure for your project's needs
 
 2. **Document Architecture Decisions** (`architecture-decisions.md`)
    - Document high-level design choices
-   - Assign `[ARCH:*]` tokens
-   - Cross-reference `[REQ:*]` tokens
+   - Assign `[ARCH-*]` tokens
+   - Cross-reference `[REQ-*]` tokens
    - Add language/framework-specific architecture decisions
 
 3. **Document Implementation Decisions** (`implementation-decisions.md`)
    - Document low-level implementation choices
-   - Assign `[IMPL:*]` tokens
-   - Cross-reference both `[ARCH:*]` and `[REQ:*]` tokens
+   - Assign `[IMPL-*]` tokens
+   - Cross-reference both `[ARCH-*]` and `[REQ-*]` tokens
    - Add language-specific implementation patterns
 
 4. **Maintain Token Registry** (`semantic-tokens.md`)
@@ -76,7 +76,7 @@ Read these documents in order:
 - Use semantic tokens in code comments
 - Use semantic tokens in test names/comments
 - Update documentation AS YOU WORK (not at the end)
-- **MANDATORY**: After you finish any code or test changes, verify semantic tokens in the modified source, tests, and documentation still align with the same `[REQ:*]`, `[ARCH:*]`, `[IMPL:*]`, and `[TEST:*]` tokens, and refresh `semantic-tokens.md` before claiming completion.
+- **MANDATORY**: After you finish any code or test changes, verify semantic tokens in the modified source, tests, and documentation still align with the same `[REQ-*]`, `[ARCH-*]`, `[IMPL-*]`, and `[TEST-*]` tokens, and refresh `semantic-tokens.md` before claiming completion.
 - Mark tasks complete in `tasks.md` as you finish them
 ## Documentation Requirements
 
@@ -86,13 +86,13 @@ Read these documents in order:
 
 ### Required Sections in Your Project
 
-1. **Requirements** - with `[REQ:*]` tokens (in `requirements.md`)
-2. **Architecture Decisions** - with `[ARCH:*]` tokens (in `architecture-decisions.md`)
+1. **Requirements** - with `[REQ-*]` tokens (in `requirements.md`)
+2. **Architecture Decisions** - with `[ARCH-*]` tokens (in `architecture-decisions.md`)
    - **MUST** be recorded IMMEDIATELY when made
-   - **MUST** cross-reference `[REQ:*]` tokens
-3. **Implementation Decisions** - with `[IMPL:*]` tokens (in `implementation-decisions.md`)
+   - **MUST** cross-reference `[REQ-*]` tokens
+3. **Implementation Decisions** - with `[IMPL-*]` tokens (in `implementation-decisions.md`)
    - **MUST** be recorded IMMEDIATELY when made
-   - **MUST** cross-reference both `[ARCH:*]` and `[REQ:*]` tokens
+   - **MUST** cross-reference both `[ARCH-*]` and `[REQ-*]` tokens
 4. **Semantic Token Registry** - maintained in `semantic-tokens.md`
    - **MUST** be updated immediately when creating new tokens
 5. **Task Planning** - maintained in `tasks.md`

@@ -1,6 +1,6 @@
 # STDD Methodology Template
 
-**STDD Methodology Version**: 1.2.0
+**STDD Methodology Version**: 1.3.0
 
 This repository ([https://github.com/fareedst/stdd](https://github.com/fareedst/stdd)) contains the **Semantic Token-Driven Development (STDD)** methodology template that can be used as a base for development projects in any language.
 
@@ -49,10 +49,10 @@ cp .cursorrules .cursorrules        # Copy Cursor loader if using Cursor
 
 1. **User Request**: "Add user authentication"
 2. **AI Response (Planning Phase - NO CODE YET)**: 
-   - Creates `[REQ:USER_AUTH]` token in `requirements.md`
+   - Creates `[REQ-USER_AUTH]` token in `requirements.md`
    - Expands into pseudo-code and decisions
-   - **IMMEDIATELY** documents architecture decisions in `architecture-decisions.md` with `[ARCH:*]` tokens
-   - **IMMEDIATELY** documents implementation decisions in `implementation-decisions.md` with `[IMPL:*]` tokens
+   - **IMMEDIATELY** documents architecture decisions in `architecture-decisions.md` with `[ARCH-*]` tokens
+   - **IMMEDIATELY** documents implementation decisions in `implementation-decisions.md` with `[IMPL-*]` tokens
    - **IMMEDIATELY** updates `semantic-tokens.md` with all new tokens
    - **IMMEDIATELY** creates tasks in `tasks.md` with priorities and semantic token references
    - **NO code changes yet**
@@ -113,9 +113,9 @@ After copying templates, your project should have:
 your-project/
 ├── AGENTS.md                 # Canonical AI agent instructions
 ├── .cursorrules              # Cursor IDE loader (optional, if using Cursor)
-├── requirements.md           # Your project requirements with [REQ:*] tokens
-├── architecture-decisions.md # Your project architecture decisions with [ARCH:*] tokens
-├── implementation-decisions.md # Your project implementation decisions with [IMPL:*] tokens
+├── requirements.md           # Your project requirements with [REQ-*] tokens
+├── architecture-decisions.md # Your project architecture decisions with [ARCH-*] tokens
+├── implementation-decisions.md # Your project implementation decisions with [IMPL-*] tokens
 ├── semantic-tokens.md        # Your project's semantic token registry
 ├── tasks.md                  # Your project's active task tracking
 └── [your source code]        # Your actual project code
@@ -165,9 +165,9 @@ your-project/
 
 | Task | Priority | Token Trail | Validation Evidence
 | --- | --- | --- | ---
-| Implement Parser Pipeline `[REQ:CFG_005]` | P0 | `[ARCH:FORMAT_PIPELINE] → [IMPL:PLACEHOLDER_ENGINE]` | Token audit + formatter unit test bundle
-| Validate Formatter Module | P1 | `[ARCH:MODULE_VALIDATION] → [IMPL:VALIDATION_SUITE]` | Contract test suite + `[PROC:TOKEN_VALIDATION]` run
-| Update Docs for New Feature | P2 | `[REQ:STDD_SETUP] → [ARCH:STDD_STRUCTURE] → [IMPL:STDD_FILES]` | Documentation review checklist
+| Implement Parser Pipeline `[REQ-CFG_005]` | P0 | `[ARCH-FORMAT_PIPELINE] → [IMPL-PLACEHOLDER_ENGINE]` | Token audit + formatter unit test bundle
+| Validate Formatter Module | P1 | `[ARCH-MODULE_VALIDATION] → [IMPL-VALIDATION_SUITE]` | Contract test suite + `[PROC-TOKEN_VALIDATION]` run
+| Update Docs for New Feature | P2 | `[REQ-STDD_SETUP] → [ARCH-STDD_STRUCTURE] → [IMPL-STDD_FILES]` | Documentation review checklist
 
 *Hypothetical task descriptions showing how `tasks.md` should carry semantic tokens and validation artifacts.*
 
@@ -191,9 +191,9 @@ The semantic token system and development process remain the same regardless of 
 - `CHANGELOG.md` - Version history
 
 ### Template Files (Copy to Your Project)
-- `requirements.template.md` - Template for requirements with `[REQ:*]` tokens
-- `architecture-decisions.template.md` - Template for architecture decisions with `[ARCH:*]` tokens
-- `implementation-decisions.template.md` - Template for implementation decisions with `[IMPL:*]` tokens
+- `requirements.template.md` - Template for requirements with `[REQ-*]` tokens
+- `architecture-decisions.template.md` - Template for architecture decisions with `[ARCH-*]` tokens
+- `implementation-decisions.template.md` - Template for implementation decisions with `[IMPL-*]` tokens
 - `processes.template.md` - Template for process tracking
 - `semantic-tokens.template.md` - Template for semantic token registry
 - `tasks.template.md` - Template for task tracking

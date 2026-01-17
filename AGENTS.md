@@ -2,7 +2,7 @@
 
 **Scope**: Entire repository (root unless overridden by nested `AGENTS.md` files)
 
-**STDD Methodology Version**: 1.2.0
+**STDD Methodology Version**: 1.3.0
 
 This document centralizes every instruction AI coding assistants must follow while working in STDD repositories. It supersedes reminders in `.ai-agent-instructions`, `.cursorrules`, and README snippets. Treat it as the canonical reference when configuring prompts, IDE rules, or agent workflows.
 
@@ -25,19 +25,19 @@ This document centralizes every instruction AI coding assistants must follow whi
 ## 2. Core STDD Obligations
 
 - **Semantic Token Discipline**
-  - Use `[REQ:*]`, `[ARCH:*]`, `[IMPL:*]`, and other STDD tokens everywhere (requirements, docs, code, tests).
+  - Use `[REQ-*]`, `[ARCH-*]`, `[IMPL-*]`, and other STDD tokens everywhere (requirements, docs, code, tests).
   - Maintain traceability: Requirements → Architecture → Implementation → Tests → Code.
   - Update `semantic-tokens.md` immediately when introducing new tokens.
 - **Documentation-First Flow**
   - Expand requirements into pseudo-code and decisions before any code changes.
-  - Record architecture decisions (`architecture-decisions.md`) with `[ARCH:*]` tokens cross-referencing requirements.
-  - Record implementation decisions (`implementation-decisions.md`) with `[IMPL:*]` tokens cross-referencing `[ARCH:*]` and `[REQ:*]` tokens.
+  - Record architecture decisions (`architecture-decisions.md`) with `[ARCH-*]` tokens cross-referencing requirements.
+  - Record implementation decisions (`implementation-decisions.md`) with `[IMPL-*]` tokens cross-referencing `[ARCH-*]` and `[REQ-*]` tokens.
   - Never defer documentation; update as you think, design, and implement.
 - **Task Management**
   - Plan work in `tasks.md` before implementing.
   - Break work into trackable tasks and subtasks, each referencing at least one semantic token.
   - Assign priorities: P0 > P1 > P2 > P3. Remove subtasks when parents complete.
-- **Module Validation Mandate `[REQ:MODULE_VALIDATION]`**
+- **Module Validation Mandate `[REQ-MODULE_VALIDATION]`**
   - Identify logical modules and their boundaries before implementation.
   - Develop and validate each module independently (unit tests with mocks, contract tests, edge cases, error handling) before integration.
   - Only integrate modules after validation passes. Document validation results.
@@ -65,7 +65,7 @@ This document centralizes every instruction AI coding assistants must follow whi
 - [ ] Maintain module boundaries and validate independently before integration
 - [ ] Update `tasks.md` as subtasks progress or complete
 - [ ] Keep descriptive debug output (e.g., `DEBUG:`, `TRACE:`, `DIAGNOSTIC:`) to document decision points and execution flow; retain unless explicitly asked to remove
-- [ ] Record new `[ARCH:*]` and `[IMPL:*]` entries immediately with cross-references
+- [ ] Record new `[ARCH-*]` and `[IMPL-*]` entries immediately with cross-references
 
 ### 3.4 After Completing Work
 - [ ] `semantic-tokens.md` reflects every token referenced in code/tests/docs
@@ -91,9 +91,9 @@ This document centralizes every instruction AI coding assistants must follow whi
 | --- | --- |
 | `ai-principles.md` | Master principles and process guide (read fully every session) |
 | `semantic-tokens.md` | Canonical registry of all semantic tokens |
-| `requirements.md` | Requirements with `[REQ:*]` tokens (copy from template per project) |
-| `architecture-decisions.md` | `[ARCH:*]` records tied to requirements |
-| `implementation-decisions.md` | `[IMPL:*]` records tied to requirements + architecture |
+| `requirements.md` | Requirements with `[REQ-*]` tokens (copy from template per project) |
+| `architecture-decisions.md` | `[ARCH-*]` records tied to requirements |
+| `implementation-decisions.md` | `[IMPL-*]` records tied to requirements + architecture |
 | `tasks.md` | Task tracking with priorities and semantic token references |
 | `.cursorrules` | IDE loader that points back to this document |
 | `.ai-agent-instructions` | Quick reminder pointing to this document |

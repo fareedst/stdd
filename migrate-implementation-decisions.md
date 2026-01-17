@@ -1,6 +1,6 @@
 # Migration Guide: Implementation Decisions File Structure
 
-**STDD Methodology Version**: 1.2.0  
+**STDD Methodology Version**: 1.3.0  
 **Audience**: AI Agents and Contributors
 
 This document provides step-by-step instructions for migrating a project from a **monolithic** `implementation-decisions.md` file to the **scalable index + detail files** structure.
@@ -22,8 +22,8 @@ Consider migration when:
 Before starting migration:
 
 - [ ] Confirm `implementation-decisions.md` exists and contains implementation decisions
-- [ ] Identify all `[IMPL:*]` tokens in the file
-- [ ] Verify `semantic-tokens.md` has entries for all `[IMPL:*]` tokens
+- [ ] Identify all `[IMPL-*]` tokens in the file
+- [ ] Verify `semantic-tokens.md` has entries for all `[IMPL-*]` tokens
 - [ ] Create a backup of the current file (or ensure git history is clean)
 - [ ] Review the target structure in `implementation-decisions.template.md`
 
@@ -42,29 +42,29 @@ mkdir -p stdd/implementation-decisions
 Scan the monolithic file for sections. Each section typically follows this pattern:
 
 ```markdown
-## N. Section Title [IMPL:TOKEN_NAME] [ARCH:*] [REQ:*]
+## N. Section Title [IMPL-TOKEN_NAME] [ARCH-*] [REQ-*]
 ```
 
-Create a list of all `[IMPL:*]` tokens found:
+Create a list of all `[IMPL-*]` tokens found:
 
 ```bash
-grep -oE '\[IMPL:[A-Z_]+\]' stdd/implementation-decisions.md | sort -u
+grep -oE '\[IMPL-[A-Z_]+\]' stdd/implementation-decisions.md | sort -u
 ```
 
 ### Step 3: Extract Each Section to a Detail File
 
-For each `[IMPL:TOKEN_NAME]` found:
+For each `[IMPL-TOKEN_NAME]` found:
 
 1. **Determine the filename**:
-   - Token: `[IMPL:CONFIG_STRUCT]`
+   - Token: `[IMPL-CONFIG_STRUCT]`
    - Filename: `IMPL-CONFIG_STRUCT.md` (replace `:` with `-`, remove brackets)
 
 2. **Create the detail file** with this structure:
 
 ```markdown
-# [IMPL:TOKEN_NAME] Implementation Title
+# [IMPL-TOKEN_NAME] Implementation Title
 
-**Cross-References**: [ARCH:RELATED] [REQ:RELATED]  
+**Cross-References**: [ARCH-RELATED] [REQ-RELATED]  
 **Status**: Active  
 **Created**: YYYY-MM-DD  
 **Last Updated**: YYYY-MM-DD
@@ -87,11 +87,11 @@ For each `[IMPL:TOKEN_NAME]` found:
 
 (Copy or identify code locations)
 
-## Token Coverage `[PROC:TOKEN_AUDIT]`
+## Token Coverage `[PROC-TOKEN_AUDIT]`
 
 (Copy or create audit checklist)
 
-## Validation Evidence `[PROC:TOKEN_VALIDATION]`
+## Validation Evidence `[PROC-TOKEN_VALIDATION]`
 
 (Copy or create validation table)
 
@@ -119,7 +119,7 @@ After all detail files are created, build the index table for the main file.
 For each extracted section, create an index row:
 
 ```markdown
-| `[IMPL:TOKEN_NAME]` | Title | Active | [ARCH:*] [REQ:*] | [Detail](implementation-decisions/IMPL-TOKEN_NAME.md) |
+| `[IMPL-TOKEN_NAME]` | Title | Active | [ARCH-*] [REQ-*] | [Detail](implementation-decisions/IMPL-TOKEN_NAME.md) |
 ```
 
 ### Step 5: Replace Monolithic Content with Index
@@ -138,13 +138,13 @@ Transform `implementation-decisions.md`:
 
 ---
 
-## 1. Config Structure [IMPL:CONFIG_STRUCT] [ARCH:CONFIG_STRUCTURE] [REQ:CONFIGURATION]
+## 1. Config Structure [IMPL-CONFIG_STRUCT] [ARCH-CONFIG_STRUCTURE] [REQ-CONFIGURATION]
 (50+ lines of content)
 
-## 2. Error Handling [IMPL:ERROR_HANDLING] [ARCH:ERROR_HANDLING] [REQ:ERROR_HANDLING]
+## 2. Error Handling [IMPL-ERROR_HANDLING] [ARCH-ERROR_HANDLING] [REQ-ERROR_HANDLING]
 (80+ lines of content)
 
-## 3. Module Validation [IMPL:MODULE_VALIDATION] [ARCH:MODULE_VALIDATION] [REQ:MODULE_VALIDATION]
+## 3. Module Validation [IMPL-MODULE_VALIDATION] [ARCH-MODULE_VALIDATION] [REQ-MODULE_VALIDATION]
 (100+ lines of content)
 ```
 
@@ -173,9 +173,9 @@ This document serves as the **index** for all implementation decisions...
 
 | Token | Title | Status | Cross-References | Detail File |
 |-------|-------|--------|------------------|-------------|
-| `[IMPL:CONFIG_STRUCT]` | Config Structure | Active | [ARCH:CONFIG_STRUCTURE] [REQ:CONFIGURATION] | [Detail](implementation-decisions/IMPL-CONFIG_STRUCT.md) |
-| `[IMPL:ERROR_HANDLING]` | Error Handling | Active | [ARCH:ERROR_HANDLING] [REQ:ERROR_HANDLING] | [Detail](implementation-decisions/IMPL-ERROR_HANDLING.md) |
-| `[IMPL:MODULE_VALIDATION]` | Module Validation | Active | [ARCH:MODULE_VALIDATION] [REQ:MODULE_VALIDATION] | [Detail](implementation-decisions/IMPL-MODULE_VALIDATION.md) |
+| `[IMPL-CONFIG_STRUCT]` | Config Structure | Active | [ARCH-CONFIG_STRUCTURE] [REQ-CONFIGURATION] | [Detail](implementation-decisions/IMPL-CONFIG_STRUCT.md) |
+| `[IMPL-ERROR_HANDLING]` | Error Handling | Active | [ARCH-ERROR_HANDLING] [REQ-ERROR_HANDLING] | [Detail](implementation-decisions/IMPL-ERROR_HANDLING.md) |
+| `[IMPL-MODULE_VALIDATION]` | Module Validation | Active | [ARCH-MODULE_VALIDATION] [REQ-MODULE_VALIDATION] | [Detail](implementation-decisions/IMPL-MODULE_VALIDATION.md) |
 
 ### Status Values
 ...
@@ -222,19 +222,19 @@ done
 
 ### Verification Checklist
 
-- [ ] All `[IMPL:*]` tokens from the original file have corresponding detail files
+- [ ] All `[IMPL-*]` tokens from the original file have corresponding detail files
 - [ ] All detail files follow the standard template structure
 - [ ] The index table has an entry for each detail file
 - [ ] All links in the index table are valid
 - [ ] `semantic-tokens.md` has been updated
-- [ ] Cross-references (`[ARCH:*]`, `[REQ:*]`) are preserved in detail files
+- [ ] Cross-references (`[ARCH-*]`, `[REQ-*]`) are preserved in detail files
 - [ ] The original content is fully preserved (nothing lost)
 
 ### Validation Commands
 
 ```bash
 # Count tokens in original (if backup exists)
-grep -c '\[IMPL:' stdd/implementation-decisions.md.bak
+grep -c '\[IMPL-' stdd/implementation-decisions.md.bak
 
 # Count detail files created
 ls stdd/implementation-decisions/IMPL-*.md | wc -l
@@ -244,11 +244,11 @@ ls stdd/implementation-decisions/IMPL-*.md | wc -l
 
 ### Token Traceability Check
 
-For each `[IMPL:*]` token, verify the chain:
+For each `[IMPL-*]` token, verify the chain:
 1. Token exists in `semantic-tokens.md` registry
 2. Token has an entry in `implementation-decisions.md` index
 3. Token has a detail file in `implementation-decisions/`
-4. Detail file cross-references correct `[ARCH:*]` and `[REQ:*]` tokens
+4. Detail file cross-references correct `[ARCH-*]` and `[REQ-*]` tokens
 
 ---
 
@@ -256,14 +256,14 @@ For each `[IMPL:*]` token, verify the chain:
 
 ### Sections Without Proper Tokens
 
-If a section lacks an `[IMPL:*]` token:
+If a section lacks an `[IMPL-*]` token:
 1. Create an appropriate token following the naming convention
 2. Add the token to `semantic-tokens.md`
 3. Proceed with extraction
 
 ### Sections with Multiple Tokens
 
-If a section contains multiple `[IMPL:*]` tokens:
+If a section contains multiple `[IMPL-*]` tokens:
 1. Evaluate if they should be separate decisions
 2. If yes: Split into multiple detail files
 3. If no: Use the primary token for the filename, list others as aliases
@@ -276,7 +276,7 @@ The original file may have duplicate section numbers (e.g., two "## 2." sections
 
 ### Cross-References Between Implementation Decisions
 
-If one `[IMPL:*]` references another:
+If one `[IMPL-*]` references another:
 1. Use the "Related Decisions" section in the detail file
 2. Ensure bidirectional references where appropriate
 
@@ -308,7 +308,7 @@ If migration needs to be reverted:
 ### Original Section (in monolithic file)
 
 ```markdown
-## 3. Error Handling Implementation [IMPL:ERROR_HANDLING] [ARCH:ERROR_HANDLING] [REQ:ERROR_HANDLING]
+## 3. Error Handling Implementation [IMPL-ERROR_HANDLING] [ARCH-ERROR_HANDLING] [REQ-ERROR_HANDLING]
 
 ### Error Types
 - ValidationError: Invalid input
@@ -326,9 +326,9 @@ Errors are wrapped with context using the standard pattern.
 ### Extracted Detail File: `IMPL-ERROR_HANDLING.md`
 
 ```markdown
-# [IMPL:ERROR_HANDLING] Error Handling Implementation
+# [IMPL-ERROR_HANDLING] Error Handling Implementation
 
-**Cross-References**: [ARCH:ERROR_HANDLING] [REQ:ERROR_HANDLING]  
+**Cross-References**: [ARCH-ERROR_HANDLING] [REQ-ERROR_HANDLING]  
 **Status**: Active  
 **Created**: 2025-01-17  
 **Last Updated**: 2025-01-17
@@ -341,8 +341,8 @@ Implement structured error handling with typed errors, context wrapping, and app
 
 ## Rationale
 
-- Fulfills [REQ:ERROR_HANDLING] requirement for robust error handling
-- Follows [ARCH:ERROR_HANDLING] architecture decision
+- Fulfills [REQ-ERROR_HANDLING] requirement for robust error handling
+- Follows [ARCH-ERROR_HANDLING] architecture decision
 - Provides clear error types for different failure modes
 
 ## Implementation Approach
@@ -368,17 +368,17 @@ Errors are wrapped with context using the standard pattern to preserve the origi
 - `pkg/errors/types.go`: Error type definitions
 - `pkg/errors/wrap.go`: Error wrapping utilities
 
-## Token Coverage `[PROC:TOKEN_AUDIT]`
+## Token Coverage `[PROC-TOKEN_AUDIT]`
 
 Files/functions that must carry annotations:
-- [ ] `pkg/errors/types.go` - `[IMPL:ERROR_HANDLING]`
-- [ ] `pkg/errors/wrap.go` - `[IMPL:ERROR_HANDLING]`
+- [ ] `pkg/errors/types.go` - `[IMPL-ERROR_HANDLING]`
+- [ ] `pkg/errors/wrap.go` - `[IMPL-ERROR_HANDLING]`
 
-Tests that must reference `[REQ:ERROR_HANDLING]`:
+Tests that must reference `[REQ-ERROR_HANDLING]`:
 - [ ] `testErrorTypes_REQ_ERROR_HANDLING`
 - [ ] `testErrorWrapping_REQ_ERROR_HANDLING`
 
-## Validation Evidence `[PROC:TOKEN_VALIDATION]`
+## Validation Evidence `[PROC-TOKEN_VALIDATION]`
 
 | Date | Commit | Validation Result | Notes |
 |------|--------|-------------------|-------|
@@ -387,7 +387,7 @@ Tests that must reference `[REQ:ERROR_HANDLING]`:
 ## Related Decisions
 
 - Depends on: —
-- See also: [ARCH:ERROR_HANDLING], [REQ:ERROR_HANDLING]
+- See also: [ARCH-ERROR_HANDLING], [REQ-ERROR_HANDLING]
 
 ---
 
@@ -397,7 +397,7 @@ Tests that must reference `[REQ:ERROR_HANDLING]`:
 ### Index Entry Added
 
 ```markdown
-| `[IMPL:ERROR_HANDLING]` | Error Handling | Active | [ARCH:ERROR_HANDLING] [REQ:ERROR_HANDLING] | [Detail](implementation-decisions/IMPL-ERROR_HANDLING.md) |
+| `[IMPL-ERROR_HANDLING]` | Error Handling | Active | [ARCH-ERROR_HANDLING] [REQ-ERROR_HANDLING] | [Detail](implementation-decisions/IMPL-ERROR_HANDLING.md) |
 ```
 
 ---
@@ -407,7 +407,7 @@ Tests that must reference `[REQ:ERROR_HANDLING]`:
 When asked to migrate implementation decisions:
 
 1. **Read** the current `implementation-decisions.md` file
-2. **List** all `[IMPL:*]` tokens found
+2. **List** all `[IMPL-*]` tokens found
 3. **Create** the `implementation-decisions/` directory
 4. **For each token**:
    - Create detail file `IMPL-{TOKEN}.md`
