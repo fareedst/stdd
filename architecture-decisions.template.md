@@ -1,6 +1,6 @@
 # Architecture Decisions
 
-**STDD Methodology Version**: 1.1.0
+**STDD Methodology Version**: 1.2.0
 
 ## Overview
 This document captures the high-level architectural decisions for this project. All decisions are cross-referenced with requirements using semantic tokens `[REQ:*]` and assigned architecture tokens `[ARCH:*]` for traceability.

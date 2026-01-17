@@ -1,6 +1,6 @@
 # Semantic Tokens Directory
 
-**STDD Methodology Version**: 1.1.0
+**STDD Methodology Version**: 1.2.0
 
 ## Overview
 This document serves as the **central directory/registry** for all semantic tokens used in the project. Semantic tokens (`[REQ:*]`, `[ARCH:*]`, `[IMPL:*]`) provide a consistent vocabulary and traceability mechanism that ties together all documentation, code, and tests.
@@ -127,7 +127,7 @@ When referencing other tokens:
 
 ## Implementation Tokens Registry
 
-**📖 Full details**: See `implementation-decisions.md`
+**📖 Full details**: See `implementation-decisions.md` (index) and `implementation-decisions/` (detail files)
 
 - `[IMPL:CONFIG_STRUCT]` - Configuration structure implementation [ARCH:CONFIG_STRUCTURE] [REQ:CONFIGURATION]
 - `[IMPL:STDD_FILES]` - STDD file creation [ARCH:STDD_STRUCTURE] [REQ:STDD_SETUP]

@@ -5,6 +5,43 @@ All notable changes to the STDD (Semantic Token-Driven Development) methodology 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-01-17
+
+### Added
+
+- **Scalable Implementation Decisions Structure**: Transformed `implementation-decisions.template.md` from a monolithic file into an index + detail files pattern for scalability
+  - Main file now serves as a lightweight **index** with a table of all implementation decisions
+  - Individual decisions stored in `implementation-decisions/` directory as separate files (e.g., `IMPL-CONFIG_STRUCT.md`)
+  - Filename convention: Replace `:` with `-` to handle OS filename restrictions (`[IMPL:TOKEN]` → `IMPL-TOKEN.md`)
+  - Status tracking per decision: Active, Deprecated, Template, Superseded
+  - Optional domain-based grouping for very large projects
+
+- **Migration Guide** (`migrate-implementation-decisions.md`): Comprehensive AI agent instructions for migrating existing projects from monolithic implementation-decisions files to the new scalable structure
+  - Pre-migration checklist
+  - Step-by-step migration process with commands
+  - Post-migration verification
+  - Handling special cases (missing tokens, duplicates, cross-references)
+  - Complete worked example
+  - Rollback procedure
+
+- **Example Detail File** (`implementation-decisions.template/IMPL-MODULE_VALIDATION.md`): Complete reference implementation of a detail file
+
+### Changed
+
+- **`implementation-decisions.template.md`**: Now contains index table, detail file template, and instructions for the new structure
+- **`semantic-tokens.template.md`**: Updated Implementation Tokens Registry reference to point to both index and detail files directory
+- **Version Alignment**: Updated all methodology files to STDD v1.2.0
+
+### Rationale
+
+As projects grow, monolithic documentation files become unwieldy for both humans and AI agents. This change preserves all information while enabling:
+- Faster navigation and context loading
+- Cleaner git history per-decision
+- Reduced merge conflicts
+- Domain-based organization for large projects
+
+---
+
 ## [1.1.0] - 2025-12-19
 
 ### Added

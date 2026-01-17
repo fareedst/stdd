@@ -1,6 +1,6 @@
 # STDD Methodology Template
 
-**STDD Methodology Version**: 1.1.0
+**STDD Methodology Version**: 1.2.0
 
 This repository ([https://github.com/fareedst/stdd](https://github.com/fareedst/stdd)) contains the **Semantic Token-Driven Development (STDD)** methodology template that can be used as a base for development projects in any language.
 

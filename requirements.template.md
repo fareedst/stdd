@@ -1,6 +1,6 @@
 # Requirements Directory
 
-**STDD Methodology Version**: 1.1.0
+**STDD Methodology Version**: 1.2.0
 
 ## Overview
 This document serves as the **central listing/registry** for all requirements in this project. Each requirement has a unique semantic token `[REQ:IDENTIFIER]` for traceability.

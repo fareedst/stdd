@@ -1,267 +1,215 @@
 # Implementation Decisions
 
-**STDD Methodology Version**: 1.1.0
+**STDD Methodology Version**: 1.2.0
 
 ## Overview
-This document captures detailed implementation decisions for this project, including specific APIs, data structures, and algorithms. All decisions are cross-referenced with architecture decisions using `[ARCH:*]` tokens and requirements using `[REQ:*]` tokens for traceability.
 
-## Template Structure
+This document serves as the **index** for all implementation decisions in this project. Each implementation decision is stored in its own file within the `implementation-decisions/` directory for scalability.
 
-When documenting implementation decisions, use this format:
+All decisions are cross-referenced with architecture decisions using `[ARCH:*]` tokens and requirements using `[REQ:*]` tokens for traceability.
+
+## Directory Structure
+
+```
+stdd/
+├── implementation-decisions.md              # This index file
+├── implementation-decisions/                # Detail files directory
+│   ├── IMPL-CONFIG_STRUCT.md
+│   ├── IMPL-STDD_FILES.md
+│   ├── IMPL-MODULE_VALIDATION.md
+│   └── ...
+```
+
+## Filename Convention
+
+Token names contain `:` which is invalid in filenames on many operating systems. Use this mapping:
+
+| Token Format | Filename Format |
+|--------------|-----------------|
+| `[IMPL:CONFIG_STRUCT]` | `IMPL-CONFIG_STRUCT.md` |
+| `[IMPL:MODULE_VALIDATION]` | `IMPL-MODULE_VALIDATION.md` |
+
+**Rule**: Replace `[`, `]`, and `:` → Remove brackets, replace `:` with `-`, append `.md`
+
+## Notes
+
+- All implementation decisions MUST be recorded IMMEDIATELY when made
+- Each decision MUST include `[IMPL:*]` token and cross-reference both `[ARCH:*]` and `[REQ:*]` tokens
+- Implementation decisions are dependent on both architecture decisions and requirements
+- DO NOT defer implementation documentation - record decisions as they are made
+- Record where code/tests are annotated so `[PROC:TOKEN_AUDIT]` can succeed later
+- Include the most recent `[PROC:TOKEN_VALIDATION]` run information so future contributors know the last verified state
+- **Language-Specific Implementation**: Language-specific implementation details (APIs, libraries, syntax patterns, idioms) belong in implementation decisions. Code examples in documentation should use `[your-language]` placeholders or be language-agnostic pseudo-code unless demonstrating a specific language requirement. Requirements and architecture decisions should remain language-agnostic.
+
+## How to Add a New Implementation Decision
+
+1. **Create a new detail file** in `implementation-decisions/` using the naming convention above
+2. **Use the detail file template** (see below)
+3. **Add an entry to the index table** below
+4. **Update `semantic-tokens.md`** registry with the new `[IMPL:*]` token
+
+---
+
+## Implementation Decisions Index
+
+| Token | Title | Status | Cross-References | Detail File |
+|-------|-------|--------|------------------|-------------|
+| `[IMPL:CONFIG_STRUCT]` | Configuration Structure | Active | [ARCH:CONFIG_STRUCTURE] [REQ:CONFIGURATION] | [Detail](implementation-decisions/IMPL-CONFIG_STRUCT.md) |
+| `[IMPL:STDD_FILES]` | STDD File Creation | Active | [ARCH:STDD_STRUCTURE] [REQ:STDD_SETUP] | [Detail](implementation-decisions/IMPL-STDD_FILES.md) |
+| `[IMPL:EXAMPLE_IMPLEMENTATION]` | Core Implementation Example | Template | [ARCH:EXAMPLE_DECISION] [REQ:EXAMPLE_FEATURE] | [Detail](implementation-decisions/IMPL-EXAMPLE_IMPLEMENTATION.md) |
+| `[IMPL:ERROR_HANDLING]` | Error Handling | Active | [ARCH:ERROR_HANDLING] [REQ:ERROR_HANDLING] | [Detail](implementation-decisions/IMPL-ERROR_HANDLING.md) |
+| `[IMPL:TESTING]` | Testing Implementation | Active | [ARCH:TESTING_STRATEGY] [REQ:*] | [Detail](implementation-decisions/IMPL-TESTING.md) |
+| `[IMPL:CODE_STYLE]` | Code Style and Conventions | Active | — | [Detail](implementation-decisions/IMPL-CODE_STYLE.md) |
+| `[IMPL:MODULE_VALIDATION]` | Module Validation | Active | [ARCH:MODULE_VALIDATION] [REQ:MODULE_VALIDATION] | [Detail](implementation-decisions/IMPL-MODULE_VALIDATION.md) |
+
+### Status Values
+
+- **Active**: Currently in use and maintained
+- **Deprecated**: No longer recommended; kept for historical reference
+- **Template**: Example/template entry for reference
+- **Superseded**: Replaced by another decision (note the replacement in the detail file)
+
+---
+
+## Detail File Template
+
+Use this template when creating a new implementation decision file in `implementation-decisions/`:
 
 ```markdown
-## N. Implementation Title [IMPL:IDENTIFIER] [ARCH:RELATED_ARCHITECTURE] [REQ:RELATED_REQUIREMENT]
+# [IMPL:IDENTIFIER] Implementation Title
 
-### Decision: Brief description of the implementation decision
-**Rationale:**
+**Cross-References**: [ARCH:RELATED_ARCHITECTURE] [REQ:RELATED_REQUIREMENT]  
+**Status**: Active  
+**Created**: YYYY-MM-DD  
+**Last Updated**: YYYY-MM-DD
+
+---
+
+## Decision
+
+Brief description of the implementation decision.
+
+## Rationale
+
 - Why this implementation approach was chosen
 - What problems it solves
 - How it fulfills the architecture decision
 
-### Implementation Approach:
+## Implementation Approach
+
 - Specific technical details
 - Code structure or patterns
 - API design decisions
 
-**Code Markers**: Specific code locations, function names, or patterns to look for
+### Data Structures
 
-**Token Coverage** `[PROC:TOKEN_AUDIT]`:
-- Which files/functions must carry the `[IMPL:*] [ARCH:*] [REQ:*]` annotations
-- Which tests (names + locations) must reference the matching `[REQ:*]`
-
-**Validation Evidence** `[PROC:TOKEN_VALIDATION]`:
-- Latest `./scripts/validate_tokens.sh` (or repo equivalent) output summary
-- Date/commit hash of the validation run
-
-**Cross-References**: [ARCH:RELATED_ARCHITECTURE], [REQ:RELATED_REQUIREMENT]
-```
-
-## Notes
-
-- All implementation decisions MUST be recorded here IMMEDIATELY when made
-- Each decision MUST include `[IMPL:*]` token and cross-reference both `[ARCH:*]` and `[REQ:*]` tokens
-- Implementation decisions are dependent on both architecture decisions and requirements
-- DO NOT defer implementation documentation - record decisions as they are made
-- Record where code/tests are annotated so `[PROC:TOKEN_AUDIT]` can succeed later.
-- Include the most recent `[PROC:TOKEN_VALIDATION]` run information so future contributors know the last verified state.
-- **Language-Specific Implementation**: Language-specific implementation details (APIs, libraries, syntax patterns, idioms) belong in implementation decisions. Code examples in documentation should use `[your-language]` placeholders or be language-agnostic pseudo-code unless demonstrating a specific language requirement. Requirements and architecture decisions should remain language-agnostic.
-
----
-## 1. Configuration Structure [IMPL:CONFIG_STRUCT] [ARCH:CONFIG_STRUCTURE] [REQ:CONFIGURATION]
-
-### Config Type
 ```[your-language]
-// [IMPL:CONFIG_STRUCT] [ARCH:CONFIG_STRUCTURE] [REQ:CONFIGURATION]
-type Config struct {
-    // Add your configuration fields here
-    Field1 string
-    Field2 int
-    Field3 bool
-}
-```
-
-### Default Values
-- Field1: default value
-- Field2: default value
-- Field3: default value
-
-## 2. STDD File Creation [IMPL:STDD_FILES] [ARCH:STDD_STRUCTURE] [REQ:STDD_SETUP]
-
-### Implementation Approach:
-- Created `stdd/` directory.
-- Instantiated `requirements.md`, `architecture-decisions.md`, `implementation-decisions.md`, `semantic-tokens.md`, `tasks.md`, and `ai-principles.md` from templates.
-- Updated `.cursorrules` to enforce STDD rules.
-
-**Cross-References**: [ARCH:STDD_STRUCTURE], [REQ:STDD_SETUP]
-
-## 2. Core Implementation [IMPL:EXAMPLE_IMPLEMENTATION] [ARCH:EXAMPLE_DECISION] [REQ:EXAMPLE_FEATURE]
-
-### Data Structure
-```[your-language]
+// [IMPL:IDENTIFIER] [ARCH:RELATED_ARCHITECTURE] [REQ:RELATED_REQUIREMENT]
+// Define your data structures here
 type ExampleStruct struct {
     Field1 string
     Field2 int
 }
 ```
 
-### Implementation Approach
-- Approach description
-- Key algorithms
-- Performance considerations
+### Key Algorithms
+
+Description of key algorithms and their implementation.
 
 ### Platform-Specific Considerations
+
 - Platform 1: Specific considerations
 - Platform 2: Specific considerations
 
-## 3. Error Handling Implementation [IMPL:ERROR_HANDLING] [ARCH:ERROR_HANDLING] [REQ:ERROR_HANDLING]
+## Code Markers
 
-### Error Types
-```[your-language]
-// Define error types/constants for your language
-// Example patterns:
-// - Error constants or enums
-// - Error classes or types
-// - Error codes with messages
+Specific code locations, function names, or patterns to look for:
+- `path/to/file.ext`: Description of what's implemented there
+- Function `exampleFunction()`: What it does
+
+## Token Coverage `[PROC:TOKEN_AUDIT]`
+
+Files/functions that must carry the `[IMPL:*] [ARCH:*] [REQ:*]` annotations:
+- [ ] `path/to/implementation.ext` - Main implementation
+- [ ] `path/to/helper.ext` - Helper functions
+
+Tests that must reference the matching `[REQ:*]`:
+- [ ] `testFeatureName_REQ_IDENTIFIER` in `path/to/test_file.ext`
+
+## Validation Evidence `[PROC:TOKEN_VALIDATION]`
+
+| Date | Commit | Validation Result | Notes |
+|------|--------|-------------------|-------|
+| YYYY-MM-DD | `abc1234` | ✅ Pass | Initial validation |
+
+Latest `./scripts/validate_tokens.sh` output summary:
+```
+(paste relevant output here)
 ```
 
-### Error Wrapping
-```[your-language]
-// Wrap errors with context in your language's idiomatic way
-// Example patterns:
-// - Error wrapping with context
-// - Exception chaining
-// - Error propagation with additional information
+## Related Decisions
+
+- Depends on: [IMPL:OTHER_DECISION]
+- Supersedes: (if applicable)
+- See also: [ARCH:RELATED_ARCHITECTURE]
+
+---
+
+*Last validated: YYYY-MM-DD by [agent/contributor]*
 ```
 
-### Error Reporting
-- Error logging approach
-- Error propagation pattern
-- User-facing error messages
+---
 
-## 4. Testing Implementation [IMPL:TESTING] [ARCH:TESTING_STRATEGY] [REQ:*]
+## Quick Reference: Creating a New Implementation Decision
 
-**Note**: This implementation realizes the validation criteria specified in `requirements.md` and follows the testing strategy defined in `architecture-decisions.md`. Each test validates specific satisfaction criteria from requirements.
+```bash
+# 1. Create the detail file
+touch stdd/implementation-decisions/IMPL-YOUR_TOKEN.md
 
-### Unit Test Structure
-```[your-language]
-// Unit test structure for your language
-// Example pattern:
-function testExampleFeature_REQ_EXAMPLE_FEATURE() {
-    // [REQ:EXAMPLE_FEATURE] Validates expected behavior
-    testCases = [
-        {
-            name: "test case 1",
-            input: inputValue,
-            expected: expectedValue
-        }
-    ]
-    
-    // Run test cases
-    for each testCase in testCases {
-        result = functionUnderTest(testCase.input)
-        assert result equals testCase.expected
-    }
-}
+# 2. Copy the template above into the new file
+
+# 3. Fill in the details
+
+# 4. Add entry to the index table in this file
+
+# 5. Update semantic-tokens.md registry
 ```
-> **Remember**: Without the `[REQ:*]` suffix + inline comment, this test fails `[PROC:TOKEN_AUDIT]`.
 
-### Integration Test Structure
-```[your-language]
-// Integration test structure for your language
-function testIntegrationScenario_REQ_EXAMPLE_FEATURE() {
-    // [REQ:EXAMPLE_FEATURE] End-to-end validation comment
-    // Setup: Prepare test environment
-    // Execute: Run integration scenario
-    // Verify: Assert expected outcomes
-}
+---
+
+## Grouping by Domain (Optional)
+
+For very large projects, organize detail files by domain:
+
 ```
-> **Log** the execution of these tests alongside your `[PROC:TOKEN_VALIDATION]` run so future audits see when behavior was last verified.
+implementation-decisions/
+├── core/
+│   ├── IMPL-CONFIG_STRUCT.md
+│   └── IMPL-ERROR_HANDLING.md
+├── auth/
+│   ├── IMPL-AUTH_FLOW.md
+│   └── IMPL-SESSION_MGMT.md
+└── api/
+    └── IMPL-REST_ENDPOINTS.md
+```
 
-## 5. Code Style and Conventions [IMPL:CODE_STYLE]
+When using subdirectories, update the Detail File column in the index:
+```markdown
+| `[IMPL:AUTH_FLOW]` | Auth Flow | Active | ... | [Detail](implementation-decisions/auth/IMPL-AUTH_FLOW.md) |
+```
 
-### Naming
-- Use descriptive names
-- Follow language naming conventions
-- Exported types/functions: PascalCase (or language equivalent)
-- Unexported: camelCase (or language equivalent)
+---
 
-### Documentation
-- Package-level documentation
-- Exported function documentation
-- Inline comments for complex logic
-- Examples in test files
+## Migration from Monolithic File
 
-### Formatting
-- Use standard formatter for chosen language
-- Use linter for code quality
+If migrating from a single `implementation-decisions.md` file:
 
-## 6. Module Validation Implementation [IMPL:MODULE_VALIDATION] [ARCH:MODULE_VALIDATION] [REQ:MODULE_VALIDATION]
-
-### Decision: Independent Module Validation Before Integration
-**Rationale:**
-- Implements [REQ:MODULE_VALIDATION] requirement for independent module validation
-- Realizes [ARCH:MODULE_VALIDATION] architecture decision
-- Ensures modules are validated independently before integration to eliminate complexity-related bugs
-
-### Implementation Approach:
-
-#### Module Identification Phase
-1. **Before Development**: Identify logical modules and document:
-   - Module boundaries and responsibilities
-   - Module interfaces and contracts
-   - Module dependencies
-   - Module validation criteria
-
-#### Module Development Phase
-2. **Develop Module Independently**:
-   - Implement module according to defined interface
-   - Use dependency injection or interfaces for dependencies
-   - Keep module isolated from other modules during development
-
-#### Module Validation Phase
-3. **Validate Module Independently** (BEFORE integration):
-   ```[your-language]
-   // Example: Module validation test structure
-   function testModuleName_IndependentValidation() {
-       // Setup: Create module with mocked dependencies
-       mockDependency = createMockDependency()
-       module = createModule(mockDependency)
-       
-       // Test: Unit tests with mocked dependencies
-       test("contract validation", function() {
-           result = module.process(input)
-           assert result equals expectedOutput
-       })
-       
-       // Test: Edge cases
-       test("edge cases", function() {
-           // Test boundary conditions
-       })
-       
-       // Test: Error handling
-       test("error handling", function() {
-           // Test error scenarios
-       })
-   }
-   ```
-
-4. **Validation Requirements**:
-   - **Unit Tests**: Comprehensive unit tests with all dependencies mocked
-   - **Contract Tests**: Validate input/output contracts
-   - **Edge Case Tests**: Test boundary conditions and edge cases
-   - **Error Handling Tests**: Test error scenarios and error propagation
-   - **Integration Tests with Test Doubles**: Test module with mocks/stubs/fakes for dependencies
-
-5. **Document Validation Results**:
-   - Document which validation tests passed
-   - Document any known limitations or assumptions
-   - Mark module as "validated" only after all validation criteria pass
-
-#### Integration Phase
-6. **Integrate Validated Modules** (ONLY after validation passes):
-   ```[your-language]
-   // Example: Integration after module validation
-   // [REQ:MODULE_VALIDATION] Only integrate after module validation passes
-   // [IMPL:MODULE_VALIDATION] [ARCH:MODULE_VALIDATION] [REQ:MODULE_VALIDATION]
-   function integrateModules(validatedModule1, validatedModule2) {
-       // Integration code that combines validated modules
-   }
-   ```
-
-7. **Integration Testing**:
-   - Test combined behavior of validated modules
-   - Verify integration points work correctly
-   - Test end-to-end scenarios with validated modules
-
-### Task Structure:
-- **Separate Tasks**: Module development, module validation, and integration must be separate tasks
-- **Task Dependencies**: Integration tasks depend on module validation tasks
-- **Task Priorities**: Module validation is typically P0 or P1 priority
-
-### Code Markers:
-- Look for module validation test files: `*_module_test.[ext]` or `*_validation_test.[ext]`
-- Look for integration test files: `*_integration_test.[ext]`
-- Code comments: `// [REQ:MODULE_VALIDATION] Module validated independently before integration`
-
-### Cross-References: [ARCH:MODULE_VALIDATION], [REQ:MODULE_VALIDATION]
+1. Create the `implementation-decisions/` directory
+2. For each numbered section in the old file:
+   - Create `IMPL-{TOKEN_NAME}.md` using the detail template
+   - Copy content into the new file
+   - Add metadata (Status, Created, Last Updated)
+3. Replace section content in this file with an index row
+4. Update `semantic-tokens.md` to note the new structure
+5. Verify all links work correctly
 

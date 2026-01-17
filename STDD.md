@@ -1,6 +1,6 @@
 # Semantic Token-Driven Development (STDD)
 
-**STDD Methodology Version**: 1.1.0
+**STDD Methodology Version**: 1.2.0
 
 **Semantic Token-Driven Development (STDD)** is a software development methodology where semantic tokens (`[REQ:*]`, `[ARCH:*]`, `[IMPL:*]`) are the central mechanism for preserving intent throughout the entire development lifecycle. STDD requires independent validation of logical modules before integration to eliminate bugs related to code complexity.
 

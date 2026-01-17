@@ -897,5 +897,5 @@ This document should be:
 
 **Last Updated**: 2025-11-22
 **Version**: 1.1.0
-**STDD Methodology Version**: 1.1.0
+**STDD Methodology Version**: 1.2.0
 
