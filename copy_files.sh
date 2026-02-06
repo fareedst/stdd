@@ -10,6 +10,7 @@
 #   - Template files (requirements.md, etc.) in stdd/
 #   - implementation-decisions/ directory in stdd/ with example detail files
 #   - architecture-decisions/ directory in stdd/ with example detail files
+#   - requirements/ directory in stdd/ with example detail files
 #   - Migration guides for converting monolithic decision files and token formats
 #
 # Designed for macOS (Bash 3.2+) and Ubuntu (Bash 5.x+).
@@ -31,9 +32,11 @@ fi
 STDD_DIR="${TARGET_PROJECT_DIR}/stdd"
 IMPL_DECISIONS_DIR="${STDD_DIR}/implementation-decisions"
 ARCH_DECISIONS_DIR="${STDD_DIR}/architecture-decisions"
+REQ_DIR="${STDD_DIR}/requirements"
 mkdir -p "${STDD_DIR}"
 mkdir -p "${IMPL_DECISIONS_DIR}"
 mkdir -p "${ARCH_DECISIONS_DIR}"
+mkdir -p "${REQ_DIR}"
 
 BASE_FILES=(
   ".cursorrules"
@@ -120,11 +123,31 @@ if [[ -d "${ARCH_TEMPLATE_DIR}" ]]; then
   fi
 fi
 
+# Copy requirements detail file examples
+REQ_TEMPLATE_DIR="${SCRIPT_DIR}/requirements.template"
+if [[ -d "${REQ_TEMPLATE_DIR}" ]]; then
+  req_count=0
+  for detail_file in "${REQ_TEMPLATE_DIR}"/*.md; do
+    if [[ -f "${detail_file}" ]]; then
+      filename="$(basename "${detail_file}")"
+      dest="${REQ_DIR}/${filename}"
+      if [[ ! -f "${dest}" ]]; then
+        cp -p "${detail_file}" "${dest}"
+        ((req_count++)) || true
+      fi
+    fi
+  done
+  if [[ ${req_count} -gt 0 ]]; then
+    echo "Copied ${req_count} requirements example(s) into ${REQ_DIR}."
+  fi
+fi
+
 # Copy migration guides (reference documents)
 MIGRATION_GUIDES=(
   "migrate-implementation-decisions.md"
   "migrate-architecture-decisions.md"
   "migrate-semantic-token-format.md"
+  "migrate-requirements.md"
 )
 
 for guide in "${MIGRATION_GUIDES[@]}"; do

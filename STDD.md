@@ -1,6 +1,6 @@
 # Semantic Token-Driven Development (STDD)
 
-**STDD Methodology Version**: 1.3.0
+**STDD Methodology Version**: 1.4.0
 
 **Semantic Token-Driven Development (STDD)** is a software development methodology where semantic tokens (`[REQ-*]`, `[ARCH-*]`, `[IMPL-*]`) are the central mechanism for preserving intent throughout the entire development lifecycle. STDD requires independent validation of logical modules before integration to eliminate bugs related to code complexity.
 
@@ -760,8 +760,11 @@ STDD enables several metrics:
 - `ai-principles.md` - Complete STDD principles and process guide
 - `stdd-language-spec.md` - STDD language specification (pseudo-code templates with semantic tokens)
 - `requirements.template.md` - Template for requirements with `[REQ-*]` tokens (copy to your project as `requirements.md`)
+- `requirements.template/` - Individual requirement detail file examples (copy to your project's `requirements/` directory)
 - `architecture-decisions.template.md` - Template for architecture decisions with `[ARCH-*]` tokens (copy to your project as `architecture-decisions.md`)
+- `architecture-decisions.template/` - Individual architecture decision detail file examples (copy to your project's `architecture-decisions/` directory)
 - `implementation-decisions.template.md` - Template for implementation decisions with `[IMPL-*]` tokens (copy to your project as `implementation-decisions.md`)
+- `implementation-decisions.template/` - Individual implementation decision detail file examples (copy to your project's `implementation-decisions/` directory)
 - `processes.template.md` - Template for process tracking (copy to your project as `processes.md`)
 - `semantic-tokens.template.md` - Template for semantic token registry (copy to your project as `semantic-tokens.md`)
 

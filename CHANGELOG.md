@@ -5,6 +5,49 @@ All notable changes to the STDD (Semantic Token-Driven Development) methodology 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2026-02-06
+
+### Added
+
+- **Scalable Requirements Structure**: Transformed `requirements.template.md` from a monolithic file into an index + detail files pattern for scalability
+  - Main file now serves as a lightweight **index** with a table of all requirements
+  - Individual requirements stored in `requirements.template/` directory as separate files (e.g., `REQ-STDD_SETUP.md`)
+  - Mirrors the architecture-decisions (v1.3.0) and implementation-decisions (v1.2.0) structure
+  - Status tracking per requirement: ✅ Implemented, ⏳ Planned, Template
+  - Optional domain-based grouping for very large projects
+
+- **Requirements Migration Guide** (`migrate-requirements.md`): Comprehensive AI agent instructions for migrating existing projects from monolithic requirements files to the new scalable structure
+  - Pre-migration checklist
+  - Step-by-step migration process with commands
+  - Post-migration verification
+  - Handling special cases (missing tokens, duplicates, cross-references)
+  - Complete worked example
+  - Rollback procedure
+
+- **Example Requirements Detail Files** (`requirements.template/`): Complete reference implementations
+  - `REQ-STDD_SETUP.md`
+  - `REQ-MODULE_VALIDATION.md`
+  - `REQ-IDENTIFIER.md` (template example)
+
+### Changed
+
+- **`requirements.template.md`**: Now contains index table, detail file template, and instructions for the new structure
+- **`copy_files.sh`**: Updated to copy requirements detail files from `requirements.template/` directory
+- **`semantic-tokens.template.md`**: Updated Requirements Tokens Registry reference to point to both index and detail files directory
+- **Cross-references**: Updated `ai-principles.md`, `AGENTS.md`, `README.md`, and `STDD.md` to reflect new requirements structure
+- **Version Alignment**: Updated all methodology files to STDD v1.4.0
+
+### Rationale
+
+As projects grow, monolithic requirements files become unwieldy for both humans and AI agents. This change (completing the pattern started with implementation-decisions in v1.2.0 and architecture-decisions in v1.3.0) preserves all information while enabling:
+- Faster navigation and context loading
+- Cleaner git history per-requirement
+- Reduced merge conflicts
+- Domain-based organization for large projects
+- Consistent pattern across all STDD documentation types (requirements, architecture, implementation)
+
+---
+
 ## [1.3.0] - 2026-01-17
 
 ### Added

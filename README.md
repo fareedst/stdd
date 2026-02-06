@@ -1,6 +1,6 @@
 # STDD Methodology Template
 
-**STDD Methodology Version**: 1.3.0
+**STDD Methodology Version**: 1.4.0
 
 This repository ([https://github.com/fareedst/stdd](https://github.com/fareedst/stdd)) contains the **Semantic Token-Driven Development (STDD)** methodology template that can be used as a base for development projects in any language.
 
@@ -33,8 +33,14 @@ This repository ([https://github.com/fareedst/stdd](https://github.com/fareedst/
 # In your project directory (after cloning/downloading the STDD repository)
 mkdir -p stdd
 cp requirements.template.md stdd/requirements.md
+mkdir -p stdd/requirements
+cp requirements.template/*.md stdd/requirements/
 cp architecture-decisions.template.md stdd/architecture-decisions.md
+mkdir -p stdd/architecture-decisions
+cp architecture-decisions.template/*.md stdd/architecture-decisions/
 cp implementation-decisions.template.md stdd/implementation-decisions.md
+mkdir -p stdd/implementation-decisions
+cp implementation-decisions.template/*.md stdd/implementation-decisions/
 cp processes.template.md stdd/processes.md
 cp semantic-tokens.template.md stdd/semantic-tokens.md
 cp tasks.template.md stdd/tasks.md
@@ -98,9 +104,12 @@ This repository contains:
 - `VERSION` - Current methodology version
 
 ### Project Template Files (Copy to Your Project)
-- `requirements.template.md` - Template for project requirements
-- `architecture-decisions.template.md` - Template for architecture decisions
-- `implementation-decisions.template.md` - Template for implementation decisions
+- `requirements.template.md` - Template for project requirements (index file)
+- `requirements.template/` - Individual requirement detail file examples
+- `architecture-decisions.template.md` - Template for architecture decisions (index file)
+- `architecture-decisions.template/` - Individual architecture decision detail file examples
+- `implementation-decisions.template.md` - Template for implementation decisions (index file)
+- `implementation-decisions.template/` - Individual implementation decision detail file examples
 - `processes.template.md` - Template for process tracking
 - `semantic-tokens.template.md` - Template for semantic token registry
 - `tasks.template.md` - Template for task tracking
@@ -113,11 +122,24 @@ After copying templates, your project should have:
 your-project/
 ├── AGENTS.md                 # Canonical AI agent instructions
 ├── .cursorrules              # Cursor IDE loader (optional, if using Cursor)
-├── requirements.md           # Your project requirements with [REQ-*] tokens
-├── architecture-decisions.md # Your project architecture decisions with [ARCH-*] tokens
-├── implementation-decisions.md # Your project implementation decisions with [IMPL-*] tokens
-├── semantic-tokens.md        # Your project's semantic token registry
-├── tasks.md                  # Your project's active task tracking
+├── stdd/
+│   ├── requirements.md       # Your project requirements index with [REQ-*] tokens
+│   ├── requirements/         # Individual requirement detail files
+│   │   ├── REQ-STDD_SETUP.md
+│   │   ├── REQ-MODULE_VALIDATION.md
+│   │   └── ...
+│   ├── architecture-decisions.md  # Your project architecture decisions index with [ARCH-*] tokens
+│   ├── architecture-decisions/    # Individual architecture decision detail files
+│   │   ├── ARCH-STDD_STRUCTURE.md
+│   │   ├── ARCH-MODULE_VALIDATION.md
+│   │   └── ...
+│   ├── implementation-decisions.md # Your project implementation decisions index with [IMPL-*] tokens
+│   ├── implementation-decisions/   # Individual implementation decision detail files
+│   │   ├── IMPL-MODULE_VALIDATION.md
+│   │   └── ...
+│   ├── semantic-tokens.md    # Your project's semantic token registry
+│   ├── tasks.md              # Your project's active task tracking
+│   └── processes.md          # Your project's process tracking
 └── [your source code]        # Your actual project code
 ```
 
@@ -191,9 +213,12 @@ The semantic token system and development process remain the same regardless of 
 - `CHANGELOG.md` - Version history
 
 ### Template Files (Copy to Your Project)
-- `requirements.template.md` - Template for requirements with `[REQ-*]` tokens
-- `architecture-decisions.template.md` - Template for architecture decisions with `[ARCH-*]` tokens
-- `implementation-decisions.template.md` - Template for implementation decisions with `[IMPL-*]` tokens
+- `requirements.template.md` - Template for requirements with `[REQ-*]` tokens (index file)
+- `requirements.template/` - Individual requirement detail file examples
+- `architecture-decisions.template.md` - Template for architecture decisions with `[ARCH-*]` tokens (index file)
+- `architecture-decisions.template/` - Individual architecture decision detail file examples
+- `implementation-decisions.template.md` - Template for implementation decisions with `[IMPL-*]` tokens (index file)
+- `implementation-decisions.template/` - Individual implementation decision detail file examples
 - `processes.template.md` - Template for process tracking
 - `semantic-tokens.template.md` - Template for semantic token registry
 - `tasks.template.md` - Template for task tracking

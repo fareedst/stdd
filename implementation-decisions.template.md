@@ -1,6 +1,6 @@
 # Implementation Decisions
 
-**STDD Methodology Version**: 1.3.0
+**STDD Methodology Version**: 1.4.0
 
 ## Overview
 

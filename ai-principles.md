@@ -857,13 +857,16 @@ This project follows AI-First Principles. Before making changes:
 
 ## 📚 Related Documents
 
-- `stdd/requirements.md` - Main design document with requirements (copy from `requirements.template.md` in STDD repository)
+- `stdd/requirements.md` - Main requirements document (index file with requirements registry) (copy from `requirements.template.md` in STDD repository)
+  - `stdd/requirements/` - Individual requirement detail files (e.g., `REQ-STDD_SETUP.md`, `REQ-MODULE_VALIDATION.md`)
 - `stdd/architecture-decisions.md` - **Semantic-token-linked record of architecture decisions dependent on requirements** (copy from `architecture-decisions.template.md`)
   - All `[ARCH-*]` tokens must be documented here
   - Must cross-reference `[REQ-*]` tokens from requirements
+  - `stdd/architecture-decisions/` - Individual architecture decision detail files
 - `stdd/implementation-decisions.md` - **Semantic-token-linked record of implementation decisions dependent on architecture and requirements** (copy from `implementation-decisions.template.md`)
   - All `[IMPL-*]` tokens must be documented here
   - Must cross-reference both `[ARCH-*]` and `[REQ-*]` tokens
+  - `stdd/implementation-decisions/` - Individual implementation decision detail files
 - `stdd/semantic-tokens.md` - Central registry of all semantic tokens (copy from `semantic-tokens.template.md`)
 - `stdd/tasks.md` - Active task tracking document (copy from `tasks.template.md`)
 - `stdd/processes.md` - Active process tracking document (copy from `processes.template.md`)
@@ -897,5 +900,5 @@ This document should be:
 
 **Last Updated**: 2025-11-22
 **Version**: 1.1.0
-**STDD Methodology Version**: 1.3.0
+**STDD Methodology Version**: 1.4.0
 

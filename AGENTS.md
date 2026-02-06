@@ -91,9 +91,12 @@ This document centralizes every instruction AI coding assistants must follow whi
 | --- | --- |
 | `ai-principles.md` | Master principles and process guide (read fully every session) |
 | `semantic-tokens.md` | Canonical registry of all semantic tokens |
-| `requirements.md` | Requirements with `[REQ-*]` tokens (copy from template per project) |
-| `architecture-decisions.md` | `[ARCH-*]` records tied to requirements |
-| `implementation-decisions.md` | `[IMPL-*]` records tied to requirements + architecture |
+| `requirements.md` | Requirements index with `[REQ-*]` tokens (copy from template per project) |
+| `requirements/` | Individual requirement detail files (e.g., `REQ-STDD_SETUP.md`) |
+| `architecture-decisions.md` | `[ARCH-*]` records tied to requirements (index file) |
+| `architecture-decisions/` | Individual architecture decision detail files |
+| `implementation-decisions.md` | `[IMPL-*]` records tied to requirements + architecture (index file) |
+| `implementation-decisions/` | Individual implementation decision detail files |
 | `tasks.md` | Task tracking with priorities and semantic token references |
 | `.cursorrules` | IDE loader that points back to this document |
 | `.ai-agent-instructions` | Quick reminder pointing to this document |

@@ -1,6 +1,6 @@
 # Tasks and Incomplete Subtasks
 
-**STDD Methodology Version**: 1.3.0
+**STDD Methodology Version**: 1.4.0
 
 ## Overview
 This document tracks all tasks and subtasks for implementing this project. Tasks are organized by priority and implementation phase.

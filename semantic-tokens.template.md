@@ -1,6 +1,6 @@
 # Semantic Tokens Directory
 
-**STDD Methodology Version**: 1.3.0
+**STDD Methodology Version**: 1.4.0
 
 ## Overview
 This document serves as the **central directory/registry** for all semantic tokens used in the project. Semantic tokens (`[REQ-*]`, `[ARCH-*]`, `[IMPL-*]`) provide a consistent vocabulary and traceability mechanism that ties together all documentation, code, and tests.
@@ -98,7 +98,7 @@ When referencing other tokens:
 
 ## Requirements Tokens Registry
 
-**📖 Full details**: See `requirements.md`
+**📖 Full details**: See `requirements.md` (index) and `requirements/` (detail files)
 
 ### Immutable Requirements
 

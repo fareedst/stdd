@@ -1,6 +1,6 @@
 # Migration Guide: Implementation Decisions File Structure
 
-**STDD Methodology Version**: 1.3.0  
+**STDD Methodology Version**: 1.4.0  
 **Audience**: AI Agents and Contributors
 
 This document provides step-by-step instructions for migrating a project from a **monolithic** `implementation-decisions.md` file to the **scalable index + detail files** structure.
