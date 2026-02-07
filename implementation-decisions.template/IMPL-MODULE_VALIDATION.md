@@ -101,12 +101,19 @@ function integrateModules(validatedModule1, validatedModule2) {
 - **Task Dependencies**: Integration tasks depend on module validation tasks
 - **Task Priorities**: Module validation is typically P0 or P1 priority
 
-## Code Markers
+## Code Locations
 
 Specific code locations, function names, or patterns to look for:
-- Module validation test files: `*_module_test.[ext]` or `*_validation_test.[ext]`
-- Integration test files: `*_integration_test.[ext]`
-- Code comments: `// [REQ-MODULE_VALIDATION] Module validated independently before integration`
+
+**Files**:
+- `*_module_test.[ext]` - Module validation test files
+- `*_validation_test.[ext]` - Module validation test files (alternate pattern)
+- `*_integration_test.[ext]` - Integration test files
+
+**Functions**:
+- `testModuleName_IndependentValidation_REQ_MODULE_VALIDATION()` - Module validation test function pattern
+
+_Note: In `implementation-decisions.yaml`, code locations are stored as structured YAML with files and functions lists for programmatic querying._
 
 ## Token Coverage `[PROC-TOKEN_AUDIT]`
 

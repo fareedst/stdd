@@ -108,13 +108,13 @@ This repository contains:
 
 ### Project Template Files (Copy to Your Project)
 - `requirements.template.md` - Template guide for requirements documentation
-- `requirements.template.yaml` - YAML database template for requirements with `[REQ-*]` tokens
+- `requirements.template.yaml` - YAML database template for requirements with `[REQ-*]` tokens **(v1.5.0: structured fields for traceability, rationale, criteria, metadata)**
 - `requirements.template/` - Individual requirement detail file examples
 - `architecture-decisions.template.md` - Template guide for architecture decisions documentation
-- `architecture-decisions.template.yaml` - YAML database template for architecture decisions with `[ARCH-*]` tokens
+- `architecture-decisions.template.yaml` - YAML database template for architecture decisions with `[ARCH-*]` tokens **(v1.5.0: structured fields for traceability, rationale, alternatives, metadata)**
 - `architecture-decisions.template/` - Individual architecture decision detail file examples
 - `implementation-decisions.template.md` - Template guide for implementation decisions documentation
-- `implementation-decisions.template.yaml` - YAML database template for implementation decisions with `[IMPL-*]` tokens
+- `implementation-decisions.template.yaml` - YAML database template for implementation decisions with `[IMPL-*]` tokens **(v1.5.0: structured fields for traceability, rationale, code_locations, metadata)**
 - `implementation-decisions.template/` - Individual implementation decision detail file examples
 - `processes.template.md` - Template for process tracking including `[PROC-YAML_DB_OPERATIONS]`
 - `semantic-tokens.template.md` - Template for semantic token registry
@@ -155,6 +155,34 @@ your-project/
 **Note**: The methodology documentation files (`STDD.md`, `ai-principles.md`) remain in the [STDD repository](https://github.com/fareedst/stdd) as reference. You don't need to copy them to your project unless you want local copies.
 
 ## Key Principles
+
+### v1.5.0 Structured YAML Schema
+
+The YAML index files use **structured, machine-parseable fields** instead of markdown-formatted strings:
+
+- **Structured traceability**: `traceability.architecture[]`, `traceability.tests[]` - Direct list access
+- **Structured rationale**: `rationale.why`, `rationale.problems_solved[]`, `rationale.benefits[]` - Organized reasoning
+- **Structured criteria**: Lists of items with optional metrics/coverage for precise validation
+- **Structured metadata**: Grouped `created`, `last_updated`, `last_validated` with date/author/reason/result
+
+**Query Examples**:
+```bash
+# Get architecture dependencies
+yq '.REQ-STDD_SETUP.traceability.architecture[]' stdd/requirements.yaml
+
+# Get satisfaction criteria
+yq '.REQ-STDD_SETUP.satisfaction_criteria[].criterion' stdd/requirements.yaml
+
+# Get alternatives considered
+yq '.ARCH-STDD_STRUCTURE.alternatives_considered[].name' stdd/architecture-decisions.yaml
+
+# Get code file locations
+yq '.IMPL-STDD_FILES.code_locations.files[].path' stdd/implementation-decisions.yaml
+```
+
+This enables **direct field access**, **structured queries**, **easy filtering**, and **better tool integration** compared to parsing markdown-formatted strings.
+
+---
 
 1. **Semantic Token Cross-Referencing**
    - All code, tests, requirements, architecture, and implementation decisions MUST be cross-referenced using semantic tokens
@@ -223,13 +251,13 @@ The semantic token system and development process remain the same regardless of 
 
 ### Template Files (Copy to Your Project)
 - `requirements.template.md` - Template guide for requirements documentation
-- `requirements.template.yaml` - YAML database template for requirements with `[REQ-*]` tokens
+- `requirements.template.yaml` - YAML database template for requirements with `[REQ-*]` tokens **(v1.5.0: structured fields)**
 - `requirements.template/` - Individual requirement detail file examples
 - `architecture-decisions.template.md` - Template guide for architecture decisions documentation
-- `architecture-decisions.template.yaml` - YAML database template for architecture decisions with `[ARCH-*]` tokens
+- `architecture-decisions.template.yaml` - YAML database template for architecture decisions with `[ARCH-*]` tokens **(v1.5.0: structured fields)**
 - `architecture-decisions.template/` - Individual architecture decision detail file examples
 - `implementation-decisions.template.md` - Template guide for implementation decisions documentation
-- `implementation-decisions.template.yaml` - YAML database template for implementation decisions with `[IMPL-*]` tokens
+- `implementation-decisions.template.yaml` - YAML database template for implementation decisions with `[IMPL-*]` tokens **(v1.5.0: structured fields)**
 - `implementation-decisions.template/` - Individual implementation decision detail file examples
 - `processes.template.md` - Template for process tracking including `[PROC-YAML_DB_OPERATIONS]`
 - `semantic-tokens.template.md` - Template for semantic token registry

@@ -1,6 +1,6 @@
 # Architecture Decisions
 
-**STDD Methodology Version**: 1.4.0
+**STDD Methodology Version**: 1.5.0
 
 ## Overview
 
@@ -64,6 +64,18 @@ cat stdd/architecture-decisions.yaml
 # View specific decision
 yq '.ARCH-STDD_STRUCTURE' stdd/architecture-decisions.yaml
 
+# Get rationale for a decision
+yq '.ARCH-STDD_STRUCTURE.rationale.why' stdd/architecture-decisions.yaml
+
+# Get alternatives considered
+yq '.ARCH-STDD_STRUCTURE.alternatives_considered[].name' stdd/architecture-decisions.yaml
+
+# Get implementation approach summary
+yq '.ARCH-STDD_STRUCTURE.implementation_approach.summary' stdd/architecture-decisions.yaml
+
+# Get requirement dependencies
+yq '.ARCH-STDD_STRUCTURE.traceability.requirements[]' stdd/architecture-decisions.yaml
+
 # List all active decisions
 yq 'to_entries | map(select(.value.status == "Active")) | from_entries' stdd/architecture-decisions.yaml
 
@@ -91,21 +103,42 @@ ARCH-NEW_DECISION:
   status: Active
   cross_references:
     - REQ-RELATED_REQUIREMENT
-  created: 2026-02-06
-  last_updated: 2026-02-06
-  rationale: |
-    Why this decision was made
-  alternatives_considered: |
-    - **Alternative 1**: Why rejected
-    - **Alternative 2**: Why rejected
-  implementation_approach: |
-    - High-level approach
-    - Key components
-  traceability: |
-    **Requirements**: See `requirements.yaml` § REQ-RELATED_REQUIREMENT
-    **Implementation**: See `implementation-decisions.yaml` § IMPL-NEW_DECISION
-    **Tests**: testFeatureName_ARCH_NEW_DECISION
-    **Code**: // [ARCH-NEW_DECISION] in source files
+  rationale:
+    why: "Primary reason for this decision"
+    problems_solved:
+      - "Problem 1"
+      - "Problem 2"
+    benefits:
+      - "Benefit 1"
+      - "Benefit 2"
+  alternatives_considered:
+    - name: "Alternative 1"
+      pros:
+        - "Pro 1"
+      cons:
+        - "Con 1"
+      rejected_reason: "Why it was rejected"
+    - name: "Alternative 2"
+      pros:
+        - "Pro 1"
+      cons:
+        - "Con 1"
+      rejected_reason: "Why it was rejected"
+  implementation_approach:
+    summary: "High-level description of the approach"
+    details:
+      - "Key component 1"
+      - "Key component 2"
+      - "Integration point 1"
+  traceability:
+    requirements:
+      - REQ-RELATED_REQUIREMENT
+    implementation:
+      - IMPL-NEW_DECISION
+    tests:
+      - testFeatureName_ARCH_NEW_DECISION
+    code_annotations:
+      - ARCH-NEW_DECISION
   related_decisions:
     depends_on:
       - REQ-RELATED_REQUIREMENT
@@ -113,8 +146,18 @@ ARCH-NEW_DECISION:
       - IMPL-NEW_DECISION
     see_also: []
   detail_file: architecture-decisions/ARCH-NEW_DECISION.md
-  last_validated: 2026-02-06
-  last_validator: Your Name
+  metadata:
+    created:
+      date: 2026-02-06
+      author: "Your Name"
+    last_updated:
+      date: 2026-02-06
+      author: "Your Name"
+      reason: "Initial creation"
+    last_validated:
+      date: 2026-02-06
+      validator: "Your Name"
+      result: "pass"
 EOF
 ```
 

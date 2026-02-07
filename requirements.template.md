@@ -1,6 +1,6 @@
 # Requirements Directory
 
-**STDD Methodology Version**: 1.4.0
+**STDD Methodology Version**: 1.5.0
 
 ## Overview
 This document serves as the **central listing/registry** for all requirements in this project. Each requirement is stored in its own file within the `requirements/` directory for scalability. Each requirement has a unique semantic token `[REQ-IDENTIFIER]` for traceability.
@@ -60,6 +60,15 @@ cat stdd/requirements.yaml
 # View specific requirement
 yq '.REQ-STDD_SETUP' stdd/requirements.yaml
 
+# Get satisfaction criteria for a requirement
+yq '.REQ-STDD_SETUP.satisfaction_criteria[].criterion' stdd/requirements.yaml
+
+# Get validation methods for a requirement
+yq '.REQ-STDD_SETUP.validation_criteria[].method' stdd/requirements.yaml
+
+# Get architecture dependencies for a requirement
+yq '.REQ-STDD_SETUP.traceability.architecture[]' stdd/requirements.yaml
+
 # List all requirements by status
 yq 'to_entries | map(select(.value.status == "Implemented")) | from_entries' stdd/requirements.yaml
 
@@ -87,26 +96,49 @@ REQ-NEW_FEATURE:
   category: Functional
   priority: P1
   status: "Planned"
-  created: 2026-02-06
-  last_updated: 2026-02-06
-  rationale: |
-    Why this requirement exists
-  satisfaction_criteria: |
-    - How we know it's satisfied
-  validation_criteria: |
-    - How we verify it's met
-  traceability: |
-    **Architecture**: See `architecture-decisions.yaml` § ARCH-NEW_FEATURE
-    **Implementation**: See `implementation-decisions.yaml` § IMPL-NEW_FEATURE
-    **Tests**: testNewFeature_REQ_NEW_FEATURE
-    **Code**: // [REQ-NEW_FEATURE] in source files
+  rationale:
+    why: "Primary reason for this requirement"
+    problems_solved:
+      - "Problem 1"
+      - "Problem 2"
+    benefits:
+      - "Benefit 1"
+      - "Benefit 2"
+  satisfaction_criteria:
+    - criterion: "Criterion description 1"
+      metric: "Measurable target (optional)"
+    - criterion: "Criterion description 2"
+  validation_criteria:
+    - method: "Unit tests"
+      coverage: "All core functions"
+    - method: "Integration tests"
+      coverage: "End-to-end flows"
+  traceability:
+    architecture:
+      - ARCH-NEW_FEATURE
+    implementation:
+      - IMPL-NEW_FEATURE
+    tests:
+      - testNewFeature_REQ_NEW_FEATURE
+    code_annotations:
+      - REQ-NEW_FEATURE
   related_requirements:
     depends_on: []
     related_to: []
     supersedes: []
   detail_file: requirements/REQ-NEW_FEATURE.md
-  last_validated: 2026-02-06
-  last_validator: Your Name
+  metadata:
+    created:
+      date: 2026-02-06
+      author: "Your Name"
+    last_updated:
+      date: 2026-02-06
+      author: "Your Name"
+      reason: "Initial creation"
+    last_validated:
+      date: 2026-02-06
+      validator: "Your Name"
+      result: "pass"
 EOF
 ```
 

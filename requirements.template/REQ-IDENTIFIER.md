@@ -31,10 +31,12 @@ Why the requirement exists (WHY)
 
 ## Traceability
 
-- **Architecture**: See `architecture-decisions.md` § Decision Name [ARCH-IDENTIFIER]
-- **Implementation**: See `implementation-decisions.md` § Implementation Name [IMPL-IDENTIFIER]
+- **Architecture**: `ARCH-IDENTIFIER` (see `architecture-decisions.yaml`)
+- **Implementation**: `IMPL-IDENTIFIER` (see `implementation-decisions.yaml`)
 - **Tests**: `testFeatureName_REQ_IDENTIFIER` in test files
 - **Code**: `// [REQ-IDENTIFIER] Implementation comment` in source files
+
+_Note: In `requirements.yaml`, traceability is stored as structured YAML lists for programmatic querying._
 
 ## Related Requirements
 

@@ -31,9 +31,9 @@ Index files contained Markdown tables:
 | `[REQ-STDD_SETUP]` | STDD Methodology Setup | P0 | ✅ Implemented | Core | ... |
 ```
 
-### After (STDD v1.4.0+)
+### After (STDD v1.5.0+)
 
-Index files are YAML databases:
+Index files are YAML databases with structured fields:
 
 ```yaml
 REQ-STDD_SETUP:
@@ -41,10 +41,34 @@ REQ-STDD_SETUP:
   category: Functional
   priority: P0
   status: "Implemented"
-  created: 2025-11-08
-  last_updated: 2026-02-06
-  rationale: |
-    Why the requirement exists
+  rationale:
+    why: "To ensure traceability of intent from requirements to code"
+    problems_solved:
+      - "Loss of intent during development"
+    benefits:
+      - "Complete traceability"
+  satisfaction_criteria:
+    - criterion: "stdd/ directory exists with proper structure"
+  validation_criteria:
+    - method: "Manual verification"
+      coverage: "File existence checks"
+  traceability:
+    architecture:
+      - ARCH-STDD_STRUCTURE
+    implementation:
+      - IMPL-STDD_FILES
+    tests:
+      - Manual verification checklists
+    code_annotations:
+      - REQ-STDD_SETUP
+  metadata:
+    created:
+      date: 2025-11-08
+      author: "AI Agent"
+    last_updated:
+      date: 2026-02-06
+      author: "AI Agent"
+      reason: "Restructured to v1.5.0"
   ...
 ```
 
@@ -446,5 +470,239 @@ comm -23 arch_refs.txt req_tokens.txt
 
 ---
 
+## Migration from v1.4.0 to v1.5.0 (Schema Restructuring)
+
+**Audience**: Projects using STDD v1.4.0 YAML indexes  
+**Change Summary**: v1.5.0 replaces markdown-formatted string blobs with structured, machine-parseable YAML fields
+
+### What Changed
+
+v1.5.0 restructures five key fields to enable programmatic querying:
+
+1. **traceability**: From markdown string to structured map with lists
+2. **rationale**: From string to structured map with why/problems_solved/benefits
+3. **satisfaction_criteria** (requirements): From string to list of criterion items
+4. **validation_criteria** (requirements): From string to list of method items
+5. **alternatives_considered** (architecture): From string to list of alternative items
+6. **implementation_approach** (architecture/implementation): From string to structured map
+7. **code_markers → code_locations** (implementation): Renamed and restructured
+8. **metadata**: Grouped flat fields into structured metadata map
+
+### Migration Steps
+
+#### Step 1: Backup Your Project
+
+```bash
+git add .
+git commit -m "Backup before v1.5.0 migration"
+```
+
+#### Step 2: Update Template Files
+
+Download the new v1.5.0 templates:
+
+```bash
+# From STDD repository
+cp requirements.template.yaml /path/to/your/project/stdd/
+cp architecture-decisions.template.yaml /path/to/your/project/stdd/
+cp implementation-decisions.template.yaml /path/to/your/project/stdd/
+```
+
+#### Step 3: Migrate Each YAML File
+
+For each requirement in `requirements.yaml`:
+
+**v1.4.0 Format:**
+```yaml
+REQ-EXAMPLE:
+  created: 2026-02-06
+  last_updated: 2026-02-06
+  rationale: |
+    Why the requirement exists
+  satisfaction_criteria: |
+    - Criterion 1
+    - Criterion 2
+  validation_criteria: |
+    - Method 1
+    - Method 2
+  traceability: |
+    **Architecture**: See `architecture-decisions.yaml` § ARCH-EXAMPLE
+    **Tests**: testExample_REQ_EXAMPLE
+  last_validated: 2026-02-06
+  last_validator: "Agent"
+```
+
+**v1.5.0 Format:**
+```yaml
+REQ-EXAMPLE:
+  rationale:
+    why: "Why the requirement exists"
+    problems_solved:
+      - "Problem 1"
+    benefits:
+      - "Benefit 1"
+  satisfaction_criteria:
+    - criterion: "Criterion 1"
+    - criterion: "Criterion 2"
+  validation_criteria:
+    - method: "Method 1"
+      coverage: "Coverage description"
+    - method: "Method 2"
+      coverage: "Coverage description"
+  traceability:
+    architecture:
+      - ARCH-EXAMPLE
+    implementation:
+      - IMPL-EXAMPLE
+    tests:
+      - testExample_REQ_EXAMPLE
+    code_annotations:
+      - REQ-EXAMPLE
+  metadata:
+    created:
+      date: 2026-02-06
+      author: "Agent"
+    last_updated:
+      date: 2026-02-06
+      author: "Agent"
+      reason: "Migration to v1.5.0"
+    last_validated:
+      date: 2026-02-06
+      validator: "Agent"
+      result: "pass"
+```
+
+#### Step 4: Validation Script (Python)
+
+Use this script to automate migration:
+
+```python
+import yaml
+import re
+
+def migrate_requirement(req_data):
+    """Migrate a single requirement to v1.5.0 format"""
+    migrated = req_data.copy()
+    
+    # Migrate rationale
+    if isinstance(req_data.get('rationale'), str):
+        migrated['rationale'] = {
+            'why': req_data['rationale'].strip(),
+            'problems_solved': [],
+            'benefits': []
+        }
+    
+    # Migrate satisfaction_criteria
+    if isinstance(req_data.get('satisfaction_criteria'), str):
+        criteria = [c.strip('- ').strip() for c in req_data['satisfaction_criteria'].split('\n') if c.strip()]
+        migrated['satisfaction_criteria'] = [{'criterion': c} for c in criteria if c]
+    
+    # Migrate validation_criteria
+    if isinstance(req_data.get('validation_criteria'), str):
+        methods = [m.strip('- ').strip() for m in req_data['validation_criteria'].split('\n') if m.strip()]
+        migrated['validation_criteria'] = [{'method': m, 'coverage': ''} for m in methods if m]
+    
+    # Migrate traceability
+    if isinstance(req_data.get('traceability'), str):
+        trace_text = req_data['traceability']
+        migrated['traceability'] = {
+            'architecture': extract_tokens(trace_text, 'ARCH'),
+            'implementation': extract_tokens(trace_text, 'IMPL'),
+            'tests': extract_tests(trace_text),
+            'code_annotations': extract_tokens(trace_text, 'REQ')
+        }
+    
+    # Migrate metadata
+    migrated['metadata'] = {
+        'created': {
+            'date': req_data.get('created', 'YYYY-MM-DD'),
+            'author': req_data.get('last_validator', 'Unknown')
+        },
+        'last_updated': {
+            'date': req_data.get('last_updated', 'YYYY-MM-DD'),
+            'author': req_data.get('last_validator', 'Unknown'),
+            'reason': 'Migration to v1.5.0'
+        },
+        'last_validated': {
+            'date': req_data.get('last_validated', 'YYYY-MM-DD'),
+            'validator': req_data.get('last_validator', 'Unknown'),
+            'result': 'pass'
+        }
+    }
+    
+    # Remove old flat fields
+    for key in ['created', 'last_updated', 'last_validated', 'last_validator']:
+        migrated.pop(key, None)
+    
+    return migrated
+
+def extract_tokens(text, token_type):
+    """Extract tokens of a specific type from markdown text"""
+    pattern = f'{token_type}-[A-Z_]+'
+    return re.findall(pattern, text)
+
+def extract_tests(text):
+    """Extract test names from markdown text"""
+    pattern = r'test\w+_(?:REQ|ARCH|IMPL)_[A-Z_]+'
+    return re.findall(pattern, text)
+
+# Main migration
+with open('stdd/requirements.yaml', 'r') as f:
+    requirements = yaml.safe_load(f)
+
+migrated_requirements = {}
+for token, data in requirements.items():
+    if token.startswith('REQ-'):
+        migrated_requirements[token] = migrate_requirement(data)
+    else:
+        migrated_requirements[token] = data
+
+with open('stdd/requirements.yaml', 'w') as f:
+    yaml.dump(migrated_requirements, f, default_flow_style=False, sort_keys=False, allow_unicode=True)
+```
+
+#### Step 5: Manual Review
+
+After automated migration:
+
+1. Review each record for accuracy
+2. Fill in missing `problems_solved` and `benefits` for rationale
+3. Add `metric` fields to satisfaction_criteria where applicable
+4. Add `coverage` details to validation_criteria
+5. Verify traceability lists are complete
+
+#### Step 6: Update Guide Files
+
+```bash
+cp requirements.template.md /path/to/your/project/stdd/requirements.md
+cp architecture-decisions.template.md /path/to/your/project/stdd/architecture-decisions.md
+cp implementation-decisions.template.md /path/to/your/project/stdd/implementation-decisions.md
+cp processes.template.md /path/to/your/project/stdd/processes.md
+```
+
+#### Step 7: Validate
+
+```bash
+# Validate YAML syntax
+yq '.' stdd/requirements.yaml > /dev/null && echo "✅ Valid"
+yq '.' stdd/architecture-decisions.yaml > /dev/null && echo "✅ Valid"
+yq '.' stdd/implementation-decisions.yaml > /dev/null && echo "✅ Valid"
+
+# Test new queries
+yq '.REQ-STDD_SETUP.traceability.architecture[]' stdd/requirements.yaml
+yq '.REQ-STDD_SETUP.satisfaction_criteria[].criterion' stdd/requirements.yaml
+```
+
+### Benefits of v1.5.0
+
+- **Direct field access**: `yq '.REQ-X.traceability.architecture[]'` vs parsing markdown
+- **Easy filtering**: `yq '.REQ-X.satisfaction_criteria[] | select(.metric != null)'`
+- **Structured queries**: Get specific parts without text parsing
+- **Better validation**: Schema can be validated programmatically
+- **Tool integration**: Easier to build automation tools
+
+---
+
 **Last Updated**: 2026-02-06  
-**Migration Version**: STDD v1.3.0 → v1.4.0
+**Migration Version**: STDD v1.3.0 → v1.4.0, v1.4.0 → v1.5.0
+```

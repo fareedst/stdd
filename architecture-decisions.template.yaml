@@ -14,16 +14,13 @@
 #   name: Short descriptive name of the decision
 #   status: Active | Deprecated | Template | Superseded
 #   cross_references: List of REQ-* tokens this decision fulfills
-#   created: YYYY-MM-DD
-#   last_updated: YYYY-MM-DD
-#   rationale: Why this decision was made - use | for multi-line
-#   alternatives_considered: What alternatives were evaluated and why rejected - use | for multi-line
-#   implementation_approach: High-level approach, key components, integration points - use | for multi-line
-#   traceability: Links to requirements, implementation, tests, code - use | for multi-line
+#   rationale: Structured explanation with why, problems_solved, benefits
+#   alternatives_considered: List of alternative items with pros, cons, rejected_reason
+#   implementation_approach: Structured approach with summary and details
+#   traceability: Structured links to requirements, implementation, tests, code_annotations
 #   related_decisions: Lists of depends_on, informs, see_also (YAML lists or [])
 #   detail_file: Path to the detailed .md file in architecture-decisions/ directory
-#   last_validated: YYYY-MM-DD
-#   last_validator: agent/contributor name
+#   metadata: Structured metadata with created, last_updated, last_validated info
 
 ---
 
@@ -32,32 +29,50 @@ ARCH-STDD_STRUCTURE:
   status: Active
   cross_references:
     - REQ-STDD_SETUP
-  created: 2025-12-18
-  last_updated: 2026-02-06
-  rationale: |
-    - Keeps documentation close to code but organized in a dedicated namespace
-    - Ensures the AI agent can easily find all context in one place
-    - Separates meta-documentation from project source code
-    - Clear separation of concerns
-    - Standard project layout
-    - Testable components
-  alternatives_considered: |
-    - **Root-level files**: Rejected - clutters the root directory
-    - **`.github` or `.docs` folder**: Rejected - `stdd` is more specific to the methodology
-  implementation_approach: |
-    - Create `stdd/` directory at project root
-    - Populate with template files:
-      - `requirements.yaml` (index) with `requirements/` directory for detail .md files
-      - `architecture-decisions.yaml` (index) with `architecture-decisions/` directory for detail .md files
-      - `implementation-decisions.yaml` (index) with `implementation-decisions/` directory for detail .md files
-      - `semantic-tokens.md` (central token registry)
-      - `tasks.md` (task tracking)
-      - `processes.md` (process tracking)
-  traceability: |
-    **Requirements**: See `requirements.yaml` § REQ-STDD_SETUP
-    **Implementation**: See `implementation-decisions.yaml` § IMPL-STDD_FILES
-    **Tests**: `TestSTDDSetup_REQ_STDD_SETUP` ensures docs + registry exist
-    **Code**: Bootstrap scripts with `// [IMPL-STDD_FILES] [ARCH-STDD_STRUCTURE] [REQ-STDD_SETUP]`
+  rationale:
+    why: "Keeps documentation close to code but organized in a dedicated namespace"
+    problems_solved:
+      - "Documentation scattered across project"
+      - "Difficulty finding all context in one place"
+      - "Meta-documentation mixed with source code"
+    benefits:
+      - "Clear separation of concerns"
+      - "Standard project layout for AI agents"
+      - "Easy discovery of all STDD documentation"
+      - "Testable and maintainable structure"
+  alternatives_considered:
+    - name: "Root-level files"
+      pros:
+        - "Immediately visible in repository root"
+      cons:
+        - "Clutters the root directory"
+        - "No clear organization"
+      rejected_reason: "Creates too much clutter at project root"
+    - name: ".github or .docs folder"
+      pros:
+        - "Common convention for documentation"
+      cons:
+        - "Too generic for methodology-specific files"
+        - ".github is typically for GitHub workflows"
+      rejected_reason: "stdd/ is more specific to the methodology"
+  implementation_approach:
+    summary: "Create dedicated stdd/ directory with YAML indexes and detail subdirectories"
+    details:
+      - "Create stdd/ directory at project root"
+      - "Populate with YAML index files: requirements.yaml, architecture-decisions.yaml, implementation-decisions.yaml"
+      - "Create detail subdirectories: requirements/, architecture-decisions/, implementation-decisions/"
+      - "Add guide files: semantic-tokens.md, tasks.md, processes.md"
+  traceability:
+    requirements:
+      - REQ-STDD_SETUP
+    implementation:
+      - IMPL-STDD_FILES
+    tests:
+      - TestSTDDSetup_REQ_STDD_SETUP
+    code_annotations:
+      - IMPL-STDD_FILES
+      - ARCH-STDD_STRUCTURE
+      - REQ-STDD_SETUP
   related_decisions:
     depends_on:
       - REQ-STDD_SETUP
@@ -65,55 +80,81 @@ ARCH-STDD_STRUCTURE:
       - IMPL-STDD_FILES
     see_also: []
   detail_file: architecture-decisions/ARCH-STDD_STRUCTURE.md
-  last_validated: 2026-02-06
-  last_validator: AI agent
+  metadata:
+    created:
+      date: 2025-12-18
+      author: "AI Agent"
+    last_updated:
+      date: 2026-02-06
+      author: "AI Agent"
+      reason: "Restructured to v1.5.0 schema with machine-parseable fields"
+    last_validated:
+      date: 2026-02-06
+      validator: "AI Agent"
+      result: "pass"
 
 ARCH-MODULE_VALIDATION:
   name: Module Validation Strategy
   status: Active
   cross_references:
     - REQ-MODULE_VALIDATION
-  created: 2025-12-18
-  last_updated: 2026-02-06
-  rationale: |
-    - Eliminates bugs related to code complexity by ensuring each module works correctly in isolation
-    - Reduces integration complexity by validating modules independently before combining them
-    - Catches bugs early in the development cycle, before integration issues compound
-    - Ensures each module meets its defined contract before integration
-    - Makes debugging easier by isolating issues to specific modules
-    - Enables parallel development of modules when dependencies are properly mocked
-  alternatives_considered: |
-    - **Big Bang Integration**: Integrating all modules at once without independent validation
-      - Rejected: Too complex, makes debugging difficult, bugs compound
-    - **Minimal Validation**: Only basic unit tests before integration
-      - Rejected: Insufficient to catch complexity-related bugs, doesn't validate contracts properly
-    - **Post-Integration Validation Only**: Validating only after integration
-      - Rejected: Doesn't catch module-level bugs early, increases debugging complexity
-  implementation_approach: |
-    ### Module Identification Requirements
-    - Modules must be identified and documented before development begins
-    - Each module must have clear boundaries and responsibilities
-    - Module interfaces and contracts must be defined and documented
-    - Module dependencies must be identified and documented
-    - Module validation criteria must be specified (what "validated" means for each module)
-
-    ### Validation Approach
-    - **Unit Testing**: Each module must have comprehensive unit tests with mocked dependencies
-    - **Integration Testing with Test Doubles**: Modules must be tested with mocks, stubs, or fakes for dependencies
-    - **Contract Validation**: Input/output validation to ensure modules meet their defined contracts
-    - **Edge Case Testing**: Modules must be tested with edge cases and boundary conditions
-    - **Error Handling Validation**: Modules must be tested for proper error handling and error propagation
-
-    ### Integration Requirements
-    - Integration tasks must be separate from module development and validation tasks
-    - Integration only occurs after module validation passes
-    - Integration tests validate the combined behavior of validated modules
-    - Module validation results must be documented before integration
-  traceability: |
-    **Requirements**: See `requirements.yaml` § REQ-MODULE_VALIDATION
-    **Implementation**: See `implementation-decisions.yaml` § IMPL-MODULE_VALIDATION
-    **Tests**: `testModuleName_IndependentValidation_REQ_MODULE_VALIDATION` - Module validation tests
-    **Code**: Module implementation files with `[IMPL-MODULE_VALIDATION]` comments
+  rationale:
+    why: "To eliminate bugs related to code complexity by ensuring each module works correctly in isolation"
+    problems_solved:
+      - "Integration complexity causing difficult-to-debug issues"
+      - "Bugs discovered too late in development cycle"
+      - "Module contracts not properly validated"
+    benefits:
+      - "Bugs caught early before integration"
+      - "Reduced integration complexity"
+      - "Easier debugging by isolating issues"
+      - "Enables parallel module development"
+      - "Clear module boundaries and contracts"
+  alternatives_considered:
+    - name: "Big Bang Integration"
+      pros:
+        - "Faster initial integration"
+      cons:
+        - "Too complex to debug"
+        - "Bugs compound during integration"
+        - "Difficult to isolate issues"
+      rejected_reason: "Makes debugging too difficult and bugs compound"
+    - name: "Minimal Validation"
+      pros:
+        - "Faster development cycle"
+      cons:
+        - "Insufficient to catch complexity bugs"
+        - "Doesn't validate contracts properly"
+      rejected_reason: "Insufficient validation leads to integration issues"
+    - name: "Post-Integration Validation Only"
+      pros:
+        - "All validation done at once"
+      cons:
+        - "Doesn't catch module-level bugs early"
+        - "Increases debugging complexity"
+      rejected_reason: "Bugs discovered too late, making fixes expensive"
+  implementation_approach:
+    summary: "Independent module validation before integration with comprehensive testing strategy"
+    details:
+      - "Identify modules and document boundaries before development"
+      - "Define module interfaces and contracts explicitly"
+      - "Specify validation criteria for each module"
+      - "Unit test modules with mocked dependencies"
+      - "Integration test with test doubles (mocks, stubs, fakes)"
+      - "Validate contracts (input/output validation)"
+      - "Test edge cases and error handling"
+      - "Document validation results before integration"
+      - "Only integrate after validation passes"
+  traceability:
+    requirements:
+      - REQ-MODULE_VALIDATION
+    implementation:
+      - IMPL-MODULE_VALIDATION
+    tests:
+      - testModuleName_IndependentValidation_REQ_MODULE_VALIDATION
+    code_annotations:
+      - IMPL-MODULE_VALIDATION
+      - REQ-MODULE_VALIDATION
   related_decisions:
     depends_on:
       - REQ-MODULE_VALIDATION
@@ -121,58 +162,115 @@ ARCH-MODULE_VALIDATION:
       - IMPL-MODULE_VALIDATION
     see_also: []
   detail_file: architecture-decisions/ARCH-MODULE_VALIDATION.md
-  last_validated: 2026-02-06
-  last_validator: AI agent
+  metadata:
+    created:
+      date: 2025-12-18
+      author: "AI Agent"
+    last_updated:
+      date: 2026-02-06
+      author: "AI Agent"
+      reason: "Restructured to v1.5.0 schema with machine-parseable fields"
+    last_validated:
+      date: 2026-02-06
+      validator: "AI Agent"
+      result: "pass"
 
 ARCH-LANGUAGE_SELECTION:
   name: Language and Runtime Selection
   status: Template
   cross_references: []
-  created: YYYY-MM-DD
-  last_updated: YYYY-MM-DD
-  rationale: |
-    Why this language/runtime was chosen for the project
-  alternatives_considered: |
-    - **Language A**: Why it was rejected
-    - **Language B**: Why it was rejected
-  implementation_approach: |
-    How the selected language/runtime will be used in the project
-  traceability: |
-    **Requirements**: See `requirements.yaml` § REQ-*
-    **Implementation**: See `implementation-decisions.yaml` § IMPL-*
-    **Tests**: testFeatureName_ARCH_LANGUAGE_SELECTION
-    **Code**: // [ARCH-LANGUAGE_SELECTION] in source files
+  rationale:
+    why: "Why this language/runtime was chosen for the project"
+    problems_solved:
+      - "Problem 1 that language solves"
+    benefits:
+      - "Benefit 1 of chosen language"
+  alternatives_considered:
+    - name: "Language A"
+      pros:
+        - "Pro 1"
+      cons:
+        - "Con 1"
+      rejected_reason: "Why it was rejected"
+    - name: "Language B"
+      pros:
+        - "Pro 1"
+      cons:
+        - "Con 1"
+      rejected_reason: "Why it was rejected"
+  implementation_approach:
+    summary: "How the selected language/runtime will be used in the project"
+    details:
+      - "Detail 1"
+      - "Detail 2"
+  traceability:
+    requirements:
+      - REQ-*
+    implementation:
+      - IMPL-*
+    tests:
+      - testFeatureName_ARCH_LANGUAGE_SELECTION
+    code_annotations:
+      - ARCH-LANGUAGE_SELECTION
   related_decisions:
     depends_on: []
     informs: []
     see_also: []
   detail_file: architecture-decisions/ARCH-LANGUAGE_SELECTION.md
-  last_validated: YYYY-MM-DD
-  last_validator: agent/contributor
+  metadata:
+    created:
+      date: YYYY-MM-DD
+      author: "agent/contributor"
+    last_updated:
+      date: YYYY-MM-DD
+      author: "agent/contributor"
+      reason: "Initial creation"
+    last_validated:
+      date: YYYY-MM-DD
+      validator: "agent/contributor"
+      result: "pass"
 
 ARCH-EXAMPLE_DECISION:
   name: Core Architecture Example
   status: Template
   cross_references:
     - REQ-EXAMPLE_FEATURE
-  created: YYYY-MM-DD
-  last_updated: YYYY-MM-DD
-  rationale: |
-    Why this architectural decision was made
-    What problems it solves
-    What benefits it provides
-  alternatives_considered: |
-    - **Alternative 1**: Why it was rejected
-    - **Alternative 2**: Why it was rejected
-  implementation_approach: |
-    - High-level approach
-    - Key components
-    - Integration points
-  traceability: |
-    **Requirements**: See `requirements.yaml` § REQ-EXAMPLE_FEATURE
-    **Implementation**: See `implementation-decisions.yaml` § IMPL-EXAMPLE_IMPLEMENTATION
-    **Tests**: testFeatureName_ARCH_EXAMPLE_DECISION
-    **Code**: // [ARCH-EXAMPLE_DECISION] in source files
+  rationale:
+    why: "Why this architectural decision was made"
+    problems_solved:
+      - "Problem 1 that this decision solves"
+      - "Problem 2"
+    benefits:
+      - "Benefit 1 of this decision"
+      - "Benefit 2"
+  alternatives_considered:
+    - name: "Alternative 1"
+      pros:
+        - "Pro 1"
+      cons:
+        - "Con 1"
+      rejected_reason: "Why it was rejected"
+    - name: "Alternative 2"
+      pros:
+        - "Pro 1"
+      cons:
+        - "Con 1"
+      rejected_reason: "Why it was rejected"
+  implementation_approach:
+    summary: "High-level description of the architectural approach"
+    details:
+      - "Key component 1"
+      - "Key component 2"
+      - "Integration point 1"
+  traceability:
+    requirements:
+      - REQ-EXAMPLE_FEATURE
+    implementation:
+      - IMPL-EXAMPLE_IMPLEMENTATION
+    tests:
+      - testFeatureName_ARCH_EXAMPLE_DECISION
+    code_annotations:
+      - ARCH-EXAMPLE_DECISION
   related_decisions:
     depends_on:
       - REQ-EXAMPLE_FEATURE
@@ -180,29 +278,64 @@ ARCH-EXAMPLE_DECISION:
       - IMPL-EXAMPLE_IMPLEMENTATION
     see_also: []
   detail_file: architecture-decisions/ARCH-EXAMPLE_DECISION.md
-  last_validated: YYYY-MM-DD
-  last_validator: agent/contributor
+  metadata:
+    created:
+      date: YYYY-MM-DD
+      author: "agent/contributor"
+    last_updated:
+      date: YYYY-MM-DD
+      author: "agent/contributor"
+      reason: "Initial creation"
+    last_validated:
+      date: YYYY-MM-DD
+      validator: "agent/contributor"
+      result: "pass"
 
 ARCH-ERROR_HANDLING:
   name: Error Handling Strategy
   status: Template
   cross_references:
     - REQ-ERROR_HANDLING
-  created: YYYY-MM-DD
-  last_updated: YYYY-MM-DD
-  rationale: |
-    Why this error handling approach was chosen
-  alternatives_considered: |
-    - **Exceptions**: Why rejected or why chosen
-    - **Error codes**: Why rejected or why chosen
-    - **Result types**: Why rejected or why chosen
-  implementation_approach: |
-    How errors will be handled throughout the application
-  traceability: |
-    **Requirements**: See `requirements.yaml` § REQ-ERROR_HANDLING
-    **Implementation**: See `implementation-decisions.yaml` § IMPL-ERROR_HANDLING
-    **Tests**: testErrorHandling_ARCH_ERROR_HANDLING
-    **Code**: // [ARCH-ERROR_HANDLING] in source files
+  rationale:
+    why: "Why this error handling approach was chosen"
+    problems_solved:
+      - "Problem 1 with error handling"
+    benefits:
+      - "Benefit 1 of this approach"
+  alternatives_considered:
+    - name: "Exceptions"
+      pros:
+        - "Pro 1"
+      cons:
+        - "Con 1"
+      rejected_reason: "Why rejected or why chosen"
+    - name: "Error codes"
+      pros:
+        - "Pro 1"
+      cons:
+        - "Con 1"
+      rejected_reason: "Why rejected or why chosen"
+    - name: "Result types"
+      pros:
+        - "Pro 1"
+      cons:
+        - "Con 1"
+      rejected_reason: "Why rejected or why chosen"
+  implementation_approach:
+    summary: "How errors will be handled throughout the application"
+    details:
+      - "Error propagation strategy"
+      - "Error logging approach"
+      - "User-facing error messages"
+  traceability:
+    requirements:
+      - REQ-ERROR_HANDLING
+    implementation:
+      - IMPL-ERROR_HANDLING
+    tests:
+      - testErrorHandling_ARCH_ERROR_HANDLING
+    code_annotations:
+      - ARCH-ERROR_HANDLING
   related_decisions:
     depends_on:
       - REQ-ERROR_HANDLING
@@ -210,38 +343,76 @@ ARCH-ERROR_HANDLING:
       - IMPL-ERROR_HANDLING
     see_also: []
   detail_file: architecture-decisions/ARCH-ERROR_HANDLING.md
-  last_validated: YYYY-MM-DD
-  last_validator: agent/contributor
+  metadata:
+    created:
+      date: YYYY-MM-DD
+      author: "agent/contributor"
+    last_updated:
+      date: YYYY-MM-DD
+      author: "agent/contributor"
+      reason: "Initial creation"
+    last_validated:
+      date: YYYY-MM-DD
+      validator: "agent/contributor"
+      result: "pass"
 
 ARCH-TESTING_STRATEGY:
   name: Testing Strategy
   status: Template
   cross_references: []
-  created: YYYY-MM-DD
-  last_updated: YYYY-MM-DD
-  rationale: |
-    Why this testing strategy was chosen
-  alternatives_considered: |
-    - **Test Approach 1**: Why rejected or why chosen
-    - **Test Approach 2**: Why rejected or why chosen
-  implementation_approach: |
-    - Unit testing approach
-    - Integration testing approach
-    - End-to-end testing approach
-    - Test coverage goals
-  traceability: |
-    **Requirements**: See `requirements.yaml` § REQ-*
-    **Implementation**: See `implementation-decisions.yaml` § IMPL-TESTING
-    **Tests**: All test files follow this strategy
-    **Code**: // [ARCH-TESTING_STRATEGY] in test files
+  rationale:
+    why: "Why this testing strategy was chosen"
+    problems_solved:
+      - "Problem 1 with testing"
+    benefits:
+      - "Benefit 1 of this strategy"
+  alternatives_considered:
+    - name: "Test Approach 1"
+      pros:
+        - "Pro 1"
+      cons:
+        - "Con 1"
+      rejected_reason: "Why rejected or why chosen"
+    - name: "Test Approach 2"
+      pros:
+        - "Pro 1"
+      cons:
+        - "Con 1"
+      rejected_reason: "Why rejected or why chosen"
+  implementation_approach:
+    summary: "Overall testing strategy for the project"
+    details:
+      - "Unit testing approach"
+      - "Integration testing approach"
+      - "End-to-end testing approach"
+      - "Test coverage goals"
+  traceability:
+    requirements:
+      - REQ-*
+    implementation:
+      - IMPL-TESTING
+    tests:
+      - All test files follow this strategy
+    code_annotations:
+      - ARCH-TESTING_STRATEGY
   related_decisions:
     depends_on: []
     informs:
       - IMPL-TESTING
     see_also: []
   detail_file: architecture-decisions/ARCH-TESTING_STRATEGY.md
-  last_validated: YYYY-MM-DD
-  last_validator: agent/contributor
+  metadata:
+    created:
+      date: YYYY-MM-DD
+      author: "agent/contributor"
+    last_updated:
+      date: YYYY-MM-DD
+      author: "agent/contributor"
+      reason: "Initial creation"
+    last_validated:
+      date: YYYY-MM-DD
+      validator: "agent/contributor"
+      result: "pass"
 
 # ---
 # Template Record - Copy this block to create new architecture decisions
@@ -252,28 +423,56 @@ ARCH-TESTING_STRATEGY:
 #   status: Active
 #   cross_references:
 #     - REQ-RELATED_REQUIREMENT
-#   created: YYYY-MM-DD
-#   last_updated: YYYY-MM-DD
-#   rationale: |
-#     - Why this decision was made
-#     - What problems it solves
-#     - What benefits it provides
-#   alternatives_considered: |
-#     - **Alternative 1**: Why it was rejected
-#     - **Alternative 2**: Why it was rejected
-#   implementation_approach: |
-#     - High-level approach
-#     - Key components
-#     - Integration points
-#   traceability: |
-#     **Requirements**: See `requirements.yaml` § REQ-IDENTIFIER
-#     **Implementation**: See `implementation-decisions.yaml` § IMPL-IDENTIFIER
-#     **Tests**: testFeatureName_ARCH_IDENTIFIER
-#     **Code**: // [ARCH-IDENTIFIER] in source files
+#   rationale:
+#     why: "Primary reason for this decision"
+#     problems_solved:
+#       - "Problem 1"
+#       - "Problem 2"
+#     benefits:
+#       - "Benefit 1"
+#       - "Benefit 2"
+#   alternatives_considered:
+#     - name: "Alternative 1"
+#       pros:
+#         - "Pro 1"
+#       cons:
+#         - "Con 1"
+#       rejected_reason: "Why it was rejected"
+#     - name: "Alternative 2"
+#       pros:
+#         - "Pro 1"
+#       cons:
+#         - "Con 1"
+#       rejected_reason: "Why it was rejected"
+#   implementation_approach:
+#     summary: "High-level description of the approach"
+#     details:
+#       - "Key component 1"
+#       - "Key component 2"
+#       - "Integration point 1"
+#   traceability:
+#     requirements:
+#       - REQ-IDENTIFIER
+#     implementation:
+#       - IMPL-IDENTIFIER
+#     tests:
+#       - testFeatureName_ARCH_IDENTIFIER
+#     code_annotations:
+#       - ARCH-IDENTIFIER
 #   related_decisions:
 #     depends_on: []
 #     informs: []
 #     see_also: []
 #   detail_file: architecture-decisions/ARCH-IDENTIFIER.md
-#   last_validated: YYYY-MM-DD
-#   last_validator: agent/contributor
+#   metadata:
+#     created:
+#       date: YYYY-MM-DD
+#       author: "agent/contributor"
+#     last_updated:
+#       date: YYYY-MM-DD
+#       author: "agent/contributor"
+#       reason: "Initial creation"
+#     last_validated:
+#       date: YYYY-MM-DD
+#       validator: "agent/contributor"
+#       result: "pass"

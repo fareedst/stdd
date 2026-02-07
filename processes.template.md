@@ -105,7 +105,7 @@ Active
 
 **Scripted Append:**
 ```bash
-# Append a new requirement
+# Append a new requirement (v1.5.0 schema)
 cat >> stdd/requirements.yaml << 'EOF'
 
 REQ-NEW_FEATURE:
@@ -113,26 +113,44 @@ REQ-NEW_FEATURE:
   category: Functional
   priority: P1
   status: "Planned"
-  created: 2026-02-06
-  last_updated: 2026-02-06
-  rationale: |
-    Why this requirement exists
-  satisfaction_criteria: |
-    - How we know it's satisfied
-  validation_criteria: |
-    - How we verify it's met
-  traceability: |
-    **Architecture**: See `architecture-decisions.yaml` § ARCH-NEW_FEATURE
-    **Implementation**: See `implementation-decisions.yaml` § IMPL-NEW_FEATURE
-    **Tests**: testNewFeature_REQ_NEW_FEATURE
-    **Code**: // [REQ-NEW_FEATURE] in source files
+  rationale:
+    why: "Primary reason for this requirement"
+    problems_solved:
+      - "Problem 1"
+    benefits:
+      - "Benefit 1"
+  satisfaction_criteria:
+    - criterion: "Criterion description"
+      metric: "Measurable target"
+  validation_criteria:
+    - method: "Unit tests"
+      coverage: "All core functions"
+  traceability:
+    architecture:
+      - ARCH-NEW_FEATURE
+    implementation:
+      - IMPL-NEW_FEATURE
+    tests:
+      - testNewFeature_REQ_NEW_FEATURE
+    code_annotations:
+      - REQ-NEW_FEATURE
   related_requirements:
     depends_on: []
     related_to: []
     supersedes: []
   detail_file: requirements/REQ-NEW_FEATURE.md
-  last_validated: 2026-02-06
-  last_validator: Your Name
+  metadata:
+    created:
+      date: 2026-02-06
+      author: "Your Name"
+    last_updated:
+      date: 2026-02-06
+      author: "Your Name"
+      reason: "Initial creation"
+    last_validated:
+      date: 2026-02-06
+      validator: "Your Name"
+      result: "pass"
 EOF
 ```
 
@@ -254,7 +272,7 @@ yq 'keys' stdd/architecture-decisions.yaml
 yq 'keys' stdd/implementation-decisions.yaml
 ```
 
-#### 6. Checking Cross-References
+#### 6. Checking Cross-References (v1.5.0 Schema)
 
 **Find all requirements referenced by an architecture decision:**
 ```bash
@@ -264,6 +282,36 @@ yq '.ARCH-STDD_STRUCTURE.cross_references[]' stdd/architecture-decisions.yaml
 **Find all architecture/requirement tokens referenced by an implementation:**
 ```bash
 yq '.IMPL-MODULE_VALIDATION.cross_references[]' stdd/implementation-decisions.yaml
+```
+
+**Query structured traceability (v1.5.0):**
+```bash
+# Get architecture dependencies for a requirement
+yq '.REQ-STDD_SETUP.traceability.architecture[]' stdd/requirements.yaml
+
+# Get tests for a requirement
+yq '.REQ-STDD_SETUP.traceability.tests[]' stdd/requirements.yaml
+
+# Get implementation dependencies for an architecture decision
+yq '.ARCH-STDD_STRUCTURE.traceability.implementation[]' stdd/architecture-decisions.yaml
+
+# Get code locations for an implementation
+yq '.IMPL-STDD_FILES.code_locations.files[].path' stdd/implementation-decisions.yaml
+```
+
+**Query structured content (v1.5.0):**
+```bash
+# Get satisfaction criteria for a requirement
+yq '.REQ-STDD_SETUP.satisfaction_criteria[].criterion' stdd/requirements.yaml
+
+# Get alternatives considered for an architecture decision
+yq '.ARCH-STDD_STRUCTURE.alternatives_considered[].name' stdd/architecture-decisions.yaml
+
+# Get implementation approach summary
+yq '.IMPL-MODULE_VALIDATION.implementation_approach.summary' stdd/implementation-decisions.yaml
+
+# Get metadata
+yq '.REQ-STDD_SETUP.metadata.last_validated.result' stdd/requirements.yaml
 ```
 
 ### Artifacts & Metrics

@@ -38,10 +38,12 @@ To ensure traceability of intent from requirements to code and to maintain a con
 
 ## Traceability
 
-- **Architecture**: See `architecture-decisions.md` § STDD Project Structure [ARCH-STDD_STRUCTURE]
-- **Implementation**: See `implementation-decisions.md` § STDD File Creation [IMPL-STDD_FILES]
+- **Architecture**: `ARCH-STDD_STRUCTURE` (see `architecture-decisions.yaml`)
+- **Implementation**: `IMPL-STDD_FILES` (see `implementation-decisions.yaml`)
 - **Tests**: Manual verification checklists
-- **Code**: Bootstrap scripts and setup utilities with `// [IMPL-STDD_FILES] [ARCH-STDD_STRUCTURE] [REQ-STDD_SETUP]`
+- **Code**: Bootstrap scripts with `// [IMPL-STDD_FILES] [ARCH-STDD_STRUCTURE] [REQ-STDD_SETUP]`
+
+_Note: In `requirements.yaml`, traceability is stored as structured YAML lists for programmatic querying._
 
 ## Related Requirements
 

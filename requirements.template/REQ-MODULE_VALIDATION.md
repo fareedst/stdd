@@ -37,10 +37,12 @@ To eliminate bugs related to code complexity by ensuring each module works corre
 
 ## Traceability
 
-- **Architecture**: See `architecture-decisions.md` § Module Validation Strategy [ARCH-MODULE_VALIDATION]
-- **Implementation**: See `implementation-decisions.md` § Module Validation Implementation [IMPL-MODULE_VALIDATION]
-- **Tests**: Module validation test suites with pattern `testModuleName_IndependentValidation_REQ_MODULE_VALIDATION`
-- **Code**: Module implementation files with `// [REQ-MODULE_VALIDATION] Module validated independently before integration`
+- **Architecture**: `ARCH-MODULE_VALIDATION` (see `architecture-decisions.yaml`)
+- **Implementation**: `IMPL-MODULE_VALIDATION` (see `implementation-decisions.yaml`)
+- **Tests**: `testModuleName_IndependentValidation_REQ_MODULE_VALIDATION` in test files
+- **Code**: `// [REQ-MODULE_VALIDATION] Module validated independently` in source files
+
+_Note: In `requirements.yaml`, traceability is stored as structured YAML lists for programmatic querying._
 
 ## Related Requirements
 

@@ -9,25 +9,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **Structured YAML Schema** [v1.5.0 Schema Enhancement]: Restructured all three YAML index files to use machine-parseable structured fields instead of markdown-formatted string blobs
+  - **traceability field**: Now a structured map with separate lists for `architecture[]`, `implementation[]`, `tests[]`, and `code_annotations[]` (previously markdown-formatted string)
+  - **rationale field**: Now a structured map with `why`, `problems_solved[]`, and `benefits[]` (previously plain string)
+  - **satisfaction_criteria** (requirements): Now a list of structured items with `criterion` and optional `metric` (previously markdown-formatted string)
+  - **validation_criteria** (requirements): Now a list of structured items with `method` and `coverage` (previously markdown-formatted string)
+  - **alternatives_considered** (architecture): Now a list of structured items with `name`, `pros[]`, `cons[]`, and `rejected_reason` (previously markdown-formatted string)
+  - **implementation_approach** (architecture/implementation): Now a structured map with `summary` and `details[]` (previously markdown-formatted string)
+  - **code_markers → code_locations** (implementation): Renamed and restructured with `files[]` and `functions[]` lists with structured metadata (previously markdown-formatted string)
+  - **metadata field**: Grouped flat fields (`created`, `last_updated`, `last_validated`, `last_validator`) into structured maps with date/author/reason/result sub-fields
+  - Enables direct field access: `yq '.REQ-X.traceability.architecture[]'` instead of parsing markdown text
+  - Enables structured queries: `yq '.REQ-X.satisfaction_criteria[].criterion'`
+  - Better validation and tool integration support
+
 - **YAML Database Indexes** [PROC-YAML_DB_OPERATIONS]: Transformed all three index files from Markdown tables to YAML database files for improved programmatic access and append-only semantics
   - `requirements.template.yaml` - YAML database with all requirement records (replaces Markdown tables in requirements.template.md)
   - `architecture-decisions.template.yaml` - YAML database with all architecture decision records (replaces Markdown tables in architecture-decisions.template.md)
   - `implementation-decisions.template.yaml` - YAML database with all implementation decision records (replaces Markdown tables in implementation-decisions.template.md)
   - Each YAML file includes comprehensive header documentation and template blocks for easy appending
-  - Schema tailored per type: Requirements have `satisfaction_criteria` and `validation_criteria`; Architecture has `alternatives_considered` and `implementation_approach`; Implementation has `code_markers` and `implementation_approach`
+  - Schema tailored per type with structured fields (see Structured YAML Schema above)
   - Append-only design: copy template block from bottom, paste at end, fill fields
   - Enables programmatic querying with `yq`, `grep`, Python `yaml.safe_load()`, and other YAML tools
 
 - **YAML Operations Process Documentation** [PROC-YAML_DB_OPERATIONS]: Comprehensive process guide in `processes.template.md`
-  - Appending new records (manual and scripted)
+  - Appending new records (manual and scripted) with v1.5.0 structured schema
   - Reading specific records (`yq`, `grep`, Python)
   - Filtering by status/priority
   - Validating YAML syntax
   - Listing all tokens
-  - Checking cross-references
-  - Complete examples for all operations
+  - Checking cross-references with structured traceability fields
+  - Querying structured content (satisfaction criteria, alternatives, code locations, metadata)
+  - Complete examples for all operations using v1.5.0 schema
 
-- **YAML Index Migration Guide** (`migrate-to-yaml-indexes.md`): Comprehensive migration instructions for projects moving from Markdown table indexes to YAML indexes
+- **YAML Index Migration Guide** (`migrate-to-yaml-indexes.md`): Comprehensive migration instructions
+  - Updated with v1.4.0 → v1.5.0 migration section for structured schema conversion
+  - Python migration script for automated field restructuring
   - Pre-migration checklist
   - Step-by-step migration for all three index types
   - Manual and scripted conversion approaches
@@ -40,16 +56,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- **`.template.md` files**: Now serve as **guide files** explaining how to use YAML indexes
-  - `requirements.template.md` - Removed Markdown tables, added YAML file references and "How to Append" instructions
-  - `architecture-decisions.template.md` - Removed Markdown tables, added YAML file references and "How to Append" instructions
-  - `implementation-decisions.template.md` - Removed Markdown tables, added YAML file references and "How to Append" instructions
-  - All three files maintain detail file templates and documentation structure
+- **`.template.md` guide files**: Updated with v1.5.0 schema examples
+  - `requirements.template.md` - Updated append examples and query patterns to show structured traceability, rationale, satisfaction_criteria, validation_criteria, and metadata
+  - `architecture-decisions.template.md` - Updated append examples and query patterns to show structured traceability, rationale, alternatives_considered, implementation_approach, and metadata
+  - `implementation-decisions.template.md` - Updated append examples and query patterns to show structured traceability, rationale, implementation_approach, code_locations (renamed from code_markers), and metadata
+  - All three files now serve as **guide files** explaining how to use YAML indexes with structured fields
+
+- **Detail file templates**: Updated traceability sections to reference structured YAML format
+  - `requirements.template/*.md` - Updated traceability section format and added notes about structured YAML lists
+  - `architecture-decisions.template/*.md` - Kept clean format (already compatible)
+  - `implementation-decisions.template/*.md` - Updated code markers section to code locations with structured format notes
+
+- **`processes.template.md`**: Updated `[PROC-YAML_DB_OPERATIONS]` section
+  - Scripted append example updated to v1.5.0 structured schema
+  - Added structured traceability query examples
+  - Added structured content query examples (satisfaction criteria, alternatives, implementation approach, metadata)
 
 - **`copy_files.sh`**: Updated to copy YAML template files
   - Added `requirements.template.yaml` to TEMPLATE_FILES array
   - Added `architecture-decisions.template.yaml` to TEMPLATE_FILES array
   - Added `implementation-decisions.template.yaml` to TEMPLATE_FILES array
+
+- **Version Alignment**: Updated all methodology files to STDD v1.5.0
+  - `AGENTS.md`: v1.5.0
+  - `ai-principles.md`: v1.2.0, STDD v1.5.0
+  - `semantic-tokens.template.md`: v1.5.0
+  - `requirements.template.md`: v1.5.0
+  - `architecture-decisions.template.md`: v1.5.0
+  - `implementation-decisions.template.md`: v1.5.0
 
 - **`semantic-tokens.template.md`**: Updated all references to mention `.yaml` index files alongside `.md` guide files
   - Added `[PROC-YAML_DB_OPERATIONS]` to Process Tokens Registry
@@ -67,24 +101,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **`STDD.md`**: Updated references to mention YAML index format in documentation outputs and template file listings
 
-- **Version Alignment**: Updated all methodology files to STDD v1.5.0
-
 ### Benefits
 
+- **Direct Field Access**: `yq '.REQ-X.traceability.architecture[]'` instead of parsing markdown strings
+- **Structured Queries**: `yq '.REQ-X.satisfaction_criteria[].criterion'` for targeted data extraction
+- **Easy Filtering**: `yq '.REQ-X.metadata.last_validated.result'` for validation status checks
 - **Programmatic Access**: Query, filter, and validate indexes using standard YAML tools (`yq`, Python, etc.)
 - **Append-Only Semantics**: Add new records by copying template block and pasting at end - reduces merge conflicts
-- **Structured Data**: YAML provides proper data types (lists, multi-line strings) vs. Markdown table text
-- **Easier Validation**: `yq '.' file.yaml` validates syntax; custom scripts can validate cross-references
-- **Better Tooling**: Standard YAML parsers available in all languages
+- **Structured Data**: YAML provides proper data types (lists, maps, multi-line strings) vs. Markdown table text or string blobs
+- **Easier Validation**: `yq '.' file.yaml` validates syntax; custom scripts can validate cross-references and field structure
+- **Better Tooling**: Standard YAML parsers available in all languages with native support for structured queries
 - **Consistent Format**: No Markdown table formatting issues or alignment problems
-- **Preserve Detail Files**: Detail `.md` files remain unchanged - only indexes converted to YAML
+- **Preserve Detail Files**: Detail `.md` files remain unchanged - only indexes converted to YAML with structured fields
 
 ### Rationale
 
-Markdown tables become unwieldy for programmatic operations (filtering, querying, validation). YAML provides:
+**Schema Restructuring (v1.5.0)**: Markdown-formatted string blobs in YAML fields require text parsing and regex matching for programmatic access. Structured YAML fields enable direct queries (`yq '.field.subfield[]'`), type safety, easier validation, and better tool integration. This change completes the transformation from human-only readable Markdown to machine-readable structured data while maintaining human readability.
+
+**YAML Database Indexes (v1.4.0 foundation)**: Markdown tables become unwieldy for programmatic operations (filtering, querying, validation). YAML provides:
 1. **Machine-readable structure** while maintaining human readability
 2. **Append-only workflow** that minimizes merge conflicts
-3. **Rich data types** (lists, multi-line strings) vs. plain text in table cells
+3. **Rich data types** (lists, maps, multi-line strings) vs. plain text in table cells
 4. **Standard tooling** available across all programming languages
 5. **Easier validation** of both syntax and semantic consistency
 

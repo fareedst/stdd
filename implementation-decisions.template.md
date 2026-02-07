@@ -1,6 +1,6 @@
 # Implementation Decisions
 
-**STDD Methodology Version**: 1.4.0
+**STDD Methodology Version**: 1.5.0
 
 ## Overview
 
@@ -64,6 +64,18 @@ cat stdd/implementation-decisions.yaml
 # View specific decision
 yq '.IMPL-MODULE_VALIDATION' stdd/implementation-decisions.yaml
 
+# Get implementation approach summary
+yq '.IMPL-MODULE_VALIDATION.implementation_approach.summary' stdd/implementation-decisions.yaml
+
+# Get code file locations
+yq '.IMPL-STDD_FILES.code_locations.files[].path' stdd/implementation-decisions.yaml
+
+# Get function locations
+yq '.IMPL-MODULE_VALIDATION.code_locations.functions[].name' stdd/implementation-decisions.yaml
+
+# Get architecture dependencies
+yq '.IMPL-MODULE_VALIDATION.traceability.architecture[]' stdd/implementation-decisions.yaml
+
 # List all active decisions
 yq 'to_entries | map(select(.value.status == "Active")) | from_entries' stdd/implementation-decisions.yaml
 
@@ -92,27 +104,55 @@ IMPL-NEW_IMPLEMENTATION:
   cross_references:
     - ARCH-RELATED_ARCHITECTURE
     - REQ-RELATED_REQUIREMENT
-  created: 2026-02-06
-  last_updated: 2026-02-06
-  rationale: |
-    Why this implementation approach was chosen
-  implementation_approach: |
-    - Specific technical details
-    - Code patterns
-  code_markers: |
-    - path/to/file.ext: What's implemented
-  traceability: |
-    **Architecture**: See `architecture-decisions.yaml` § ARCH-RELATED_ARCHITECTURE
-    **Requirements**: See `requirements.yaml` § REQ-RELATED_REQUIREMENT
-    **Tests**: testFeatureName_REQ_RELATED_REQUIREMENT
-    **Code**: // [IMPL-NEW_IMPLEMENTATION] in source files
+  rationale:
+    why: "Primary reason for this implementation approach"
+    problems_solved:
+      - "Problem 1"
+      - "Problem 2"
+    benefits:
+      - "Benefit 1"
+      - "Benefit 2"
+  implementation_approach:
+    summary: "High-level description of implementation"
+    details:
+      - "Specific technical detail 1"
+      - "Code structure or pattern"
+      - "API design decision"
+  code_locations:
+    files:
+      - path: "path/to/file.ext"
+        description: "What's implemented there"
+        lines: [10, 50]
+    functions:
+      - name: "exampleFunction"
+        file: "path/to/file.ext"
+        description: "What it does"
+  traceability:
+    architecture:
+      - ARCH-RELATED_ARCHITECTURE
+    requirements:
+      - REQ-RELATED_REQUIREMENT
+    tests:
+      - testFeatureName_REQ_RELATED_REQUIREMENT
+    code_annotations:
+      - IMPL-NEW_IMPLEMENTATION
   related_decisions:
     depends_on: []
     supersedes: []
     see_also: []
   detail_file: implementation-decisions/IMPL-NEW_IMPLEMENTATION.md
-  last_validated: 2026-02-06
-  last_validator: Your Name
+  metadata:
+    created:
+      date: 2026-02-06
+      author: "Your Name"
+    last_updated:
+      date: 2026-02-06
+      author: "Your Name"
+      reason: "Initial creation"
+    last_validated:
+      date: 2026-02-06
+      validator: "Your Name"
+      result: "pass"
 EOF
 ```
 
@@ -175,11 +215,13 @@ Description of key algorithms and their implementation.
 - Platform 1: Specific considerations
 - Platform 2: Specific considerations
 
-## Code Markers
+## Code Locations
 
 Specific code locations, function names, or patterns to look for:
-- `path/to/file.ext`: Description of what's implemented there
-- Function `exampleFunction()`: What it does
+- **Files**:
+  - `path/to/file.ext` (lines 10-50): Description of what's implemented there
+- **Functions**:
+  - `exampleFunction()` in `path/to/file.ext`: What it does
 
 ## Token Coverage `[PROC-TOKEN_AUDIT]`
 
