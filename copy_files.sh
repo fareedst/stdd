@@ -62,8 +62,11 @@ echo "Copied ${#BASE_FILES[@]} base files into ${TARGET_PROJECT_DIR}."
 
 TEMPLATE_FILES=(
   "requirements.template.md"
+  "requirements.template.yaml"
   "architecture-decisions.template.md"
+  "architecture-decisions.template.yaml"
   "implementation-decisions.template.md"
+  "implementation-decisions.template.yaml"
   "processes.template.md"
   "semantic-tokens.template.md"
   "tasks.template.md"

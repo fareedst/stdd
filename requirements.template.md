@@ -14,7 +14,8 @@ This document serves as the **central listing/registry** for all requirements in
 
 ```
 stdd/
-├── requirements.md              # This index file
+├── requirements.md              # This guide file (you are here)
+├── requirements.yaml            # YAML index/database of all requirements
 ├── requirements/                # Detail files directory
 │   ├── REQ-STDD_SETUP.md
 │   ├── REQ-MODULE_VALIDATION.md
@@ -46,37 +47,68 @@ Token names use the same format in text and filenames:
 3. **Add an entry to the index table** below
 4. **Update `semantic-tokens.md`** registry with the new `[REQ-*]` token
 
----
-
 ## Requirements Index
 
-### Functional Requirements
+**The requirements index is maintained in `requirements.yaml`**, a YAML database file that contains all requirement records with their metadata, cross-references, and status.
 
-| Token | Requirement | Priority | Status | Category | Architecture | Implementation | Detail File |
-|-------|------------|----------|--------|----------|--------------|----------------|-------------|
-| `[REQ-STDD_SETUP]` | STDD Methodology Setup | P0 | ✅ Implemented | Core | [ARCH-STDD_STRUCTURE] | [IMPL-STDD_FILES] | [Detail](requirements/REQ-STDD_SETUP.md) |
-| `[REQ-MODULE_VALIDATION]` | Independent Module Validation Before Integration | P0 | ✅ Implemented | Core | [ARCH-MODULE_VALIDATION] | [IMPL-MODULE_VALIDATION] | [Detail](requirements/REQ-MODULE_VALIDATION.md) |
+To view the index:
 
-### Non-Functional Requirements
+```bash
+# View entire index
+cat stdd/requirements.yaml
 
-| Token | Requirement | Priority | Status | Category | Architecture | Implementation | Detail File |
-|-------|------------|----------|--------|----------|--------------|----------------|-------------|
+# View specific requirement
+yq '.REQ-STDD_SETUP' stdd/requirements.yaml
 
-### Immutable Requirements (Major Version Change Required)
+# List all requirements by status
+yq 'to_entries | map(select(.value.status == "Implemented")) | from_entries' stdd/requirements.yaml
 
-| Token | Requirement | Priority | Status | Category | Architecture | Implementation | Detail File |
-|-------|------------|----------|--------|----------|--------------|----------------|-------------|
+# Quick grep search
+grep -A 30 '^REQ-STDD_SETUP:' stdd/requirements.yaml
+```
 
-### Incomplete Requirements
+### How to Append a New Requirement
 
-| Token | Requirement | Priority | Status | Category | Architecture | Implementation | Detail File |
-|-------|------------|----------|--------|----------|--------------|----------------|-------------|
+1. Open `requirements.yaml` in your editor
+2. Copy the template block at the bottom of the file (REQ-IDENTIFIER)
+3. Paste it at the end with a blank line before it
+4. Replace `REQ-IDENTIFIER` with your new semantic token
+5. Fill in all fields (name, category, priority, status, rationale, etc.)
+6. Update the `detail_file` path to match your new `.md` file in `requirements/` directory
+7. Save the file
 
-### Template/Example Requirements
+Example append operation:
 
-| Token | Requirement | Priority | Status | Category | Architecture | Implementation | Detail File |
-|-------|------------|----------|--------|----------|--------------|----------------|-------------|
-| `[REQ-IDENTIFIER]` | Example Requirement | — | Template | — | [ARCH-IDENTIFIER] | [IMPL-IDENTIFIER] | [Detail](requirements/REQ-IDENTIFIER.md) |
+```bash
+cat >> stdd/requirements.yaml << 'EOF'
+
+REQ-NEW_FEATURE:
+  name: New Feature Name
+  category: Functional
+  priority: P1
+  status: "Planned"
+  created: 2026-02-06
+  last_updated: 2026-02-06
+  rationale: |
+    Why this requirement exists
+  satisfaction_criteria: |
+    - How we know it's satisfied
+  validation_criteria: |
+    - How we verify it's met
+  traceability: |
+    **Architecture**: See `architecture-decisions.yaml` § ARCH-NEW_FEATURE
+    **Implementation**: See `implementation-decisions.yaml` § IMPL-NEW_FEATURE
+    **Tests**: testNewFeature_REQ_NEW_FEATURE
+    **Code**: // [REQ-NEW_FEATURE] in source files
+  related_requirements:
+    depends_on: []
+    related_to: []
+    supersedes: []
+  detail_file: requirements/REQ-NEW_FEATURE.md
+  last_validated: 2026-02-06
+  last_validator: Your Name
+EOF
+```
 
 ### Status Values
 

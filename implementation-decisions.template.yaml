@@ -1,0 +1,332 @@
+# Implementation Decisions Index (YAML Database)
+#
+# This YAML file serves as the central index/registry for all implementation decisions in the project.
+# Each top-level key is a semantic token (e.g., IMPL-MODULE_VALIDATION).
+#
+# To append a new implementation decision:
+# 1. Copy the template block at the bottom of this file (IMPL-IDENTIFIER)
+# 2. Paste it at the end with a blank line before it
+# 3. Replace IMPL-IDENTIFIER with your new token
+# 4. Fill in all fields
+# 5. Update the detail_file path to match your new .md file in implementation-decisions/ directory
+#
+# Field descriptions:
+#   name: Short descriptive name of the decision
+#   status: Active | Deprecated | Template | Superseded
+#   cross_references: List of ARCH-* and REQ-* tokens this decision implements
+#   created: YYYY-MM-DD
+#   last_updated: YYYY-MM-DD
+#   rationale: Why this implementation approach was chosen - use | for multi-line
+#   implementation_approach: Specific technical details, code patterns, API design - use | for multi-line
+#   code_markers: Specific code locations, function names, patterns - use | for multi-line
+#   traceability: Links to architecture, requirements, tests, code - use | for multi-line
+#   related_decisions: Lists of depends_on, supersedes, see_also (YAML lists or [])
+#   detail_file: Path to the detailed .md file in implementation-decisions/ directory
+#   last_validated: YYYY-MM-DD
+#   last_validator: agent/contributor name
+
+---
+
+IMPL-STDD_FILES:
+  name: STDD File Creation
+  status: Active
+  cross_references:
+    - ARCH-STDD_STRUCTURE
+    - REQ-STDD_SETUP
+  created: 2025-12-18
+  last_updated: 2026-02-06
+  rationale: |
+    - Implements [ARCH-STDD_STRUCTURE] architecture decision
+    - Realizes [REQ-STDD_SETUP] requirement
+    - Creates the foundational STDD directory structure and files
+  implementation_approach: |
+    - Bootstrap script creates `stdd/` directory at project root
+    - Copies template files from STDD repository:
+      - `requirements.yaml` (index) from `requirements.template.yaml`
+      - `architecture-decisions.yaml` (index) from `architecture-decisions.template.yaml`
+      - `implementation-decisions.yaml` (index) from `implementation-decisions.template.yaml`
+      - `semantic-tokens.md` from `semantic-tokens.template.md`
+      - `tasks.md` from `tasks.template.md`
+      - `processes.md` from `processes.template.md`
+    - Creates subdirectories:
+      - `stdd/requirements/` for requirement detail files
+      - `stdd/architecture-decisions/` for architecture decision detail files
+      - `stdd/implementation-decisions/` for implementation decision detail files
+    - Copies base files to project root:
+      - `.cursorrules` - Cursor IDE integration
+      - `AGENTS.md` - Canonical AI agent instructions
+      - `ai-principles.md` - Master principles document
+  code_markers: |
+    - `copy_files.sh`: Bootstrap script that sets up STDD structure
+    - Function `setup_stdd_structure()`: Creates directories and copies files
+  traceability: |
+    **Architecture**: See `architecture-decisions.yaml` § ARCH-STDD_STRUCTURE
+    **Requirements**: See `requirements.yaml` § REQ-STDD_SETUP
+    **Tests**: Manual verification checklists
+    **Code**: `// [IMPL-STDD_FILES] [ARCH-STDD_STRUCTURE] [REQ-STDD_SETUP]` in bootstrap scripts
+  related_decisions:
+    depends_on: []
+    supersedes: []
+    see_also:
+      - ARCH-STDD_STRUCTURE
+      - REQ-STDD_SETUP
+  detail_file: implementation-decisions/IMPL-STDD_FILES.md
+  last_validated: 2026-02-06
+  last_validator: AI agent
+
+IMPL-MODULE_VALIDATION:
+  name: Module Validation Implementation
+  status: Active
+  cross_references:
+    - ARCH-MODULE_VALIDATION
+    - REQ-MODULE_VALIDATION
+  created: 2025-12-18
+  last_updated: 2026-02-06
+  rationale: |
+    - Implements [REQ-MODULE_VALIDATION] requirement for independent module validation
+    - Realizes [ARCH-MODULE_VALIDATION] architecture decision
+    - Ensures modules are validated independently before integration to eliminate complexity-related bugs
+    - Catches bugs early in the development cycle, before integration issues compound
+    - Makes debugging easier by isolating issues to specific modules
+  implementation_approach: |
+    ### Module Identification Phase
+    1. **Before Development**: Identify logical modules and document:
+       - Module boundaries and responsibilities
+       - Module interfaces and contracts
+       - Module dependencies
+       - Module validation criteria
+
+    ### Module Development Phase
+    2. **Develop Module Independently**:
+       - Implement module according to defined interface
+       - Use dependency injection or interfaces for dependencies
+       - Keep module isolated from other modules during development
+
+    ### Module Validation Phase
+    3. **Validate Module Independently** (BEFORE integration):
+       - Unit tests with mocked dependencies
+       - Contract validation tests
+       - Edge case tests
+       - Error handling tests
+       - Integration tests with test doubles (mocks, stubs, fakes)
+
+    4. **Document Validation Results**:
+       - Document which validation tests passed
+       - Document any known limitations or assumptions
+       - Mark module as "validated" only after all validation criteria pass
+
+    ### Integration Phase
+    5. **Integrate Validated Modules** (ONLY after validation passes):
+       - Integration code that combines validated modules
+       - Integration testing validates combined behavior
+       - End-to-end scenarios test validated modules working together
+  code_markers: |
+    - Module validation test files: `*_module_test.[ext]` or `*_validation_test.[ext]`
+    - Integration test files: `*_integration_test.[ext]`
+    - Code comments: `// [REQ-MODULE_VALIDATION] Module validated independently before integration`
+    - Function pattern: `testModuleName_IndependentValidation_REQ_MODULE_VALIDATION`
+  traceability: |
+    **Architecture**: See `architecture-decisions.yaml` § ARCH-MODULE_VALIDATION
+    **Requirements**: See `requirements.yaml` § REQ-MODULE_VALIDATION
+    **Tests**: `testModuleName_IndependentValidation_REQ_MODULE_VALIDATION` - Module validation tests
+    **Code**: Module implementation files with `[IMPL-MODULE_VALIDATION]` comments
+  related_decisions:
+    depends_on: []
+    supersedes: []
+    see_also:
+      - ARCH-MODULE_VALIDATION
+      - REQ-MODULE_VALIDATION
+  detail_file: implementation-decisions/IMPL-MODULE_VALIDATION.md
+  last_validated: 2026-02-06
+  last_validator: AI agent
+
+IMPL-CONFIG_STRUCT:
+  name: Configuration Structure
+  status: Template
+  cross_references:
+    - ARCH-CONFIG_STRUCTURE
+    - REQ-CONFIGURATION
+  created: YYYY-MM-DD
+  last_updated: YYYY-MM-DD
+  rationale: |
+    - Why this configuration structure was chosen
+    - How it fulfills the architecture decision
+  implementation_approach: |
+    - Specific technical details
+    - Code structure or patterns
+    - API design decisions
+  code_markers: |
+    - `path/to/config.ext`: Configuration implementation
+    - Function `loadConfig()`: Configuration loading logic
+  traceability: |
+    **Architecture**: See `architecture-decisions.yaml` § ARCH-CONFIG_STRUCTURE
+    **Requirements**: See `requirements.yaml` § REQ-CONFIGURATION
+    **Tests**: testConfiguration_IMPL_CONFIG_STRUCT
+    **Code**: // [IMPL-CONFIG_STRUCT] in source files
+  related_decisions:
+    depends_on: []
+    supersedes: []
+    see_also: []
+  detail_file: implementation-decisions/IMPL-CONFIG_STRUCT.md
+  last_validated: YYYY-MM-DD
+  last_validator: agent/contributor
+
+IMPL-EXAMPLE_IMPLEMENTATION:
+  name: Core Implementation Example
+  status: Template
+  cross_references:
+    - ARCH-EXAMPLE_DECISION
+    - REQ-EXAMPLE_FEATURE
+  created: YYYY-MM-DD
+  last_updated: YYYY-MM-DD
+  rationale: |
+    - Why this implementation approach was chosen
+    - What problems it solves
+    - How it fulfills the architecture decision
+  implementation_approach: |
+    - Specific technical details
+    - Code structure or patterns
+    - API design decisions
+  code_markers: |
+    - `path/to/implementation.ext`: Main implementation
+    - Function `exampleFunction()`: What it does
+  traceability: |
+    **Architecture**: See `architecture-decisions.yaml` § ARCH-EXAMPLE_DECISION
+    **Requirements**: See `requirements.yaml` § REQ-EXAMPLE_FEATURE
+    **Tests**: testFeatureName_REQ_EXAMPLE_FEATURE
+    **Code**: // [IMPL-EXAMPLE_IMPLEMENTATION] in source files
+  related_decisions:
+    depends_on: []
+    supersedes: []
+    see_also: []
+  detail_file: implementation-decisions/IMPL-EXAMPLE_IMPLEMENTATION.md
+  last_validated: YYYY-MM-DD
+  last_validator: agent/contributor
+
+IMPL-ERROR_HANDLING:
+  name: Error Handling Implementation
+  status: Template
+  cross_references:
+    - ARCH-ERROR_HANDLING
+    - REQ-ERROR_HANDLING
+  created: YYYY-MM-DD
+  last_updated: YYYY-MM-DD
+  rationale: |
+    - Why this error handling implementation was chosen
+    - How it fulfills the architecture decision
+  implementation_approach: |
+    - Specific error handling patterns
+    - Error propagation strategy
+    - Error logging and reporting
+  code_markers: |
+    - `path/to/error_handler.ext`: Error handling implementation
+    - Function `handleError()`: Error handling logic
+  traceability: |
+    **Architecture**: See `architecture-decisions.yaml` § ARCH-ERROR_HANDLING
+    **Requirements**: See `requirements.yaml` § REQ-ERROR_HANDLING
+    **Tests**: testErrorHandling_IMPL_ERROR_HANDLING
+    **Code**: // [IMPL-ERROR_HANDLING] in source files
+  related_decisions:
+    depends_on: []
+    supersedes: []
+    see_also: []
+  detail_file: implementation-decisions/IMPL-ERROR_HANDLING.md
+  last_validated: YYYY-MM-DD
+  last_validator: agent/contributor
+
+IMPL-TESTING:
+  name: Testing Implementation
+  status: Template
+  cross_references:
+    - ARCH-TESTING_STRATEGY
+  created: YYYY-MM-DD
+  last_updated: YYYY-MM-DD
+  rationale: |
+    - Why this testing implementation was chosen
+    - How it fulfills the testing strategy
+  implementation_approach: |
+    - Unit testing implementation details
+    - Integration testing implementation details
+    - Test utilities and helpers
+    - Test coverage tools
+  code_markers: |
+    - `*_test.ext`: Test files
+    - Function `setupTestEnvironment()`: Test setup logic
+  traceability: |
+    **Architecture**: See `architecture-decisions.yaml` § ARCH-TESTING_STRATEGY
+    **Requirements**: See `requirements.yaml` § REQ-*
+    **Tests**: All test files implement this strategy
+    **Code**: // [IMPL-TESTING] in test files
+  related_decisions:
+    depends_on: []
+    supersedes: []
+    see_also: []
+  detail_file: implementation-decisions/IMPL-TESTING.md
+  last_validated: YYYY-MM-DD
+  last_validator: agent/contributor
+
+IMPL-CODE_STYLE:
+  name: Code Style and Conventions
+  status: Template
+  cross_references: []
+  created: YYYY-MM-DD
+  last_updated: YYYY-MM-DD
+  rationale: |
+    - Why these code style conventions were chosen
+    - How they improve maintainability
+  implementation_approach: |
+    - Naming conventions
+    - Code formatting rules
+    - Documentation standards
+    - Code organization patterns
+  code_markers: |
+    - `.editorconfig`: Editor configuration
+    - `.prettierrc` or similar: Code formatter configuration
+  traceability: |
+    **Architecture**: See `architecture-decisions.yaml` § ARCH-*
+    **Requirements**: See `requirements.yaml` § REQ-MAINTAINABILITY
+    **Tests**: Code style tests or linter checks
+    **Code**: All source files follow these conventions
+  related_decisions:
+    depends_on: []
+    supersedes: []
+    see_also: []
+  detail_file: implementation-decisions/IMPL-CODE_STYLE.md
+  last_validated: YYYY-MM-DD
+  last_validator: agent/contributor
+
+# ---
+# Template Record - Copy this block to create new implementation decisions
+# ---
+#
+# IMPL-IDENTIFIER:
+#   name: Implementation Title
+#   status: Active
+#   cross_references:
+#     - ARCH-RELATED_ARCHITECTURE
+#     - REQ-RELATED_REQUIREMENT
+#   created: YYYY-MM-DD
+#   last_updated: YYYY-MM-DD
+#   rationale: |
+#     - Why this implementation approach was chosen
+#     - What problems it solves
+#     - How it fulfills the architecture decision
+#   implementation_approach: |
+#     - Specific technical details
+#     - Code structure or patterns
+#     - API design decisions
+#   code_markers: |
+#     - `path/to/file.ext`: Description of what's implemented there
+#     - Function `exampleFunction()`: What it does
+#   traceability: |
+#     **Architecture**: See `architecture-decisions.yaml` § ARCH-IDENTIFIER
+#     **Requirements**: See `requirements.yaml` § REQ-IDENTIFIER
+#     **Tests**: testFeatureName_REQ_IDENTIFIER
+#     **Code**: // [IMPL-IDENTIFIER] in source files
+#   related_decisions:
+#     depends_on: []
+#     supersedes: []
+#     see_also: []
+#   detail_file: implementation-decisions/IMPL-IDENTIFIER.md
+#   last_validated: YYYY-MM-DD
+#   last_validator: agent/contributor

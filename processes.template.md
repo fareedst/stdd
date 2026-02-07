@@ -71,3 +71,201 @@ Use the structure below for every process you document. Each entry should be kep
 #### Artifacts & Metrics
 - **Artifacts** — Onboarding checklist, environment matrix, token discovery log.
 - **Success Metrics** — Every new module has `[REQ-*]` tokens defined, token registry updated, and build/test/deploy pipelines run at least once.
+
+---
+
+## `[PROC-YAML_DB_OPERATIONS]` YAML Database Operations
+
+### Purpose
+Provides succinct guidance for reading, writing, querying, and validating the YAML index files (`requirements.yaml`, `architecture-decisions.yaml`, `implementation-decisions.yaml`).
+
+### Scope
+Applies to all STDD YAML index files in the `stdd/` directory.
+
+### Token references
+- `[REQ-STDD_SETUP]` — YAML indexes are part of STDD methodology setup
+- `[ARCH-STDD_STRUCTURE]` — YAML indexes are part of project structure
+
+### Status
+Active
+
+### Core Activities
+
+#### 1. Appending a New Record
+
+**Manual Append:**
+1. Open the YAML file (e.g., `stdd/requirements.yaml`)
+2. Scroll to the bottom and find the commented template block
+3. Copy the template block
+4. Paste it at the end with a blank line before it
+5. Replace the token identifier (e.g., `REQ-IDENTIFIER` → `REQ-NEW_FEATURE`)
+6. Fill in all fields (name, category, priority, status, rationale, etc.)
+7. Update the `detail_file` path
+8. Save the file
+
+**Scripted Append:**
+```bash
+# Append a new requirement
+cat >> stdd/requirements.yaml << 'EOF'
+
+REQ-NEW_FEATURE:
+  name: New Feature Name
+  category: Functional
+  priority: P1
+  status: "Planned"
+  created: 2026-02-06
+  last_updated: 2026-02-06
+  rationale: |
+    Why this requirement exists
+  satisfaction_criteria: |
+    - How we know it's satisfied
+  validation_criteria: |
+    - How we verify it's met
+  traceability: |
+    **Architecture**: See `architecture-decisions.yaml` § ARCH-NEW_FEATURE
+    **Implementation**: See `implementation-decisions.yaml` § IMPL-NEW_FEATURE
+    **Tests**: testNewFeature_REQ_NEW_FEATURE
+    **Code**: // [REQ-NEW_FEATURE] in source files
+  related_requirements:
+    depends_on: []
+    related_to: []
+    supersedes: []
+  detail_file: requirements/REQ-NEW_FEATURE.md
+  last_validated: 2026-02-06
+  last_validator: Your Name
+EOF
+```
+
+#### 2. Reading and Querying Records
+
+**Read Entire File:**
+```bash
+cat stdd/requirements.yaml
+```
+
+**Read Specific Record (with yq):**
+```bash
+# Install yq if not already: https://github.com/mikefarah/yq
+yq '.REQ-STDD_SETUP' stdd/requirements.yaml
+yq '.["ARCH-STDD_STRUCTURE"]' stdd/architecture-decisions.yaml
+```
+
+**Read Specific Record (with grep):**
+```bash
+# Quick lookup for humans
+grep -A 30 '^REQ-STDD_SETUP:' stdd/requirements.yaml
+grep -A 30 '^ARCH-STDD_STRUCTURE:' stdd/architecture-decisions.yaml
+```
+
+**Filter by Status:**
+```bash
+# List all active architecture decisions
+yq 'to_entries | map(select(.value.status == "Active")) | from_entries' stdd/architecture-decisions.yaml
+
+# List all implemented requirements
+yq 'to_entries | map(select(.value.status == "Implemented")) | from_entries' stdd/requirements.yaml
+```
+
+**Query with Python:**
+```python
+import yaml
+
+# Read YAML file
+with open('stdd/requirements.yaml', 'r') as f:
+    requirements = yaml.safe_load(f)
+
+# Access specific requirement
+req = requirements['REQ-STDD_SETUP']
+print(f"Name: {req['name']}")
+print(f"Status: {req['status']}")
+print(f"Priority: {req['priority']}")
+
+# Filter by status
+implemented = {k: v for k, v in requirements.items() 
+               if v.get('status') == 'Implemented'}
+```
+
+**Query with jq (alternative to yq):**
+```bash
+# Convert YAML to JSON first, then use jq
+yq -o=json '.' stdd/requirements.yaml | jq '.["REQ-STDD_SETUP"]'
+```
+
+#### 3. Updating an Existing Record
+
+**Best Practice:** Edit the YAML file directly in your editor. YAML preserves formatting and comments better than programmatic edits.
+
+**Programmatic Update (Python):**
+```python
+import yaml
+
+# Read
+with open('stdd/requirements.yaml', 'r') as f:
+    data = yaml.safe_load(f)
+
+# Update
+data['REQ-STDD_SETUP']['last_updated'] = '2026-02-06'
+data['REQ-STDD_SETUP']['last_validator'] = 'New Validator'
+
+# Write back
+with open('stdd/requirements.yaml', 'w') as f:
+    yaml.dump(data, f, default_flow_style=False, sort_keys=False)
+```
+
+**Note:** Programmatic updates may lose formatting and comments. Manual editing is recommended for YAML files.
+
+#### 4. Validating YAML Syntax
+
+**Validate with yq:**
+```bash
+yq '.' stdd/requirements.yaml > /dev/null && echo "✅ Valid YAML" || echo "❌ Invalid YAML"
+yq '.' stdd/architecture-decisions.yaml > /dev/null && echo "✅ Valid YAML" || echo "❌ Invalid YAML"
+yq '.' stdd/implementation-decisions.yaml > /dev/null && echo "✅ Valid YAML" || echo "❌ Invalid YAML"
+```
+
+**Validate with Python:**
+```bash
+python3 -c "import yaml, sys; yaml.safe_load(open('stdd/requirements.yaml'))" && echo "✅ Valid" || echo "❌ Invalid"
+```
+
+**Validate with yamllint (if installed):**
+```bash
+yamllint stdd/requirements.yaml
+yamllint stdd/architecture-decisions.yaml
+yamllint stdd/implementation-decisions.yaml
+```
+
+#### 5. Listing All Tokens
+
+**List all requirement tokens:**
+```bash
+yq 'keys' stdd/requirements.yaml
+# or with grep:
+grep '^[A-Z].*:$' stdd/requirements.yaml | sed 's/:$//'
+```
+
+**List all architecture decision tokens:**
+```bash
+yq 'keys' stdd/architecture-decisions.yaml
+```
+
+**List all implementation decision tokens:**
+```bash
+yq 'keys' stdd/implementation-decisions.yaml
+```
+
+#### 6. Checking Cross-References
+
+**Find all requirements referenced by an architecture decision:**
+```bash
+yq '.ARCH-STDD_STRUCTURE.cross_references[]' stdd/architecture-decisions.yaml
+```
+
+**Find all architecture/requirement tokens referenced by an implementation:**
+```bash
+yq '.IMPL-MODULE_VALIDATION.cross_references[]' stdd/implementation-decisions.yaml
+```
+
+### Artifacts & Metrics
+- **Artifacts**: YAML index files (requirements.yaml, architecture-decisions.yaml, implementation-decisions.yaml)
+- **Success Metrics**: YAML files are valid, all records have required fields, cross-references are consistent

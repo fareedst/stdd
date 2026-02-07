@@ -16,7 +16,7 @@ This document centralizes every instruction AI coding assistants must follow whi
    - Read `ai-principles.md` completely
    - Review `semantic-tokens.md` (token registry)
    - Review `tasks.md` (active work + priorities)
-   - Review `architecture-decisions.md` and `implementation-decisions.md`
+   - Review `architecture-decisions.yaml` and `implementation-decisions.yaml` (YAML indexes)
    - Understand task priority order: Tests > Code > Basic Functions > Infrastructure
 3. Confirm access to the documents above before continuing.
 
@@ -91,13 +91,17 @@ This document centralizes every instruction AI coding assistants must follow whi
 | --- | --- |
 | `ai-principles.md` | Master principles and process guide (read fully every session) |
 | `semantic-tokens.md` | Canonical registry of all semantic tokens |
-| `requirements.md` | Requirements index with `[REQ-*]` tokens (copy from template per project) |
+| `requirements.md` | Requirements guide with documentation (copy from template per project) |
+| `requirements.yaml` | Requirements YAML index/database with all requirement records |
 | `requirements/` | Individual requirement detail files (e.g., `REQ-STDD_SETUP.md`) |
-| `architecture-decisions.md` | `[ARCH-*]` records tied to requirements (index file) |
+| `architecture-decisions.md` | Architecture decisions guide with documentation (copy from template per project) |
+| `architecture-decisions.yaml` | Architecture decisions YAML index/database with `[ARCH-*]` records tied to requirements |
 | `architecture-decisions/` | Individual architecture decision detail files |
-| `implementation-decisions.md` | `[IMPL-*]` records tied to requirements + architecture (index file) |
+| `implementation-decisions.md` | Implementation decisions guide with documentation (copy from template per project) |
+| `implementation-decisions.yaml` | Implementation decisions YAML index/database with `[IMPL-*]` records tied to requirements + architecture |
 | `implementation-decisions/` | Individual implementation decision detail files |
 | `tasks.md` | Task tracking with priorities and semantic token references |
+| `processes.md` | Process tracking including `[PROC-YAML_DB_OPERATIONS]` for YAML operations |
 | `.cursorrules` | IDE loader that points back to this document |
 | `.ai-agent-instructions` | Quick reminder pointing to this document |
 

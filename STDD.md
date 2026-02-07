@@ -531,9 +531,9 @@ def authenticate(user: String, password: String): Bool {
    generate_docs()
    
    // Outputs:
-   // - requirements.md: All req declarations with descriptions, rationale, priority
-   // - architecture-decisions.md: All arch declarations with cross-references to REQ
-   // - implementation-decisions.md: All impl declarations with cross-references to ARCH and REQ
+   // - requirements.yaml: YAML index with all req records (metadata, rationale, priority)
+   // - architecture-decisions.yaml: YAML index with all arch records and cross-references to REQ
+   // - implementation-decisions.yaml: YAML index with all impl records and cross-references to ARCH and REQ
    // - semantic-tokens.md: Central registry of all tokens with relationships
    // - Test coverage report: Requirements covered by tests
    // - Traceability matrix: Complete REQ → ARCH → IMPL → Code → Tests chain
@@ -660,9 +660,9 @@ coverage(REQ:USER_LOGIN)
 
 generate_docs()
 // Auto-generates:
-// - requirements.md with REQ:USER_LOGIN
-// - architecture-decisions.md with ARCH:AUTHENTICATION
-// - implementation-decisions.md with IMPL:PASSWORD_HASH
+// - requirements.yaml with REQ:USER_LOGIN
+// - architecture-decisions.yaml with ARCH:AUTHENTICATION
+// - implementation-decisions.yaml with IMPL:PASSWORD_HASH
 // - semantic-tokens.md with all tokens and relationships
 ```
 
@@ -759,12 +759,15 @@ STDD enables several metrics:
 **For more information**, see:
 - `ai-principles.md` - Complete STDD principles and process guide
 - `stdd-language-spec.md` - STDD language specification (pseudo-code templates with semantic tokens)
-- `requirements.template.md` - Template for requirements with `[REQ-*]` tokens (copy to your project as `requirements.md`)
+- `requirements.template.md` - Template guide for requirements documentation (copy to your project as `requirements.md`)
+- `requirements.template.yaml` - YAML index template for requirements with `[REQ-*]` tokens (copy to your project as `requirements.yaml`)
 - `requirements.template/` - Individual requirement detail file examples (copy to your project's `requirements/` directory)
-- `architecture-decisions.template.md` - Template for architecture decisions with `[ARCH-*]` tokens (copy to your project as `architecture-decisions.md`)
+- `architecture-decisions.template.md` - Template guide for architecture decisions documentation (copy to your project as `architecture-decisions.md`)
+- `architecture-decisions.template.yaml` - YAML index template for architecture decisions with `[ARCH-*]` tokens (copy to your project as `architecture-decisions.yaml`)
 - `architecture-decisions.template/` - Individual architecture decision detail file examples (copy to your project's `architecture-decisions/` directory)
-- `implementation-decisions.template.md` - Template for implementation decisions with `[IMPL-*]` tokens (copy to your project as `implementation-decisions.md`)
+- `implementation-decisions.template.md` - Template guide for implementation decisions documentation (copy to your project as `implementation-decisions.md`)
+- `implementation-decisions.template.yaml` - YAML index template for implementation decisions with `[IMPL-*]` tokens (copy to your project as `implementation-decisions.yaml`)
 - `implementation-decisions.template/` - Individual implementation decision detail file examples (copy to your project's `implementation-decisions/` directory)
-- `processes.template.md` - Template for process tracking (copy to your project as `processes.md`)
+- `processes.template.md` - Template for process tracking including `[PROC-YAML_DB_OPERATIONS]` (copy to your project as `processes.md`)
 - `semantic-tokens.template.md` - Template for semantic token registry (copy to your project as `semantic-tokens.md`)
 

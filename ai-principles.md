@@ -142,19 +142,19 @@ All project documentation MUST include these sections with semantic token cross-
   - **Validation Criteria**: How we verify/validate the requirement is met (testing approach, verification methods, success metrics)
 - Example: `[REQ-FEATURE] Description of the feature requirement`
 - Implementation status: ✅ (Implemented) or ⏳ (Planned)
-- **Note**: Validation criteria defined in requirements inform the testing strategy in `architecture-decisions.md` and specific test implementations in `implementation-decisions.md`
-- **Language Discussions**: Requirements MUST be language-agnostic. Language selection, runtime choices, and language-specific implementation details belong in architecture decisions (`architecture-decisions.md`) or implementation decisions (`implementation-decisions.md`), NOT in requirements. The ONLY exception is when language selection is itself a specific requirement (e.g., `[REQ-USE_PYTHON]` for a Python-specific project requirement).
+- **Note**: Validation criteria defined in requirements inform the testing strategy in `architecture-decisions.yaml` and specific test implementations in `implementation-decisions.yaml`
+- **Language Discussions**: Requirements MUST be language-agnostic. Language selection, runtime choices, and language-specific implementation details belong in architecture decisions (`architecture-decisions.yaml`) or implementation decisions (`implementation-decisions.yaml`), NOT in requirements. The ONLY exception is when language selection is itself a specific requirement (e.g., `[REQ-USE_PYTHON]` for a Python-specific project requirement).
 
 #### 2. Architecture Decisions Section
 - Documents high-level design choices
-- **Location**: `architecture-decisions.md` - dedicated file for architecture decisions
+- **Location**: `architecture-decisions.yaml` - YAML database of architecture decisions, with `architecture-decisions.md` as guide
 - **MANDATORY**: Must be updated IMMEDIATELY when architectural decisions are made
 - **DO NOT** defer architecture documentation - record decisions as they are made
 - Links to requirements via semantic tokens
 - Each decision MUST include semantic token `[ARCH-IDENTIFIER]` and cross-reference to `[REQ-*]` tokens
 - Example: `[ARCH-CONCURRENCY_MODEL] Uses Promises/async-await for async execution [REQ-ASYNC_EXECUTION]`
 - **Dependency**: Architecture decisions depend on requirements and should reference `[REQ-*]` tokens
-- **Update Timing**: Record in `architecture-decisions.md` during Phase 1 (Requirements → Pseudo-Code) and update as decisions evolve
+- **Update Timing**: Record in `architecture-decisions.yaml` during Phase 1 (Requirements → Pseudo-Code) and update as decisions evolve
 - **Language Discussions**: Language selection, runtime choices, and language-specific architectural patterns belong in architecture decisions. Document language choice with `[ARCH-LANGUAGE_SELECTION]` token when it's an architectural decision (not a requirement). Language-specific patterns (e.g., async/await, goroutines, callbacks) should be documented here.
 
 #### 3. Implementation Decisions Section
@@ -280,9 +280,9 @@ For comprehensive feature documentation, use this structured format that links a
 ```markdown
 ### [FEATURE-ID]: Feature Name
 
-**Requirement**: [REQ-IDENTIFIER] → See `requirements.md` § Section Name
-**Architecture**: [ARCH-IDENTIFIER] → See `architecture-decisions.md` § Decision Name  
-**Implementation**: [IMPL-IDENTIFIER] → See `implementation-decisions.md` § Implementation Name
+**Requirement**: [REQ-IDENTIFIER] → See `requirements.yaml` § REQ-IDENTIFIER
+**Architecture**: [ARCH-IDENTIFIER] → See `architecture-decisions.yaml` § ARCH-IDENTIFIER
+**Implementation**: [IMPL-IDENTIFIER] → See `implementation-decisions.yaml` § IMPL-IDENTIFIER
 **Tests**: `TestFeatureName_REQ_IDENTIFIER` → See `*_test.*` files
 **Code**: `// [REQ-IDENTIFIER] Implementation comment` → See source code files
 
@@ -292,9 +292,9 @@ For comprehensive feature documentation, use this structured format that links a
 #### Bi-Directional Linking
 
 Each document should contain:
-- **Forward Links**: "This requirement is implemented by [ARCH-DESIGN] (see `architecture-decisions.md`)"
-- **Backward Links**: "This component implements [REQ-REQUIREMENT] (see `requirements.md`)"
-- **Sibling Links**: "Related to [IMPL-RELATED_FEATURE] (see `implementation-decisions.md`)"
+- **Forward Links**: "This requirement is implemented by [ARCH-DESIGN] (see `architecture-decisions.yaml`)"
+- **Backward Links**: "This component implements [REQ-REQUIREMENT] (see `requirements.yaml`)"
+- **Sibling Links**: "Related to [IMPL-RELATED_FEATURE] (see `implementation-decisions.yaml`)"
 
 This ensures traceability in both directions and helps AI assistants understand relationships.
 
@@ -329,7 +329,7 @@ This distinction is fundamental to STDD:
 ### Rules for Bug Tracking
 
 1. **Bugs are tracked in Architecture/Implementation Decisions**
-   - Document bugs in `architecture-decisions.md` or `implementation-decisions.md`
+   - Document bugs in `architecture-decisions.yaml` or `implementation-decisions.yaml`
    - Use `[ARCH-*]` or `[IMPL-*]` tokens
    - Cross-reference to the requirement that should be satisfied: `[REQ-*]`
 
@@ -365,7 +365,7 @@ Is this describing WHAT the system should do?
 │
 └─ NO → Is this describing WHERE implementation fails?
     ├─ YES → It's a BUG
-    │   └─ Document in architecture-decisions.md or implementation-decisions.md
+    │   └─ Document in architecture-decisions.yaml or implementation-decisions.yaml
     │   └─ Use [ARCH-*] or [IMPL-*] token
     │   └─ Cross-reference to [REQ-*] that should be satisfied
     │   └─ Describe the fix approach
@@ -424,11 +424,11 @@ When making changes, use this matrix to identify what needs updating:
 
 | Change Type | Documents to Update | Validation Required |
 |-------------|-------------------|-------------------|
-| New Feature | requirements.md, architecture-decisions.md, implementation-decisions.md, semantic-tokens.md, tasks.md | Full validation |
-| Requirement Change | requirements.md, architecture-decisions.md, implementation-decisions.md, tests | Implementation validation |
-| Architecture Change | architecture-decisions.md, implementation-decisions.md, tests | Test validation |
-| Implementation Detail | implementation-decisions.md, tests | Test validation |
-| Bug Fix | architecture-decisions.md or implementation-decisions.md, tests, requirements.md (if requirement was missing/wrong) | Regression validation |
+| New Feature | requirements.yaml, architecture-decisions.yaml, implementation-decisions.yaml, semantic-tokens.md, tasks.md | Full validation |
+| Requirement Change | requirements.yaml, architecture-decisions.yaml, implementation-decisions.yaml, tests | Implementation validation |
+| Architecture Change | architecture-decisions.yaml, implementation-decisions.yaml, tests | Test validation |
+| Implementation Detail | implementation-decisions.yaml, tests | Test validation |
+| Bug Fix | architecture-decisions.yaml or implementation-decisions.yaml, tests, requirements.yaml (if requirement was missing/wrong) | Regression validation |
 
 #### Pre-Change Validation Checklist
 
@@ -504,10 +504,10 @@ Create and maintain `semantic-tokens.md` with:
    - Note semantic token: `[REQ-IDENTIFIER]`
 
 2. **Architectural Decisions** (MANDATORY - Record IMMEDIATELY)
-   - **IMMEDIATELY** document high-level approach in `architecture-decisions.md`
+   - **IMMEDIATELY** document high-level approach in `architecture-decisions.yaml`
    - **IMMEDIATELY** create `[ARCH-IDENTIFIER]` tokens
    - **IMMEDIATELY** cross-reference: `[ARCH-IDENTIFIER] [REQ-IDENTIFIER]`
-   - Each architecture decision MUST be recorded in `architecture-decisions.md` with semantic token links
+   - Each architecture decision MUST be recorded in `architecture-decisions.yaml` with semantic token links
    - Architecture decisions are dependent on requirements and must reference `[REQ-*]` tokens
    - **DO NOT** defer - record decisions as they are made, not at the end
 
@@ -542,8 +542,8 @@ Create and maintain `semantic-tokens.md` with:
      ```
 
 6. **Update Documentation** (MANDATORY - Do IMMEDIATELY)
-   - **IMMEDIATELY** add architecture decisions to `architecture-decisions.md` with `[ARCH-*]` tokens and `[REQ-*]` cross-references
-   - **IMMEDIATELY** add implementation decisions to `implementation-decisions.md` with `[IMPL-*]` tokens and `[ARCH-*]` and `[REQ-*]` cross-references
+   - **IMMEDIATELY** add architecture decisions to `architecture-decisions.yaml` with `[ARCH-*]` tokens and `[REQ-*]` cross-references
+   - **IMMEDIATELY** add implementation decisions to `implementation-decisions.yaml` with `[IMPL-*]` tokens and `[ARCH-*]` and `[REQ-*]` cross-references
    - **IMMEDIATELY** document module boundaries and validation criteria
    - **IMMEDIATELY** update `semantic-tokens.md` with any new tokens created
    - **IMMEDIATELY** create tasks in `tasks.md` with priorities and semantic token references
@@ -632,8 +632,8 @@ Create and maintain `semantic-tokens.md` with:
 
 6. **Update Documentation** (MANDATORY - Update AS YOU WORK)
    - **BEFORE making changes**: Consult the Change Impact Tracking matrix (see Cross-Reference Format section) to identify all documents that need updating
-   - **DURING implementation**: Update `architecture-decisions.md` if decisions are refined
-   - **DURING implementation**: Update `implementation-decisions.md` if decisions are refined
+   - **DURING implementation**: Update `architecture-decisions.yaml` if decisions are refined
+   - **DURING implementation**: Update `implementation-decisions.yaml` if decisions are refined
    - **DURING implementation**: Document module validation results
    - **DURING implementation**: Update `tasks.md` as subtasks are completed
    - **DURING implementation**: Maintain bi-directional links when updating documentation
@@ -808,8 +808,8 @@ This project follows AI-First Principles. Before making changes:
 - [ ] Verify all prerequisites above
 - [ ] Have access to semantic token registry
 - [ ] Understand current task priorities
-- [ ] **MANDATORY**: Review `architecture-decisions.md` for existing architecture decisions
-- [ ] **MANDATORY**: Review `implementation-decisions.md` for existing implementation decisions
+- [ ] **MANDATORY**: Review `architecture-decisions.yaml` for existing architecture decisions
+- [ ] **MANDATORY**: Review `implementation-decisions.yaml` for existing implementation decisions
 - [ ] **MANDATORY**: Plan work in `tasks.md` BEFORE writing any code
 
 **DURING WORK:**
@@ -822,8 +822,8 @@ This project follows AI-First Principles. Before making changes:
 - [ ] **MANDATORY**: Validate each module independently (unit tests with mocks, contract tests, edge cases, error handling) BEFORE integration [REQ-MODULE_VALIDATION]
 - [ ] **MANDATORY**: Only integrate modules after validation passes [REQ-MODULE_VALIDATION]
 - [ ] **MANDATORY**: Document module validation results [REQ-MODULE_VALIDATION]
-- [ ] **MANDATORY**: Record architecture decisions in `architecture-decisions.md` IMMEDIATELY when made (with `[ARCH-*]` tokens and `[REQ-*]` cross-references)
-- [ ] **MANDATORY**: Record implementation decisions in `implementation-decisions.md` IMMEDIATELY when made (with `[IMPL-*]` tokens and `[ARCH-*]` and `[REQ-*]` cross-references)
+- [ ] **MANDATORY**: Record architecture decisions in `architecture-decisions.yaml` IMMEDIATELY when made (with `[ARCH-*]` tokens and `[REQ-*]` cross-references)
+- [ ] **MANDATORY**: Record implementation decisions in `implementation-decisions.yaml` IMMEDIATELY when made (with `[IMPL-*]` tokens and `[ARCH-*]` and `[REQ-*]` cross-references)
 - [ ] **MANDATORY**: Break work into trackable tasks in `tasks.md` BEFORE starting implementation
 - [ ] **MANDATORY**: Assign appropriate priorities to all tasks
 - [ ] **MANDATORY**: Update `tasks.md` as subtasks are completed
@@ -839,10 +839,10 @@ This project follows AI-First Principles. Before making changes:
 **AFTER COMPLETING WORK:**
 
 - [ ] **MANDATORY**: All semantic tokens documented in `semantic-tokens.md`
-- [ ] **MANDATORY**: Record the latest `[PROC-TOKEN_AUDIT]` and `[PROC-TOKEN_VALIDATION]` results in `tasks.md` / `implementation-decisions.md`
+- [ ] **MANDATORY**: Record the latest `[PROC-TOKEN_AUDIT]` and `[PROC-TOKEN_VALIDATION]` results in `tasks.md` / `implementation-decisions.yaml`
 - [ ] **MANDATORY**: Documentation updated with implementation status:
-  - `architecture-decisions.md` reflects all architectural decisions made
-  - `implementation-decisions.md` reflects all implementation decisions made
+  - `architecture-decisions.yaml` reflects all architectural decisions made
+  - `implementation-decisions.yaml` reflects all implementation decisions made
   - Both cross-reference `[REQ-*]` tokens correctly
 - [ ] **MANDATORY**: Tests reference semantic tokens
 - [ ] **MANDATORY**: Tasks marked complete in `tasks.md`
@@ -857,14 +857,17 @@ This project follows AI-First Principles. Before making changes:
 
 ## 📚 Related Documents
 
-- `stdd/requirements.md` - Main requirements document (index file with requirements registry) (copy from `requirements.template.md` in STDD repository)
+- `stdd/requirements.md` - Requirements guide document (copy from `requirements.template.md` in STDD repository)
+  - `stdd/requirements.yaml` - Requirements YAML index/database with all `[REQ-*]` records (copy from `requirements.template.yaml`)
   - `stdd/requirements/` - Individual requirement detail files (e.g., `REQ-STDD_SETUP.md`, `REQ-MODULE_VALIDATION.md`)
-- `stdd/architecture-decisions.md` - **Semantic-token-linked record of architecture decisions dependent on requirements** (copy from `architecture-decisions.template.md`)
-  - All `[ARCH-*]` tokens must be documented here
+- `stdd/architecture-decisions.md` - Architecture decisions guide document (copy from `architecture-decisions.template.md`)
+  - `stdd/architecture-decisions.yaml` - Architecture decisions YAML index/database with all `[ARCH-*]` records dependent on requirements (copy from `architecture-decisions.template.yaml`)
+  - All `[ARCH-*]` tokens must be documented in the YAML index
   - Must cross-reference `[REQ-*]` tokens from requirements
   - `stdd/architecture-decisions/` - Individual architecture decision detail files
-- `stdd/implementation-decisions.md` - **Semantic-token-linked record of implementation decisions dependent on architecture and requirements** (copy from `implementation-decisions.template.md`)
-  - All `[IMPL-*]` tokens must be documented here
+- `stdd/implementation-decisions.md` - Implementation decisions guide document (copy from `implementation-decisions.template.md`)
+  - `stdd/implementation-decisions.yaml` - Implementation decisions YAML index/database with all `[IMPL-*]` records dependent on architecture and requirements (copy from `implementation-decisions.template.yaml`)
+  - All `[IMPL-*]` tokens must be documented in the YAML index
   - Must cross-reference both `[ARCH-*]` and `[REQ-*]` tokens
   - `stdd/implementation-decisions/` - Individual implementation decision detail files
 - `stdd/semantic-tokens.md` - Central registry of all semantic tokens (copy from `semantic-tokens.template.md`)
@@ -886,8 +889,8 @@ This document should be:
 
 ### Documentation is MANDATORY, Not Optional
 
-1. **Architecture Decisions**: Record IMMEDIATELY in `architecture-decisions.md` when made
-2. **Implementation Decisions**: Record IMMEDIATELY in `implementation-decisions.md` when made
+1. **Architecture Decisions**: Record IMMEDIATELY in `architecture-decisions.yaml` when made
+2. **Implementation Decisions**: Record IMMEDIATELY in `implementation-decisions.yaml` when made
 3. **Task Planning**: Plan in `tasks.md` BEFORE starting implementation
 4. **Semantic Tokens**: Update `semantic-tokens.md` when creating new tokens
 5. **DO NOT DEFER**: Documentation updates are part of the work, not something to do "later"

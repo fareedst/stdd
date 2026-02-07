@@ -12,7 +12,8 @@ All decisions are cross-referenced with architecture decisions using `[ARCH-*]` 
 
 ```
 stdd/
-├── implementation-decisions.md              # This index file
+├── implementation-decisions.md              # This guide file (you are here)
+├── implementation-decisions.yaml            # YAML index/database of all implementation decisions
 ├── implementation-decisions/                # Detail files directory
 │   ├── IMPL-CONFIG_STRUCT.md
 │   ├── IMPL-STDD_FILES.md
@@ -52,15 +53,68 @@ Token names contain `:` which is invalid in filenames on many operating systems.
 
 ## Implementation Decisions Index
 
-| Token | Title | Status | Cross-References | Detail File |
-|-------|-------|--------|------------------|-------------|
-| `[IMPL-CONFIG_STRUCT]` | Configuration Structure | Active | [ARCH-CONFIG_STRUCTURE] [REQ-CONFIGURATION] | [Detail](implementation-decisions/IMPL-CONFIG_STRUCT.md) |
-| `[IMPL-STDD_FILES]` | STDD File Creation | Active | [ARCH-STDD_STRUCTURE] [REQ-STDD_SETUP] | [Detail](implementation-decisions/IMPL-STDD_FILES.md) |
-| `[IMPL-EXAMPLE_IMPLEMENTATION]` | Core Implementation Example | Template | [ARCH-EXAMPLE_DECISION] [REQ-EXAMPLE_FEATURE] | [Detail](implementation-decisions/IMPL-EXAMPLE_IMPLEMENTATION.md) |
-| `[IMPL-ERROR_HANDLING]` | Error Handling | Active | [ARCH-ERROR_HANDLING] [REQ-ERROR_HANDLING] | [Detail](implementation-decisions/IMPL-ERROR_HANDLING.md) |
-| `[IMPL-TESTING]` | Testing Implementation | Active | [ARCH-TESTING_STRATEGY] [REQ-*] | [Detail](implementation-decisions/IMPL-TESTING.md) |
-| `[IMPL-CODE_STYLE]` | Code Style and Conventions | Active | — | [Detail](implementation-decisions/IMPL-CODE_STYLE.md) |
-| `[IMPL-MODULE_VALIDATION]` | Module Validation | Active | [ARCH-MODULE_VALIDATION] [REQ-MODULE_VALIDATION] | [Detail](implementation-decisions/IMPL-MODULE_VALIDATION.md) |
+**The implementation decisions index is maintained in `implementation-decisions.yaml`**, a YAML database file that contains all implementation decision records with their metadata, cross-references, and status.
+
+To view the index:
+
+```bash
+# View entire index
+cat stdd/implementation-decisions.yaml
+
+# View specific decision
+yq '.IMPL-MODULE_VALIDATION' stdd/implementation-decisions.yaml
+
+# List all active decisions
+yq 'to_entries | map(select(.value.status == "Active")) | from_entries' stdd/implementation-decisions.yaml
+
+# Quick grep search
+grep -A 30 '^IMPL-MODULE_VALIDATION:' stdd/implementation-decisions.yaml
+```
+
+### How to Append a New Implementation Decision
+
+1. Open `implementation-decisions.yaml` in your editor
+2. Copy the template block at the bottom of the file (IMPL-IDENTIFIER)
+3. Paste it at the end with a blank line before it
+4. Replace `IMPL-IDENTIFIER` with your new semantic token
+5. Fill in all fields (name, status, cross_references, rationale, implementation_approach, etc.)
+6. Update the `detail_file` path to match your new `.md` file in `implementation-decisions/` directory
+7. Save the file
+
+Example append operation:
+
+```bash
+cat >> stdd/implementation-decisions.yaml << 'EOF'
+
+IMPL-NEW_IMPLEMENTATION:
+  name: New Implementation
+  status: Active
+  cross_references:
+    - ARCH-RELATED_ARCHITECTURE
+    - REQ-RELATED_REQUIREMENT
+  created: 2026-02-06
+  last_updated: 2026-02-06
+  rationale: |
+    Why this implementation approach was chosen
+  implementation_approach: |
+    - Specific technical details
+    - Code patterns
+  code_markers: |
+    - path/to/file.ext: What's implemented
+  traceability: |
+    **Architecture**: See `architecture-decisions.yaml` § ARCH-RELATED_ARCHITECTURE
+    **Requirements**: See `requirements.yaml` § REQ-RELATED_REQUIREMENT
+    **Tests**: testFeatureName_REQ_RELATED_REQUIREMENT
+    **Code**: // [IMPL-NEW_IMPLEMENTATION] in source files
+  related_decisions:
+    depends_on: []
+    supersedes: []
+    see_also: []
+  detail_file: implementation-decisions/IMPL-NEW_IMPLEMENTATION.md
+  last_validated: 2026-02-06
+  last_validator: Your Name
+EOF
+```
 
 ### Status Values
 

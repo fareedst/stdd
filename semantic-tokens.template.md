@@ -6,9 +6,9 @@
 This document serves as the **central directory/registry** for all semantic tokens used in the project. Semantic tokens (`[REQ-*]`, `[ARCH-*]`, `[IMPL-*]`) provide a consistent vocabulary and traceability mechanism that ties together all documentation, code, and tests.
 
 **For detailed information about tokens, see:**
-- **Requirements tokens**: See `requirements.md` for full descriptions, rationale, satisfaction criteria, and validation criteria
-- **Architecture tokens**: See `architecture-decisions.md` for architectural decisions, rationale, and alternatives considered
-- **Implementation tokens**: See `implementation-decisions.md` for implementation details, code structures, and algorithms
+- **Requirements tokens**: See `requirements.md` (guide) and `requirements.yaml` (YAML index) for full descriptions, rationale, satisfaction criteria, and validation criteria
+- **Architecture tokens**: See `architecture-decisions.md` (guide) and `architecture-decisions.yaml` (YAML index) for architectural decisions, rationale, and alternatives considered
+- **Implementation tokens**: See `implementation-decisions.md` (guide) and `implementation-decisions.yaml` (YAML index) for implementation details, code structures, and algorithms
 
 ## AI Assistant Integration Guidelines [REQ-DOC_016]
 
@@ -98,7 +98,7 @@ When referencing other tokens:
 
 ## Requirements Tokens Registry
 
-**📖 Full details**: See `requirements.md` (index) and `requirements/` (detail files)
+**📖 Full details**: See `requirements.md` (guide) and `requirements.yaml` (YAML index) and `requirements/` (detail files)
 
 ### Immutable Requirements
 
@@ -116,7 +116,7 @@ When referencing other tokens:
 
 ## Architecture Tokens Registry
 
-**📖 Full details**: See `architecture-decisions.md` (index) and `architecture-decisions/` (detail files)
+**📖 Full details**: See `architecture-decisions.md` (guide) and `architecture-decisions.yaml` (YAML index) and `architecture-decisions/` (detail files)
 
 - `[ARCH-LANGUAGE_SELECTION]` - Language and runtime selection
 - `[ARCH-PROJECT_STRUCTURE]` - Project structure decision
@@ -127,7 +127,7 @@ When referencing other tokens:
 
 ## Implementation Tokens Registry
 
-**📖 Full details**: See `implementation-decisions.md` (index) and `implementation-decisions/` (detail files)
+**📖 Full details**: See `implementation-decisions.md` (guide) and `implementation-decisions.yaml` (YAML index) and `implementation-decisions/` (detail files)
 
 - `[IMPL-CONFIG_STRUCT]` - Configuration structure implementation [ARCH-CONFIG_STRUCTURE] [REQ-CONFIGURATION]
 - `[IMPL-STDD_FILES]` - STDD file creation [ARCH-STDD_STRUCTURE] [REQ-STDD_SETUP]
@@ -156,6 +156,7 @@ When referencing other tokens:
 - `[PROC-BUILD_PIPELINE_VALIDATION]` - Build/deploy validation tied to `[REQ-MODULE_VALIDATION]`
 - `[PROC-TOKEN_AUDIT]` - Mandatory checklist ensuring every requirement → architecture → implementation → code/test path is annotated and documented
 - `[PROC-TOKEN_VALIDATION]` - Automated validation workflow (e.g., `./scripts/validate_tokens.sh`) that proves all referenced tokens exist in the registry
+- `[PROC-YAML_DB_OPERATIONS]` - YAML database operations for reading, writing, querying, and validating YAML index files (`requirements.yaml`, `architecture-decisions.yaml`, `implementation-decisions.yaml`)
 - Add your process tokens here
 
 ## Usage Examples

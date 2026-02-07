@@ -12,7 +12,8 @@ All decisions are cross-referenced with requirements using `[REQ-*]` tokens for 
 
 ```
 stdd/
-├── architecture-decisions.md              # This index file
+├── architecture-decisions.md              # This guide file (you are here)
+├── architecture-decisions.yaml            # YAML index/database of all architecture decisions
 ├── architecture-decisions/                # Detail files directory
 │   ├── ARCH-STDD_STRUCTURE.md
 │   ├── ARCH-MODULE_VALIDATION.md
@@ -52,14 +53,70 @@ Token names use the same format in text and filenames:
 
 ## Architecture Decisions Index
 
-| Token | Title | Status | Cross-References | Detail File |
-|-------|-------|--------|------------------|-------------|
-| `[ARCH-STDD_STRUCTURE]` | STDD Project Structure | Active | [REQ-STDD_SETUP] | [Detail](architecture-decisions/ARCH-STDD_STRUCTURE.md) |
-| `[ARCH-MODULE_VALIDATION]` | Module Validation Strategy | Active | [REQ-MODULE_VALIDATION] | [Detail](architecture-decisions/ARCH-MODULE_VALIDATION.md) |
-| `[ARCH-LANGUAGE_SELECTION]` | Language and Runtime Selection | Template | — | [Detail](architecture-decisions/ARCH-LANGUAGE_SELECTION.md) |
-| `[ARCH-EXAMPLE_DECISION]` | Core Architecture Example | Template | [REQ-EXAMPLE_FEATURE] | [Detail](architecture-decisions/ARCH-EXAMPLE_DECISION.md) |
-| `[ARCH-ERROR_HANDLING]` | Error Handling Strategy | Template | [REQ-ERROR_HANDLING] | [Detail](architecture-decisions/ARCH-ERROR_HANDLING.md) |
-| `[ARCH-TESTING_STRATEGY]` | Testing Strategy | Template | — | [Detail](architecture-decisions/ARCH-TESTING_STRATEGY.md) |
+**The architecture decisions index is maintained in `architecture-decisions.yaml`**, a YAML database file that contains all architecture decision records with their metadata, cross-references, and status.
+
+To view the index:
+
+```bash
+# View entire index
+cat stdd/architecture-decisions.yaml
+
+# View specific decision
+yq '.ARCH-STDD_STRUCTURE' stdd/architecture-decisions.yaml
+
+# List all active decisions
+yq 'to_entries | map(select(.value.status == "Active")) | from_entries' stdd/architecture-decisions.yaml
+
+# Quick grep search
+grep -A 30 '^ARCH-STDD_STRUCTURE:' stdd/architecture-decisions.yaml
+```
+
+### How to Append a New Architecture Decision
+
+1. Open `architecture-decisions.yaml` in your editor
+2. Copy the template block at the bottom of the file (ARCH-IDENTIFIER)
+3. Paste it at the end with a blank line before it
+4. Replace `ARCH-IDENTIFIER` with your new semantic token
+5. Fill in all fields (name, status, cross_references, rationale, alternatives, etc.)
+6. Update the `detail_file` path to match your new `.md` file in `architecture-decisions/` directory
+7. Save the file
+
+Example append operation:
+
+```bash
+cat >> stdd/architecture-decisions.yaml << 'EOF'
+
+ARCH-NEW_DECISION:
+  name: New Architecture Decision
+  status: Active
+  cross_references:
+    - REQ-RELATED_REQUIREMENT
+  created: 2026-02-06
+  last_updated: 2026-02-06
+  rationale: |
+    Why this decision was made
+  alternatives_considered: |
+    - **Alternative 1**: Why rejected
+    - **Alternative 2**: Why rejected
+  implementation_approach: |
+    - High-level approach
+    - Key components
+  traceability: |
+    **Requirements**: See `requirements.yaml` § REQ-RELATED_REQUIREMENT
+    **Implementation**: See `implementation-decisions.yaml` § IMPL-NEW_DECISION
+    **Tests**: testFeatureName_ARCH_NEW_DECISION
+    **Code**: // [ARCH-NEW_DECISION] in source files
+  related_decisions:
+    depends_on:
+      - REQ-RELATED_REQUIREMENT
+    informs:
+      - IMPL-NEW_DECISION
+    see_also: []
+  detail_file: architecture-decisions/ARCH-NEW_DECISION.md
+  last_validated: 2026-02-06
+  last_validator: Your Name
+EOF
+```
 
 ### Status Values
 

@@ -5,6 +5,93 @@ All notable changes to the STDD (Semantic Token-Driven Development) methodology 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2026-02-07
+
+### Added
+
+- **YAML Database Indexes** [PROC-YAML_DB_OPERATIONS]: Transformed all three index files from Markdown tables to YAML database files for improved programmatic access and append-only semantics
+  - `requirements.template.yaml` - YAML database with all requirement records (replaces Markdown tables in requirements.template.md)
+  - `architecture-decisions.template.yaml` - YAML database with all architecture decision records (replaces Markdown tables in architecture-decisions.template.md)
+  - `implementation-decisions.template.yaml` - YAML database with all implementation decision records (replaces Markdown tables in implementation-decisions.template.md)
+  - Each YAML file includes comprehensive header documentation and template blocks for easy appending
+  - Schema tailored per type: Requirements have `satisfaction_criteria` and `validation_criteria`; Architecture has `alternatives_considered` and `implementation_approach`; Implementation has `code_markers` and `implementation_approach`
+  - Append-only design: copy template block from bottom, paste at end, fill fields
+  - Enables programmatic querying with `yq`, `grep`, Python `yaml.safe_load()`, and other YAML tools
+
+- **YAML Operations Process Documentation** [PROC-YAML_DB_OPERATIONS]: Comprehensive process guide in `processes.template.md`
+  - Appending new records (manual and scripted)
+  - Reading specific records (`yq`, `grep`, Python)
+  - Filtering by status/priority
+  - Validating YAML syntax
+  - Listing all tokens
+  - Checking cross-references
+  - Complete examples for all operations
+
+- **YAML Index Migration Guide** (`migrate-to-yaml-indexes.md`): Comprehensive migration instructions for projects moving from Markdown table indexes to YAML indexes
+  - Pre-migration checklist
+  - Step-by-step migration for all three index types
+  - Manual and scripted conversion approaches
+  - Cross-reference updates
+  - YAML syntax validation
+  - Traceability verification
+  - Post-migration checklist
+  - Rollback procedure
+  - Troubleshooting section
+
+### Changed
+
+- **`.template.md` files**: Now serve as **guide files** explaining how to use YAML indexes
+  - `requirements.template.md` - Removed Markdown tables, added YAML file references and "How to Append" instructions
+  - `architecture-decisions.template.md` - Removed Markdown tables, added YAML file references and "How to Append" instructions
+  - `implementation-decisions.template.md` - Removed Markdown tables, added YAML file references and "How to Append" instructions
+  - All three files maintain detail file templates and documentation structure
+
+- **`copy_files.sh`**: Updated to copy YAML template files
+  - Added `requirements.template.yaml` to TEMPLATE_FILES array
+  - Added `architecture-decisions.template.yaml` to TEMPLATE_FILES array
+  - Added `implementation-decisions.template.yaml` to TEMPLATE_FILES array
+
+- **`semantic-tokens.template.md`**: Updated all references to mention `.yaml` index files alongside `.md` guide files
+  - Added `[PROC-YAML_DB_OPERATIONS]` to Process Tokens Registry
+
+- **`AGENTS.md`**: Updated Key Files table and Section 2 to reference `.yaml` index files
+  - Index files listed as YAML databases with `.md` files as guides
+
+- **`ai-principles.md`**: Comprehensive updates throughout
+  - Documentation Structure section updated to reference `.yaml` files
+  - Related Documents section updated with `.yaml` file references
+  - Feature documentation format updated to use `.yaml` file references
+  - Critical reminders updated to reference `.yaml` files
+  - Change Impact Tracking matrix updated to use `.yaml` files
+  - All checklist items updated to reference `.yaml` files
+
+- **`STDD.md`**: Updated references to mention YAML index format in documentation outputs and template file listings
+
+- **Version Alignment**: Updated all methodology files to STDD v1.5.0
+
+### Benefits
+
+- **Programmatic Access**: Query, filter, and validate indexes using standard YAML tools (`yq`, Python, etc.)
+- **Append-Only Semantics**: Add new records by copying template block and pasting at end - reduces merge conflicts
+- **Structured Data**: YAML provides proper data types (lists, multi-line strings) vs. Markdown table text
+- **Easier Validation**: `yq '.' file.yaml` validates syntax; custom scripts can validate cross-references
+- **Better Tooling**: Standard YAML parsers available in all languages
+- **Consistent Format**: No Markdown table formatting issues or alignment problems
+- **Preserve Detail Files**: Detail `.md` files remain unchanged - only indexes converted to YAML
+
+### Rationale
+
+Markdown tables become unwieldy for programmatic operations (filtering, querying, validation). YAML provides:
+1. **Machine-readable structure** while maintaining human readability
+2. **Append-only workflow** that minimizes merge conflicts
+3. **Rich data types** (lists, multi-line strings) vs. plain text in table cells
+4. **Standard tooling** available across all programming languages
+5. **Easier validation** of both syntax and semantic consistency
+
+The `.md` guide files explain how to use the YAML indexes, while the YAML files themselves serve as the canonical database. Detail files remain in Markdown for narrative documentation.
+
+---
+
 ## [1.4.0] - 2026-02-06
 
 ### Added

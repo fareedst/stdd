@@ -1,0 +1,140 @@
+# Requirements Index (YAML Database)
+#
+# This YAML file serves as the central index/registry for all requirements in the project.
+# Each top-level key is a semantic token (e.g., REQ-STDD_SETUP).
+#
+# To append a new requirement:
+# 1. Copy the template block at the bottom of this file (REQ-IDENTIFIER)
+# 2. Paste it at the end with a blank line before it
+# 3. Replace REQ-IDENTIFIER with your new token
+# 4. Fill in all fields
+# 5. Update the detail_file path to match your new .md file in requirements/ directory
+#
+# Field descriptions:
+#   name: Short descriptive name of the requirement
+#   category: Functional | Non-Functional | Immutable
+#   priority: P0 (Critical) | P1 (Important) | P2 (Nice-to-have) | P3 (Future)
+#   status: "Implemented" | "Planned" | "Template"
+#   created: YYYY-MM-DD
+#   last_updated: YYYY-MM-DD
+#   rationale: Why the requirement exists (WHY) - use | for multi-line
+#   satisfaction_criteria: How we know the requirement is satisfied - use | for multi-line
+#   validation_criteria: How we verify/validate the requirement is met - use | for multi-line
+#   traceability: Links to architecture, implementation, tests, code - use | for multi-line
+#   related_requirements: Lists of depends_on, related_to, supersedes (YAML lists or [])
+#   detail_file: Path to the detailed .md file in requirements/ directory
+#   last_validated: YYYY-MM-DD
+#   last_validator: agent/contributor name
+
+---
+
+REQ-STDD_SETUP:
+  name: STDD Methodology Setup
+  category: Functional
+  priority: P0
+  status: "Implemented"
+  created: 2025-11-08
+  last_updated: 2026-02-06
+  rationale: |
+    To ensure traceability of intent from requirements to code and to maintain a consistent development process.
+  satisfaction_criteria: |
+    - stdd/ directory exists
+    - All required documentation files exist and are populated from templates:
+      - requirements.yaml (index) with requirements/ directory for detail files
+      - architecture-decisions.yaml (index) with architecture-decisions/ directory for detail files
+      - implementation-decisions.yaml (index) with implementation-decisions/ directory for detail files
+      - semantic-tokens.md (central token registry)
+      - tasks.md (task tracking)
+      - processes.md (process tracking)
+    - .cursorrules contains the STDD rules
+    - AGENTS.md contains canonical AI agent instructions
+  validation_criteria: |
+    - Manual verification of file existence
+    - AI agent acknowledgment of principles ("Observing AI principles!")
+    - Verification that all index files have corresponding detail directories
+    - Verification that template files are properly structured
+  traceability: |
+    **Architecture**: See `architecture-decisions.yaml` § ARCH-STDD_STRUCTURE
+    **Implementation**: See `implementation-decisions.yaml` § IMPL-STDD_FILES
+    **Tests**: Manual verification checklists
+    **Code**: Bootstrap scripts and setup utilities with `// [IMPL-STDD_FILES] [ARCH-STDD_STRUCTURE] [REQ-STDD_SETUP]`
+  related_requirements:
+    depends_on: []
+    related_to: []
+    supersedes: []
+  detail_file: requirements/REQ-STDD_SETUP.md
+  last_validated: 2026-02-06
+  last_validator: AI agent
+
+REQ-MODULE_VALIDATION:
+  name: Independent Module Validation Before Integration
+  category: Functional
+  priority: P0
+  status: "Implemented"
+  created: 2025-01-27
+  last_updated: 2026-02-06
+  rationale: |
+    To eliminate bugs related to code complexity by ensuring each module works correctly in isolation before combining with other modules. Independent validation reduces integration complexity, catches bugs early in the development cycle, and ensures each module meets its defined contract before integration.
+  satisfaction_criteria: |
+    - All logical modules are identified and documented with clear boundaries before development
+    - Module interfaces and contracts are defined and documented
+    - Module validation criteria are specified (what "validated" means for each module)
+    - Each module is developed independently
+    - Each module passes independent validation (unit tests with mocks, integration tests with test doubles, contract validation, edge case testing, error handling validation) before integration
+    - Module validation results are documented
+    - Integration tasks are separate from module development and validation tasks
+    - Integration only occurs after module validation passes
+  validation_criteria: |
+    - Manual verification that modules are identified and documented before development
+    - Automated verification that module validation tests exist and pass before integration
+    - Code review verification that integration code references validated modules
+    - Verification that module validation results are documented
+    - Verification that integration tests validate the combined behavior of validated modules
+  traceability: |
+    **Architecture**: See `architecture-decisions.yaml` § ARCH-MODULE_VALIDATION
+    **Implementation**: See `implementation-decisions.yaml` § IMPL-MODULE_VALIDATION
+    **Tests**: Module validation test suites with pattern `testModuleName_IndependentValidation_REQ_MODULE_VALIDATION`
+    **Code**: Module implementation files with `// [REQ-MODULE_VALIDATION] Module validated independently before integration`
+  related_requirements:
+    depends_on:
+      - REQ-STDD_SETUP
+    related_to: []
+    supersedes: []
+  detail_file: requirements/REQ-MODULE_VALIDATION.md
+  last_validated: 2026-02-06
+  last_validator: AI agent
+
+# ---
+# Template Record - Copy this block to create new requirements
+# ---
+#
+# REQ-IDENTIFIER:
+#   name: Requirement Name
+#   category: Functional
+#   priority: P1
+#   status: "Planned"
+#   created: YYYY-MM-DD
+#   last_updated: YYYY-MM-DD
+#   rationale: |
+#     Why the requirement exists (WHY)
+#   satisfaction_criteria: |
+#     - How we know the requirement is satisfied
+#     - Acceptance criteria
+#     - Success conditions
+#   validation_criteria: |
+#     - How we verify/validate the requirement is met
+#     - Testing approach
+#     - Verification methods
+#     - Success metrics
+#   traceability: |
+#     **Architecture**: See `architecture-decisions.yaml` § ARCH-IDENTIFIER
+#     **Implementation**: See `implementation-decisions.yaml` § IMPL-IDENTIFIER
+#     **Tests**: `testFeatureName_REQ_IDENTIFIER` in test files
+#     **Code**: `// [REQ-IDENTIFIER] Implementation comment` in source files
+#   related_requirements:
+#     depends_on: []
+#     related_to: []
+#     supersedes: []
+#   detail_file: requirements/REQ-IDENTIFIER.md
+#   last_validated: YYYY-MM-DD
+#   last_validator: agent/contributor
