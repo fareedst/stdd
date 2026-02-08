@@ -23,9 +23,10 @@ To ensure traceability of intent from requirements to code and to maintain a con
   - `requirements.md` (index) with `requirements/` directory for detail files
   - `architecture-decisions.md` (index) with `architecture-decisions/` directory for detail files
   - `implementation-decisions.md` (index) with `implementation-decisions/` directory for detail files
-  - `semantic-tokens.md` (central token registry)
+  - `semantic-tokens.yaml` (YAML index/database of all tokens - canonical token registry)
+  - `semantic-tokens.md` (semantic tokens guide with format and conventions)
   - `tasks.md` (task tracking)
-  - `processes.md` (process tracking)
+  - `processes.md` (process tracking including `[PROC-YAML_DB_OPERATIONS]`)
 - `.cursorrules` contains the STDD rules
 - `AGENTS.md` contains canonical AI agent instructions
 

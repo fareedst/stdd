@@ -8,7 +8,7 @@ This document serves as the **central listing/registry** for all requirements in
 **For detailed information about how requirements are fulfilled, see:**
 - **Architecture decisions**: See `architecture-decisions.md` for high-level design choices that fulfill requirements
 - **Implementation decisions**: See `implementation-decisions.md` for detailed implementation approaches, APIs, and algorithms
-- **Semantic tokens**: See `semantic-tokens.md` for the complete token registry
+- **Semantic tokens**: See `semantic-tokens.yaml` (YAML index) for the token registry and `semantic-tokens.md` (guide) for token format and conventions
 
 ## Directory Structure
 
@@ -45,7 +45,7 @@ Token names use the same format in text and filenames:
 1. **Create a new detail file** in `requirements/` using the naming convention above
 2. **Use the detail file template** (see below)
 3. **Add an entry to the index table** below
-4. **Update `semantic-tokens.md`** registry with the new `[REQ-*]` token
+4. **Update `semantic-tokens.yaml`** registry with the new `[REQ-*]` token
 
 ## Requirements Index
 
@@ -218,7 +218,7 @@ touch stdd/requirements/REQ-YOUR_TOKEN.md
 
 # 4. Add entry to the index table in this file
 
-# 5. Update semantic-tokens.md registry
+# 5. Update semantic-tokens.yaml registry
 ```
 
 ---

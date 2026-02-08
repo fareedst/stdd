@@ -14,7 +14,7 @@ This document centralizes every instruction AI coding assistants must follow whi
    > `Observing AI principles!`
 2. At session start (or when instructions may have changed), immediately:
    - Read `ai-principles.md` completely
-   - Review `semantic-tokens.md` (token registry)
+   - Review `semantic-tokens.yaml` (token registry YAML index) and `semantic-tokens.md` (token guide)
    - Review `tasks.md` (active work + priorities)
    - Review `architecture-decisions.yaml` and `implementation-decisions.yaml` (YAML indexes)
    - Understand task priority order: Tests > Code > Basic Functions > Infrastructure
@@ -27,7 +27,7 @@ This document centralizes every instruction AI coding assistants must follow whi
 - **Semantic Token Discipline**
   - Use `[REQ-*]`, `[ARCH-*]`, `[IMPL-*]`, and other STDD tokens everywhere (requirements, docs, code, tests).
   - Maintain traceability: Requirements → Architecture → Implementation → Tests → Code.
-  - Update `semantic-tokens.md` immediately when introducing new tokens.
+  - Update `semantic-tokens.yaml` immediately when introducing new tokens.
 - **Documentation-First Flow**
   - Expand requirements into pseudo-code and decisions before any code changes.
   - Record architecture decisions (`architecture-decisions.md`) with `[ARCH-*]` tokens cross-referencing requirements.
@@ -68,7 +68,7 @@ This document centralizes every instruction AI coding assistants must follow whi
 - [ ] Record new `[ARCH-*]` and `[IMPL-*]` entries immediately with cross-references
 
 ### 3.4 After Completing Work
-- [ ] `semantic-tokens.md` reflects every token referenced in code/tests/docs
+- [ ] `semantic-tokens.yaml` reflects every token referenced in code/tests/docs
 - [ ] Architecture and implementation decision logs are current and cross-referenced
 - [ ] Tests reference their corresponding semantic tokens
 - [ ] `tasks.md` marks completed work, removes finished subtasks, and leaves no stale entries
@@ -90,7 +90,8 @@ This document centralizes every instruction AI coding assistants must follow whi
 | File | Purpose |
 | --- | --- |
 | `ai-principles.md` | Master principles and process guide (read fully every session) |
-| `semantic-tokens.md` | Canonical registry of all semantic tokens |
+| `semantic-tokens.yaml` | YAML index/database of all semantic tokens (canonical registry) |
+| `semantic-tokens.md` | Semantic tokens guide with format, naming conventions, and usage examples |
 | `requirements.md` | Requirements guide with documentation (copy from template per project) |
 | `requirements.yaml` | Requirements YAML index/database with all requirement records |
 | `requirements/` | Individual requirement detail files (e.g., `REQ-STDD_SETUP.md`) |

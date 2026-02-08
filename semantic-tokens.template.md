@@ -1,6 +1,6 @@
 # Semantic Tokens Directory
 
-**STDD Methodology Version**: 1.5.0
+**STDD Methodology Version**: 1.6.0
 
 ## Overview
 This document serves as the **central directory/registry** for all semantic tokens used in the project. Semantic tokens (`[REQ-*]`, `[ARCH-*]`, `[IMPL-*]`) provide a consistent vocabulary and traceability mechanism that ties together all documentation, code, and tests.
@@ -44,7 +44,7 @@ When implementing features:
 2. **ALWAYS** create `[ARCH-*]` token in `architecture-decisions.md` for design decisions
 3. **ALWAYS** add `[IMPL-*]` tokens to code comments
 4. **ALWAYS** reference `[REQ-*]` tokens in test names/comments
-5. **ALWAYS** update `semantic-tokens.md` registry when creating new tokens
+5. **ALWAYS** update `semantic-tokens.yaml` registry when creating new tokens
 6. **ALWAYS** document any `[PROC-*]` process tokens in `processes.md` when defining operational workflows
 
 ### Token Audit Workflow `[PROC-TOKEN_AUDIT]`
@@ -96,44 +96,23 @@ When referencing other tokens:
 [IMPL-EXAMPLE] Description [ARCH-DESIGN] [REQ-REQUIREMENT]
 ```
 
-## Requirements Tokens Registry
+## Token Registry
 
-**📖 Full details**: See `requirements.md` (guide) and `requirements.yaml` (YAML index) and `requirements/` (detail files)
+**📖 The canonical registry of all tokens lives in `semantic-tokens.yaml`.**
 
-### Immutable Requirements
+This YAML index serves as the single source of truth for "does this token exist?" and provides structured metadata for all semantic tokens across all types (REQ, ARCH, IMPL, TEST, PROC).
 
-### Core Functional Requirements
-- `[REQ-STDD_SETUP]` - STDD methodology setup
-- `[REQ-MODULE_VALIDATION]` - Independent module validation before integration
-- `[REQ-EXAMPLE_FEATURE]` - Example feature requirement
-- Add your requirements tokens here
+**Quick lookup commands:**
+- List all tokens: `yq 'keys' stdd/semantic-tokens.yaml`
+- Filter by type: `yq 'to_entries | map(select(.value.type == "REQ")) | from_entries' stdd/semantic-tokens.yaml`
+- Check existence: `yq '.["REQ-STDD_SETUP"]' stdd/semantic-tokens.yaml`
+- Get token details: `yq '.REQ-STDD_SETUP' stdd/semantic-tokens.yaml`
 
-### Non-Functional Requirements
-- `[REQ-PERFORMANCE]` - Performance requirements
-- `[REQ-RELIABILITY]` - Reliability requirements
-- `[REQ-MAINTAINABILITY]` - Maintainability requirements
-- `[REQ-USABILITY]` - Usability requirements
-
-## Architecture Tokens Registry
-
-**📖 Full details**: See `architecture-decisions.md` (guide) and `architecture-decisions.yaml` (YAML index) and `architecture-decisions/` (detail files)
-
-- `[ARCH-LANGUAGE_SELECTION]` - Language and runtime selection
-- `[ARCH-PROJECT_STRUCTURE]` - Project structure decision
-- `[ARCH-STDD_STRUCTURE]` - STDD project structure [REQ-STDD_SETUP]
-- `[ARCH-MODULE_VALIDATION]` - Module validation strategy [REQ-MODULE_VALIDATION]
-- `[ARCH-EXAMPLE_DECISION]` - Example architecture decision [REQ-EXAMPLE_FEATURE]
-- Add your architecture tokens here
-
-## Implementation Tokens Registry
-
-**📖 Full details**: See `implementation-decisions.md` (guide) and `implementation-decisions.yaml` (YAML index) and `implementation-decisions/` (detail files)
-
-- `[IMPL-CONFIG_STRUCT]` - Configuration structure implementation [ARCH-CONFIG_STRUCTURE] [REQ-CONFIGURATION]
-- `[IMPL-STDD_FILES]` - STDD file creation [ARCH-STDD_STRUCTURE] [REQ-STDD_SETUP]
-- `[IMPL-MODULE_VALIDATION]` - Module validation implementation [ARCH-MODULE_VALIDATION] [REQ-MODULE_VALIDATION]
-- `[IMPL-EXAMPLE_IMPLEMENTATION]` - Example implementation [ARCH-EXAMPLE_DECISION] [REQ-EXAMPLE_FEATURE]
-- Add your implementation tokens here
+**For full details on each token:**
+- **Requirements tokens**: See `requirements.yaml` (YAML index) and `requirements/` (detail files)
+- **Architecture tokens**: See `architecture-decisions.yaml` (YAML index) and `architecture-decisions/` (detail files)
+- **Implementation tokens**: See `implementation-decisions.yaml` (YAML index) and `implementation-decisions/` (detail files)
+- **Process tokens**: See `processes.md`
 
 ## Token Relationships
 
@@ -147,17 +126,6 @@ When referencing other tokens:
 ### Dependency Relationships
 - `[IMPL-FEATURE]` depends on `[ARCH-DESIGN]` and `[REQ-FEATURE]`
 - `[ARCH-DESIGN]` depends on `[REQ-FEATURE]`
-
-## Process Tokens Registry
-
-**📖 Full details**: See `processes.md`
-
-- `[PROC-PROJECT_SURVEY_AND_SETUP]` - Survey and readiness process supporting `[REQ-STDD_SETUP]` and `[ARCH-STDD_STRUCTURE]`
-- `[PROC-BUILD_PIPELINE_VALIDATION]` - Build/deploy validation tied to `[REQ-MODULE_VALIDATION]`
-- `[PROC-TOKEN_AUDIT]` - Mandatory checklist ensuring every requirement → architecture → implementation → code/test path is annotated and documented
-- `[PROC-TOKEN_VALIDATION]` - Automated validation workflow (e.g., `./scripts/validate_tokens.sh`) that proves all referenced tokens exist in the registry
-- `[PROC-YAML_DB_OPERATIONS]` - YAML database operations for reading, writing, querying, and validating YAML index files (`requirements.yaml`, `architecture-decisions.yaml`, `implementation-decisions.yaml`)
-- Add your process tokens here
 
 ## Usage Examples
 
@@ -218,6 +186,6 @@ When implementing features:
 2. **ALWAYS** create `[ARCH-*]` token in `architecture-decisions.md` for design decisions
 3. **ALWAYS** add `[IMPL-*]` tokens to code comments
 4. **ALWAYS** reference `[REQ-*]` tokens in test names/comments
-5. **ALWAYS** update `semantic-tokens.md` registry when creating new tokens
+5. **ALWAYS** update `semantic-tokens.yaml` registry when creating new tokens
 6. **ALWAYS** document any `[PROC-*]` process tokens in `processes.md` when defining operational workflows
 

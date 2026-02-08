@@ -187,19 +187,9 @@ This document serves as the **index** for all architecture decisions...
 ...
 ```
 
-### Step 6: Update semantic-tokens.md
+### Step 6: Update semantic-tokens.yaml
 
-Update the Architecture Tokens Registry reference:
-
-**Before:**
-```markdown
-**📖 Full details**: See `architecture-decisions.md`
-```
-
-**After:**
-```markdown
-**📖 Full details**: See `architecture-decisions.md` (index) and `architecture-decisions/` (detail files)
-```
+Update token records in `semantic-tokens.yaml` if any architecture tokens changed status or cross-references.
 
 ### Step 7: Verify All Links
 
@@ -227,7 +217,7 @@ done
 - [ ] All detail files follow the standard template structure
 - [ ] The index table has an entry for each detail file
 - [ ] All links in the index table are valid
-- [ ] `semantic-tokens.md` has been updated
+- [ ] `semantic-tokens.yaml` has been updated
 - [ ] Cross-references (`[REQ-*]`, `[IMPL-*]`) are preserved in detail files
 - [ ] The original content is fully preserved (nothing lost)
 
@@ -246,7 +236,7 @@ ls stdd/architecture-decisions/ARCH-*.md | wc -l
 ### Token Traceability Check
 
 For each `[ARCH-*]` token, verify the chain:
-1. Token exists in `semantic-tokens.md` registry
+1. Token exists in `semantic-tokens.yaml` registry
 2. Token has an entry in `architecture-decisions.md` index
 3. Token has a detail file in `architecture-decisions/`
 4. Detail file cross-references correct `[REQ-*]` tokens
@@ -260,7 +250,7 @@ For each `[ARCH-*]` token, verify the chain:
 
 If a section lacks an `[ARCH-*]` token:
 1. Create an appropriate token following the naming convention
-2. Add the token to `semantic-tokens.md`
+2. Add the token to `semantic-tokens.yaml`
 3. Proceed with extraction
 
 ### Sections with Multiple Tokens
@@ -298,9 +288,9 @@ If migration needs to be reverted:
    rm -rf stdd/architecture-decisions/
    ```
 
-3. Revert `semantic-tokens.md` changes:
+3. Revert `semantic-tokens.yaml` changes:
    ```bash
-   git checkout stdd/semantic-tokens.md
+   git checkout stdd/semantic-tokens.yaml
    ```
 
 ---
@@ -408,7 +398,7 @@ When asked to migrate architecture decisions:
    - Populate with content from original section
    - Add metadata (Status, Created, Last Updated, Cross-References)
 5. **Replace** monolithic content with index structure
-6. **Update** `semantic-tokens.md` reference
+6. **Update** `semantic-tokens.yaml` reference
 7. **Verify** all links and cross-references
 8. **Report** migration summary to user
 

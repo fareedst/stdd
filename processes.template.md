@@ -54,7 +54,7 @@ Use the structure below for every process you document. Each entry should be kep
 
 #### Core Activities
 1. **Survey**
-   - Read `STDD.md`, `semantic-tokens.md`, and recent requirements to understand intent.
+   - Read `STDD.md`, `semantic-tokens.yaml`, `semantic-tokens.md`, and recent requirements to understand intent.
    - Tag findings with `[PROC-PROJECT_SURVEY_AND_SETUP]` and record them in the project knowledge base.
 2. **Build**
    - Confirm required toolchains (language runtime, STDD tooling) are installed and share the list on the onboarding checklist.
@@ -77,7 +77,7 @@ Use the structure below for every process you document. Each entry should be kep
 ## `[PROC-YAML_DB_OPERATIONS]` YAML Database Operations
 
 ### Purpose
-Provides succinct guidance for reading, writing, querying, and validating the YAML index files (`requirements.yaml`, `architecture-decisions.yaml`, `implementation-decisions.yaml`).
+Provides succinct guidance for reading, writing, querying, and validating the YAML index files (`requirements.yaml`, `architecture-decisions.yaml`, `implementation-decisions.yaml`, `semantic-tokens.yaml`).
 
 ### Scope
 Applies to all STDD YAML index files in the `stdd/` directory.
@@ -272,6 +272,37 @@ yq 'keys' stdd/architecture-decisions.yaml
 yq 'keys' stdd/implementation-decisions.yaml
 ```
 
+**List all semantic tokens:**
+```bash
+yq 'keys' stdd/semantic-tokens.yaml
+```
+
+**Filter semantic tokens by type:**
+```bash
+# List all REQ tokens
+yq 'to_entries | map(select(.value.type == "REQ")) | from_entries' stdd/semantic-tokens.yaml
+
+# List all ARCH tokens
+yq 'to_entries | map(select(.value.type == "ARCH")) | from_entries' stdd/semantic-tokens.yaml
+
+# List all PROC tokens
+yq 'to_entries | map(select(.value.type == "PROC")) | from_entries' stdd/semantic-tokens.yaml
+```
+
+**Check if a token exists:**
+```bash
+yq '.["REQ-STDD_SETUP"]' stdd/semantic-tokens.yaml
+```
+
+**Get token metadata:**
+```bash
+# Get token type and status
+yq '.REQ-STDD_SETUP | {type: .type, status: .status}' stdd/semantic-tokens.yaml
+
+# Get source index for full details
+yq '.REQ-STDD_SETUP.source_index' stdd/semantic-tokens.yaml
+```
+
 #### 6. Checking Cross-References (v1.5.0 Schema)
 
 **Find all requirements referenced by an architecture decision:**
@@ -315,5 +346,5 @@ yq '.REQ-STDD_SETUP.metadata.last_validated.result' stdd/requirements.yaml
 ```
 
 ### Artifacts & Metrics
-- **Artifacts**: YAML index files (requirements.yaml, architecture-decisions.yaml, implementation-decisions.yaml)
+- **Artifacts**: YAML index files (requirements.yaml, architecture-decisions.yaml, implementation-decisions.yaml, semantic-tokens.yaml)
 - **Success Metrics**: YAML files are valid, all records have required fields, cross-references are consistent

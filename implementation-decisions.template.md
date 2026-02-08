@@ -47,7 +47,7 @@ Token names contain `:` which is invalid in filenames on many operating systems.
 1. **Create a new detail file** in `implementation-decisions/` using the naming convention above
 2. **Use the detail file template** (see below)
 3. **Add an entry to the index table** below
-4. **Update `semantic-tokens.md`** registry with the new `[IMPL-*]` token
+4. **Update `semantic-tokens.yaml`** registry with the new `[IMPL-*]` token
 
 ---
 
@@ -268,7 +268,7 @@ touch stdd/implementation-decisions/IMPL-YOUR_TOKEN.md
 
 # 4. Add entry to the index table in this file
 
-# 5. Update semantic-tokens.md registry
+# 5. Update semantic-tokens.yaml registry
 ```
 
 ---
@@ -306,6 +306,6 @@ If migrating from a single `implementation-decisions.md` file:
    - Copy content into the new file
    - Add metadata (Status, Created, Last Updated)
 3. Replace section content in this file with an index row
-4. Update `semantic-tokens.md` to note the new structure
+4. Update `semantic-tokens.yaml` to note the new structure
 5. Verify all links work correctly
 

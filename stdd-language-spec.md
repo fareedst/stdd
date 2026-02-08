@@ -576,7 +576,7 @@ docs = generate_docs()
 // - requirements.md: All [REQ-*] tokens with descriptions, rationale, priority
 // - architecture-decisions.md: All [ARCH-*] tokens with cross-references to [REQ-*]
 // - implementation-decisions.md: All [IMPL-*] tokens with cross-references to [ARCH-*] and [REQ-*]
-// - semantic-tokens.md: Central registry of all tokens with relationships
+// - semantic-tokens.yaml: YAML index of all tokens with structured metadata
 // - Test coverage report: Requirements covered by tests
 // - Traceability matrix: Complete REQ → ARCH → IMPL → Code → Tests chain
 
@@ -584,7 +584,7 @@ docs = generate_docs()
 generate_requirements()  // requirements.md format
 generate_architecture()   // architecture-decisions.md format
 generate_implementation() // implementation-decisions.md format
-generate_token_registry()  // semantic-tokens.md format
+generate_token_registry()  // semantic-tokens.yaml format
 ```
 
 ## Standard Library
@@ -976,7 +976,7 @@ This language specification ensures complete compliance with STDD methodology:
 
 7. ✅ **Token Registry**: Central, queryable registry with complete traceability information
    - **Language Feature**: Runtime `TokenRegistry` with complete token metadata
-   - **STDD Requirement**: Central registry of all tokens (semantic-tokens.md)
+   - **STDD Requirement**: Central registry of all tokens (semantic-tokens.yaml YAML index)
 
 8. ✅ **Cross-Reference Completeness**: All token references validated at compile-time
    - **Language Feature**: Compile-time validation of all token references

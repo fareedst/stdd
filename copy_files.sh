@@ -69,12 +69,17 @@ TEMPLATE_FILES=(
   "implementation-decisions.template.yaml"
   "processes.template.md"
   "semantic-tokens.template.md"
+  "semantic-tokens.template.yaml"
   "tasks.template.md"
 )
 
 for template in "${TEMPLATE_FILES[@]}"; do
   src="${SCRIPT_DIR}/${template}"
-  dest="${STDD_DIR}/${template%.template.md}.md"
+  
+  # Strip .template from the filename, preserving the actual extension
+  base="${template%.template.*}"
+  ext="${template##*.}"
+  dest="${STDD_DIR}/${base}.${ext}"
 
   if [[ ! -f "${src}" ]]; then
     echo "Missing template file: ${src}" >&2

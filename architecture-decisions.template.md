@@ -47,7 +47,7 @@ Token names use the same format in text and filenames:
 1. **Create a new detail file** in `architecture-decisions/` using the naming convention above
 2. **Use the detail file template** (see below)
 3. **Add an entry to the index table** below
-4. **Update `semantic-tokens.md`** registry with the new `[ARCH-*]` token
+4. **Update `semantic-tokens.yaml`** registry with the new `[ARCH-*]` token
 
 ---
 
@@ -244,7 +244,7 @@ touch stdd/architecture-decisions/ARCH-YOUR_TOKEN.md
 
 # 4. Add entry to the index table in this file
 
-# 5. Update semantic-tokens.md registry
+# 5. Update semantic-tokens.yaml registry
 ```
 
 ---

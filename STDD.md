@@ -769,5 +769,6 @@ STDD enables several metrics:
 - `implementation-decisions.template.yaml` - YAML index template for implementation decisions with `[IMPL-*]` tokens (copy to your project as `implementation-decisions.yaml`)
 - `implementation-decisions.template/` - Individual implementation decision detail file examples (copy to your project's `implementation-decisions/` directory)
 - `processes.template.md` - Template for process tracking including `[PROC-YAML_DB_OPERATIONS]` (copy to your project as `processes.md`)
-- `semantic-tokens.template.md` - Template for semantic token registry (copy to your project as `semantic-tokens.md`)
+- `semantic-tokens.template.yaml` - YAML index template for semantic tokens registry (copy to your project as `semantic-tokens.yaml`)
+- `semantic-tokens.template.md` - Template for semantic tokens guide with format and conventions (copy to your project as `semantic-tokens.md`)
 

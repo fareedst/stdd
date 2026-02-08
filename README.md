@@ -46,6 +46,7 @@ mkdir -p stdd/implementation-decisions
 cp implementation-decisions.template/*.md stdd/implementation-decisions/
 cp processes.template.md stdd/processes.md
 cp semantic-tokens.template.md stdd/semantic-tokens.md
+cp semantic-tokens.template.yaml stdd/semantic-tokens.yaml
 cp tasks.template.md stdd/tasks.md
 cp AGENTS.md AGENTS.md              # Copy canonical AI agent guide
 cp .cursorrules .cursorrules        # Copy Cursor loader if using Cursor
@@ -62,7 +63,7 @@ cp .cursorrules .cursorrules        # Copy Cursor loader if using Cursor
    - Expands into pseudo-code and decisions
    - **IMMEDIATELY** documents architecture decisions in `architecture-decisions.yaml` with `[ARCH-*]` tokens
    - **IMMEDIATELY** documents implementation decisions in `implementation-decisions.yaml` with `[IMPL-*]` tokens
-   - **IMMEDIATELY** updates `semantic-tokens.md` with all new tokens
+   - **IMMEDIATELY** updates `semantic-tokens.yaml` with all new tokens
    - **IMMEDIATELY** creates tasks in `tasks.md` with priorities and semantic token references
    - **NO code changes yet**
 3. **User Approval**: User reviews and approves planning documents
@@ -74,7 +75,7 @@ cp .cursorrules .cursorrules        # Copy Cursor loader if using Cursor
    - Verify all documentation is up-to-date and mirrors the semantic tokens referenced by the finished code and tests
    - Mark tasks complete in `tasks.md`
    - Remove completed subtasks
-   - Ensure the semantic tokens registered in `semantic-tokens.md` match the tokens used across code, tests, and documentation for these changes
+   - Ensure the semantic tokens registered in `semantic-tokens.yaml` match the tokens used across code, tests, and documentation for these changes
 
 See [LLM Response Guide](llm-response-guide.md) for detailed information about how AI assistants should respond when working with STDD.
 
@@ -146,7 +147,8 @@ your-project/
 │   ├── implementation-decisions/   # Individual implementation decision detail files
 │   │   ├── IMPL-MODULE_VALIDATION.md
 │   │   └── ...
-│   ├── semantic-tokens.md    # Your project's semantic token registry
+│   ├── semantic-tokens.yaml   # Semantic tokens YAML index/database (canonical token registry)
+│   ├── semantic-tokens.md     # Semantic tokens guide with format and conventions
 │   ├── tasks.md              # Your project's active task tracking
 │   └── processes.md          # Your project's process tracking (includes [PROC-YAML_DB_OPERATIONS])
 └── [your source code]        # Your actual project code

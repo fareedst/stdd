@@ -294,7 +294,8 @@ Follow the same steps as requirements and architecture migrations.
 After migrating all three index files, update cross-references throughout your documentation:
 
 **Files to update:**
-- `semantic-tokens.md` - Update "Full details" references to mention `.yaml` files
+- `semantic-tokens.yaml` - Update token registry with new tokens or changes
+- `semantic-tokens.md` - Guide remains unchanged (token format and conventions)
 - `tasks.md` - Update any references to index files
 - `processes.md` - Should already have `[PROC-YAML_DB_OPERATIONS]` if using new templates
 - Any custom documentation that references index files
@@ -365,7 +366,8 @@ After migration:
 - [ ] Cross-references between files are correct
 - [ ] Detail files (`requirements/*.md`, `architecture-decisions/*.md`, `implementation-decisions/*.md`) are unchanged
 - [ ] Guide files (`requirements.md`, `architecture-decisions.md`, `implementation-decisions.md`) explain how to use YAML indexes
-- [ ] `semantic-tokens.md` updated to reference `.yaml` files
+- [ ] `semantic-tokens.yaml` registry reflects all tokens (or migrate separately using `migrate-semantic-tokens-to-yaml.md`)
+- [ ] `semantic-tokens.md` is the guide version with token format and conventions
 - [ ] `processes.md` includes `[PROC-YAML_DB_OPERATIONS]` section
 - [ ] Documentation tested with queries (see examples in `processes.md`)
 - [ ] Git commit with clear message: "Migrate to YAML index files (STDD v1.4.0)"

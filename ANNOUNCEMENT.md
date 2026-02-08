@@ -48,6 +48,7 @@ cp architecture-decisions.template.md architecture-decisions.md
 cp implementation-decisions.template.md implementation-decisions.md
 cp processes.template.md processes.md
 cp semantic-tokens.template.md semantic-tokens.md
+cp semantic-tokens.template.yaml semantic-tokens.yaml
 cp tasks.template.md tasks.md
 cp AGENTS.md AGENTS.md              # Canonical AI agent guide
 cp .cursorrules .cursorrules        # Cursor loader (optional)

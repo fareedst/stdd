@@ -173,7 +173,8 @@ All project documentation MUST include these sections with semantic token cross-
 - Central registry of all semantic tokens used in the project
 - Maps tokens to their definitions and cross-references
 - Links to all documentation layers (requirements, architecture, implementation, tests, code)
-- See `semantic-tokens.md` for the complete registry
+- See `semantic-tokens.yaml` for the token registry (YAML index/database)
+- See `semantic-tokens.md` for the token guide (format, naming conventions, usage examples)
 
 #### 5. Code References
 - Code comments MUST include semantic tokens
@@ -249,7 +250,7 @@ Each token type serves a specific role in preserving intent:
 3. Record the implementation decision with `[IMPL-*]` connecting back to both `[ARCH-*]` and `[REQ-*]`.
 4. Annotate the code change with the same `[IMPL-*]`/`[ARCH-*]`/`[REQ-*]` triplet.
 5. Name and document the test with the `[REQ-*]` token (and `[TEST-*]` if defined) so validation can be tied directly to intent.
-6. Update `semantic-tokens.md` and run `./scripts/validate_tokens.sh` to prove the trace is intact.
+6. Update `semantic-tokens.yaml` and run `./scripts/validate_tokens.sh` to prove the trace is intact.
 
 #### Intent Chain Example
 
@@ -424,7 +425,7 @@ When making changes, use this matrix to identify what needs updating:
 
 | Change Type | Documents to Update | Validation Required |
 |-------------|-------------------|-------------------|
-| New Feature | requirements.yaml, architecture-decisions.yaml, implementation-decisions.yaml, semantic-tokens.md, tasks.md | Full validation |
+| New Feature | requirements.yaml, architecture-decisions.yaml, implementation-decisions.yaml, semantic-tokens.yaml, tasks.md | Full validation |
 | Requirement Change | requirements.yaml, architecture-decisions.yaml, implementation-decisions.yaml, tests | Implementation validation |
 | Architecture Change | architecture-decisions.yaml, implementation-decisions.yaml, tests | Test validation |
 | Implementation Detail | implementation-decisions.yaml, tests | Test validation |
@@ -484,12 +485,12 @@ Document feature dependencies to understand change impact:
 
 ### Token Registry Location
 
-Create and maintain `semantic-tokens.md` with:
+Create and maintain `semantic-tokens.yaml` with:
 - All tokens used in the project
 - Definitions
 - Cross-reference mappings
-- Status (Implemented/Planned)
-- Links to all documentation layers (requirements, architecture, implementation, tests, code)
+- Status (Active/Deprecated/Template/Planned)
+- Links to source indexes and detail files
 
 ---
 
@@ -545,7 +546,7 @@ Create and maintain `semantic-tokens.md` with:
    - **IMMEDIATELY** add architecture decisions to `architecture-decisions.yaml` with `[ARCH-*]` tokens and `[REQ-*]` cross-references
    - **IMMEDIATELY** add implementation decisions to `implementation-decisions.yaml` with `[IMPL-*]` tokens and `[ARCH-*]` and `[REQ-*]` cross-references
    - **IMMEDIATELY** document module boundaries and validation criteria
-   - **IMMEDIATELY** update `semantic-tokens.md` with any new tokens created
+   - **IMMEDIATELY** update `semantic-tokens.yaml` with any new tokens created
    - **IMMEDIATELY** create tasks in `tasks.md` with priorities and semantic token references
    - Cross-reference all tokens consistently
    - **DO NOT** defer documentation updates - they are part of the planning phase
@@ -797,7 +798,7 @@ This project follows AI-First Principles. Before making changes:
 
 - [ ] **MANDATORY**: Preface response with "Observing AI principles!"
 - [ ] Read `ai-principles.md` (if not already read in this session)
-- [ ] Check `semantic-tokens.md` for existing tokens
+- [ ] Check `semantic-tokens.yaml` for existing tokens
 - [ ] Review `tasks.md` for active tasks
 - [ ] Understand semantic token system
 - [ ] Know the development process
@@ -831,14 +832,14 @@ This project follows AI-First Principles. Before making changes:
 - [ ] Use descriptive debug prefixes (`DIAGNOSTIC:`, `DEBUG:`, `TRACE:`) to identify debug output
 - [ ] **CRITICAL**: Keep debug statements that identify architecture or implementation decisions - they document key decision points
 - [ ] Keep debug output in code unless explicitly requested to be removed - it is not intrusive and provides ongoing value
-- [ ] **MANDATORY**: Update `semantic-tokens.md` when creating new tokens
+- [ ] **MANDATORY**: Update `semantic-tokens.yaml` when creating new tokens
 - [ ] **MANDATORY**: Update documentation AS YOU WORK - do not defer until the end
 - [ ] **MANDATORY**: Perform the `[PROC-TOKEN_AUDIT]` checklist to confirm every code/test change carries the correct tokens
 - [ ] **MANDATORY**: Run `./scripts/validate_tokens.sh` (or repo-specific equivalent) whenever tokens are added or moved
 
 **AFTER COMPLETING WORK:**
 
-- [ ] **MANDATORY**: All semantic tokens documented in `semantic-tokens.md`
+- [ ] **MANDATORY**: All semantic tokens documented in `semantic-tokens.yaml`
 - [ ] **MANDATORY**: Record the latest `[PROC-TOKEN_AUDIT]` and `[PROC-TOKEN_VALIDATION]` results in `tasks.md` / `implementation-decisions.yaml`
 - [ ] **MANDATORY**: Documentation updated with implementation status:
   - `architecture-decisions.yaml` reflects all architectural decisions made
@@ -870,7 +871,8 @@ This project follows AI-First Principles. Before making changes:
   - All `[IMPL-*]` tokens must be documented in the YAML index
   - Must cross-reference both `[ARCH-*]` and `[REQ-*]` tokens
   - `stdd/implementation-decisions/` - Individual implementation decision detail files
-- `stdd/semantic-tokens.md` - Central registry of all semantic tokens (copy from `semantic-tokens.template.md`)
+- `stdd/semantic-tokens.yaml` - YAML index/database of all semantic tokens (canonical token registry)
+- `stdd/semantic-tokens.md` - Semantic tokens guide with format, naming conventions, and usage examples (copy from `semantic-tokens.template.md`)
 - `stdd/tasks.md` - Active task tracking document (copy from `tasks.template.md`)
 - `stdd/processes.md` - Active process tracking document (copy from `processes.template.md`)
 - `README.md` - Project overview and getting started guide
@@ -892,7 +894,7 @@ This document should be:
 1. **Architecture Decisions**: Record IMMEDIATELY in `architecture-decisions.yaml` when made
 2. **Implementation Decisions**: Record IMMEDIATELY in `implementation-decisions.yaml` when made
 3. **Task Planning**: Plan in `tasks.md` BEFORE starting implementation
-4. **Semantic Tokens**: Update `semantic-tokens.md` when creating new tokens
+4. **Semantic Tokens**: Update `semantic-tokens.yaml` when creating new tokens
 5. **DO NOT DEFER**: Documentation updates are part of the work, not something to do "later"
 
 ### Documentation Update Timing

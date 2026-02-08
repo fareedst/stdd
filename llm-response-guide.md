@@ -38,8 +38,9 @@ Read these documents in order:
    - Cross-reference both `[ARCH-*]` and `[REQ-*]` tokens
    - Add language-specific implementation patterns
 
-4. **Maintain Token Registry** (`semantic-tokens.md`)
+4. **Maintain Token Registry** (`semantic-tokens.yaml`)
    - Register all tokens used in your project
+   - Keep metadata current (status, cross-references, source index)
    - Document token relationships
    - Keep it updated as you create new tokens
    - Add project-specific token categories
@@ -57,7 +58,7 @@ Read these documents in order:
 - **IMMEDIATELY** identify logical modules and document module boundaries
 - **IMMEDIATELY** document architecture decisions in `architecture-decisions.md`
 - **IMMEDIATELY** document implementation decisions in `implementation-decisions.md`
-- **IMMEDIATELY** update `semantic-tokens.md` with new tokens
+- **IMMEDIATELY** update `semantic-tokens.yaml` with new tokens
 - **IMMEDIATELY** create tasks in `tasks.md`
 - **NO code changes yet**
 
@@ -76,7 +77,7 @@ Read these documents in order:
 - Use semantic tokens in code comments
 - Use semantic tokens in test names/comments
 - Update documentation AS YOU WORK (not at the end)
-- **MANDATORY**: After you finish any code or test changes, verify semantic tokens in the modified source, tests, and documentation still align with the same `[REQ-*]`, `[ARCH-*]`, `[IMPL-*]`, and `[TEST-*]` tokens, and refresh `semantic-tokens.md` before claiming completion.
+- **MANDATORY**: After you finish any code or test changes, verify semantic tokens in the modified source, tests, and documentation still align with the same `[REQ-*]`, `[ARCH-*]`, `[IMPL-*]`, and `[TEST-*]` tokens, and refresh `semantic-tokens.yaml` before claiming completion.
 - Mark tasks complete in `tasks.md` as you finish them
 ## Documentation Requirements
 
@@ -93,8 +94,9 @@ Read these documents in order:
 3. **Implementation Decisions** - with `[IMPL-*]` tokens (in `implementation-decisions.md`)
    - **MUST** be recorded IMMEDIATELY when made
    - **MUST** cross-reference both `[ARCH-*]` and `[REQ-*]` tokens
-4. **Semantic Token Registry** - maintained in `semantic-tokens.md`
+4. **Semantic Token Registry** - maintained in `semantic-tokens.yaml`
    - **MUST** be updated immediately when creating new tokens
+   - Provides structured token metadata (type, status, cross-references, source index)
 5. **Task Planning** - maintained in `tasks.md`
    - **MUST** be updated when planning new work or completing tasks
 

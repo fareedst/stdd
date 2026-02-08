@@ -1,0 +1,327 @@
+# Semantic Tokens Index (YAML Database)
+#
+# This YAML file serves as the central registry for all semantic tokens in the project.
+# Each top-level key is a semantic token (e.g., REQ-STDD_SETUP, ARCH-STDD_STRUCTURE, IMPL-MODULE_VALIDATION).
+#
+# To append a new token:
+# 1. Copy the template block at the bottom of this file (TOKEN-IDENTIFIER)
+# 2. Paste it at the end with a blank line before it
+# 3. Replace TOKEN-IDENTIFIER with your new token
+# 4. Fill in all fields
+# 5. Update the detail_file path if a detail file exists
+#
+# Field descriptions:
+#   type: REQ | ARCH | IMPL | TEST | PROC
+#   name: Short descriptive name of the token
+#   category: Sub-category (e.g., "Core Functional", "Non-Functional" for REQ; free-form for others; optional)
+#   status: Active | Deprecated | Template | Planned
+#   description: One-line description of what this token represents
+#   cross_references: List of related tokens (traceability chain)
+#   source_index: Path to the YAML index that holds the full record (e.g., requirements.yaml, architecture-decisions.yaml, implementation-decisions.yaml, processes.md)
+#   detail_file: Path to the detailed .md file (if one exists)
+#   metadata: Structured metadata with registered and last_updated dates
+
+---
+
+REQ-STDD_SETUP:
+  type: REQ
+  name: STDD Methodology Setup
+  category: Core Functional
+  status: Active
+  description: "STDD methodology setup requirement"
+  cross_references:
+    - ARCH-STDD_STRUCTURE
+    - IMPL-STDD_FILES
+  source_index: requirements.yaml
+  detail_file: requirements/REQ-STDD_SETUP.md
+  metadata:
+    registered: 2025-11-08
+    last_updated: 2026-02-08
+
+REQ-MODULE_VALIDATION:
+  type: REQ
+  name: Independent Module Validation Before Integration
+  category: Core Functional
+  status: Active
+  description: "Independent module validation before integration requirement"
+  cross_references:
+    - ARCH-MODULE_VALIDATION
+    - IMPL-MODULE_VALIDATION
+  source_index: requirements.yaml
+  detail_file: requirements/REQ-MODULE_VALIDATION.md
+  metadata:
+    registered: 2025-01-27
+    last_updated: 2026-02-08
+
+REQ-EXAMPLE_FEATURE:
+  type: REQ
+  name: Example Feature Requirement
+  category: Core Functional
+  status: Template
+  description: "Example feature requirement (template)"
+  cross_references:
+    - ARCH-EXAMPLE_DECISION
+    - IMPL-EXAMPLE_IMPLEMENTATION
+  source_index: requirements.yaml
+  detail_file: requirements/REQ-IDENTIFIER.md
+  metadata:
+    registered: 2025-11-08
+    last_updated: 2026-02-08
+
+REQ-PERFORMANCE:
+  type: REQ
+  name: Performance Requirements
+  category: Non-Functional
+  status: Template
+  description: "Performance requirements"
+  cross_references: []
+  source_index: requirements.yaml
+  detail_file: null
+  metadata:
+    registered: 2025-11-08
+    last_updated: 2026-02-08
+
+REQ-RELIABILITY:
+  type: REQ
+  name: Reliability Requirements
+  category: Non-Functional
+  status: Template
+  description: "Reliability requirements"
+  cross_references: []
+  source_index: requirements.yaml
+  detail_file: null
+  metadata:
+    registered: 2025-11-08
+    last_updated: 2026-02-08
+
+REQ-MAINTAINABILITY:
+  type: REQ
+  name: Maintainability Requirements
+  category: Non-Functional
+  status: Template
+  description: "Maintainability requirements"
+  cross_references: []
+  source_index: requirements.yaml
+  detail_file: null
+  metadata:
+    registered: 2025-11-08
+    last_updated: 2026-02-08
+
+REQ-USABILITY:
+  type: REQ
+  name: Usability Requirements
+  category: Non-Functional
+  status: Template
+  description: "Usability requirements"
+  cross_references: []
+  source_index: requirements.yaml
+  detail_file: null
+  metadata:
+    registered: 2025-11-08
+    last_updated: 2026-02-08
+
+ARCH-LANGUAGE_SELECTION:
+  type: ARCH
+  name: Language and Runtime Selection
+  status: Template
+  description: "Language and runtime selection decision"
+  cross_references: []
+  source_index: architecture-decisions.yaml
+  detail_file: architecture-decisions/ARCH-LANGUAGE_SELECTION.md
+  metadata:
+    registered: 2025-11-08
+    last_updated: 2026-02-08
+
+ARCH-PROJECT_STRUCTURE:
+  type: ARCH
+  name: Project Structure Decision
+  status: Template
+  description: "Project structure decision"
+  cross_references: []
+  source_index: architecture-decisions.yaml
+  detail_file: null
+  metadata:
+    registered: 2025-11-08
+    last_updated: 2026-02-08
+
+ARCH-STDD_STRUCTURE:
+  type: ARCH
+  name: STDD Project Structure
+  status: Active
+  description: "STDD project structure decision"
+  cross_references:
+    - REQ-STDD_SETUP
+    - IMPL-STDD_FILES
+  source_index: architecture-decisions.yaml
+  detail_file: architecture-decisions/ARCH-STDD_STRUCTURE.md
+  metadata:
+    registered: 2025-12-18
+    last_updated: 2026-02-08
+
+ARCH-MODULE_VALIDATION:
+  type: ARCH
+  name: Module Validation Strategy
+  status: Active
+  description: "Module validation strategy decision"
+  cross_references:
+    - REQ-MODULE_VALIDATION
+    - IMPL-MODULE_VALIDATION
+  source_index: architecture-decisions.yaml
+  detail_file: architecture-decisions/ARCH-MODULE_VALIDATION.md
+  metadata:
+    registered: 2025-12-18
+    last_updated: 2026-02-08
+
+ARCH-EXAMPLE_DECISION:
+  type: ARCH
+  name: Core Architecture Example
+  status: Template
+  description: "Example architecture decision (template)"
+  cross_references:
+    - REQ-EXAMPLE_FEATURE
+    - IMPL-EXAMPLE_IMPLEMENTATION
+  source_index: architecture-decisions.yaml
+  detail_file: architecture-decisions/ARCH-EXAMPLE_DECISION.md
+  metadata:
+    registered: 2025-11-08
+    last_updated: 2026-02-08
+
+IMPL-CONFIG_STRUCT:
+  type: IMPL
+  name: Configuration Structure
+  status: Template
+  description: "Configuration structure implementation"
+  cross_references:
+    - ARCH-CONFIG_STRUCTURE
+    - REQ-CONFIGURATION
+  source_index: implementation-decisions.yaml
+  detail_file: implementation-decisions/IMPL-CONFIG_STRUCT.md
+  metadata:
+    registered: 2025-11-08
+    last_updated: 2026-02-08
+
+IMPL-STDD_FILES:
+  type: IMPL
+  name: STDD File Creation
+  status: Active
+  description: "STDD file creation implementation"
+  cross_references:
+    - ARCH-STDD_STRUCTURE
+    - REQ-STDD_SETUP
+  source_index: implementation-decisions.yaml
+  detail_file: implementation-decisions/IMPL-STDD_FILES.md
+  metadata:
+    registered: 2025-12-18
+    last_updated: 2026-02-08
+
+IMPL-MODULE_VALIDATION:
+  type: IMPL
+  name: Module Validation Implementation
+  status: Active
+  description: "Module validation implementation"
+  cross_references:
+    - ARCH-MODULE_VALIDATION
+    - REQ-MODULE_VALIDATION
+  source_index: implementation-decisions.yaml
+  detail_file: implementation-decisions/IMPL-MODULE_VALIDATION.md
+  metadata:
+    registered: 2025-12-18
+    last_updated: 2026-02-08
+
+IMPL-EXAMPLE_IMPLEMENTATION:
+  type: IMPL
+  name: Core Implementation Example
+  status: Template
+  description: "Example implementation (template)"
+  cross_references:
+    - ARCH-EXAMPLE_DECISION
+    - REQ-EXAMPLE_FEATURE
+  source_index: implementation-decisions.yaml
+  detail_file: implementation-decisions/IMPL-EXAMPLE_IMPLEMENTATION.md
+  metadata:
+    registered: 2025-11-08
+    last_updated: 2026-02-08
+
+PROC-PROJECT_SURVEY_AND_SETUP:
+  type: PROC
+  name: Project Survey and Setup Process
+  status: Active
+  description: "Survey and readiness process supporting REQ-STDD_SETUP and ARCH-STDD_STRUCTURE"
+  cross_references:
+    - REQ-STDD_SETUP
+    - ARCH-STDD_STRUCTURE
+  source_index: processes.md
+  detail_file: null
+  metadata:
+    registered: 2025-11-08
+    last_updated: 2026-02-08
+
+PROC-BUILD_PIPELINE_VALIDATION:
+  type: PROC
+  name: Build Pipeline Validation Process
+  status: Active
+  description: "Build/deploy validation tied to REQ-MODULE_VALIDATION"
+  cross_references:
+    - REQ-MODULE_VALIDATION
+  source_index: processes.md
+  detail_file: null
+  metadata:
+    registered: 2025-11-08
+    last_updated: 2026-02-08
+
+PROC-TOKEN_AUDIT:
+  type: PROC
+  name: Token Audit Process
+  status: Active
+  description: "Mandatory checklist ensuring every requirement → architecture → implementation → code/test path is annotated and documented"
+  cross_references: []
+  source_index: processes.md
+  detail_file: null
+  metadata:
+    registered: 2025-11-08
+    last_updated: 2026-02-08
+
+PROC-TOKEN_VALIDATION:
+  type: PROC
+  name: Token Validation Process
+  status: Active
+  description: "Automated validation workflow that proves all referenced tokens exist in the registry"
+  cross_references: []
+  source_index: processes.md
+  detail_file: null
+  metadata:
+    registered: 2025-11-08
+    last_updated: 2026-02-08
+
+PROC-YAML_DB_OPERATIONS:
+  type: PROC
+  name: YAML Database Operations Process
+  status: Active
+  description: "YAML database operations for reading, writing, querying, and validating YAML index files"
+  cross_references:
+    - REQ-STDD_SETUP
+    - ARCH-STDD_STRUCTURE
+  source_index: processes.md
+  detail_file: null
+  metadata:
+    registered: 2025-11-08
+    last_updated: 2026-02-08
+
+# ---
+# Template Record - Copy this block to create new tokens
+# ---
+#
+# TOKEN-IDENTIFIER:
+#   type: REQ | ARCH | IMPL | TEST | PROC
+#   name: Token Name
+#   category: Optional category (e.g., Core Functional, Non-Functional for REQ)
+#   status: Active | Deprecated | Template | Planned
+#   description: "One-line description of what this token represents"
+#   cross_references:
+#     - RELATED-TOKEN-1
+#     - RELATED-TOKEN-2
+#   source_index: requirements.yaml | architecture-decisions.yaml | implementation-decisions.yaml | processes.md
+#   detail_file: path/to/detail/file.md | null
+#   metadata:
+#     registered: YYYY-MM-DD
+#     last_updated: YYYY-MM-DD

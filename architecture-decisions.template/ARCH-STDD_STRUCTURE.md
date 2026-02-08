@@ -34,7 +34,8 @@ Centralized `stdd/` directory for all STDD methodology documentation.
   - `architecture-decisions/` (detail files)
   - `implementation-decisions.md` (index)
   - `implementation-decisions/` (detail files)
-  - `semantic-tokens.md`
+  - `semantic-tokens.yaml` (YAML index)
+  - `semantic-tokens.md` (guide)
   - `tasks.md`
   - `processes.md`
 

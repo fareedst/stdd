@@ -186,19 +186,9 @@ This document serves as the **index** for all implementation decisions...
 ...
 ```
 
-### Step 6: Update semantic-tokens.md
+### Step 6: Update semantic-tokens.yaml
 
-Update the Implementation Tokens Registry reference:
-
-**Before:**
-```markdown
-**📖 Full details**: See `implementation-decisions.md`
-```
-
-**After:**
-```markdown
-**📖 Full details**: See `implementation-decisions.md` (index) and `implementation-decisions/` (detail files)
-```
+Update token records in `semantic-tokens.yaml` if any implementation tokens changed status or cross-references.
 
 ### Step 7: Verify All Links
 
@@ -226,7 +216,7 @@ done
 - [ ] All detail files follow the standard template structure
 - [ ] The index table has an entry for each detail file
 - [ ] All links in the index table are valid
-- [ ] `semantic-tokens.md` has been updated
+- [ ] `semantic-tokens.yaml` has been updated
 - [ ] Cross-references (`[ARCH-*]`, `[REQ-*]`) are preserved in detail files
 - [ ] The original content is fully preserved (nothing lost)
 
@@ -245,7 +235,7 @@ ls stdd/implementation-decisions/IMPL-*.md | wc -l
 ### Token Traceability Check
 
 For each `[IMPL-*]` token, verify the chain:
-1. Token exists in `semantic-tokens.md` registry
+1. Token exists in `semantic-tokens.yaml` registry
 2. Token has an entry in `implementation-decisions.md` index
 3. Token has a detail file in `implementation-decisions/`
 4. Detail file cross-references correct `[ARCH-*]` and `[REQ-*]` tokens
@@ -258,7 +248,7 @@ For each `[IMPL-*]` token, verify the chain:
 
 If a section lacks an `[IMPL-*]` token:
 1. Create an appropriate token following the naming convention
-2. Add the token to `semantic-tokens.md`
+2. Add the token to `semantic-tokens.yaml`
 3. Proceed with extraction
 
 ### Sections with Multiple Tokens
@@ -296,9 +286,9 @@ If migration needs to be reverted:
    rm -rf stdd/implementation-decisions/
    ```
 
-3. Revert `semantic-tokens.md` changes:
+3. Revert `semantic-tokens.yaml` changes:
    ```bash
-   git checkout stdd/semantic-tokens.md
+   git checkout stdd/semantic-tokens.yaml
    ```
 
 ---
@@ -414,7 +404,7 @@ When asked to migrate implementation decisions:
    - Populate with content from original section
    - Add metadata (Status, Created, Last Updated, Cross-References)
 5. **Replace** monolithic content with index structure
-6. **Update** `semantic-tokens.md` reference
+6. **Update** `semantic-tokens.yaml` reference
 7. **Verify** all links and cross-references
 8. **Report** migration summary to user
 

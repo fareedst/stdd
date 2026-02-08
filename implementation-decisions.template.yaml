@@ -44,7 +44,7 @@ IMPL-STDD_FILES:
     summary: "Bootstrap script that creates stdd/ directory, copies template files, and sets up base files"
     details:
       - "Create stdd/ directory at project root"
-      - "Copy YAML index files from templates (requirements.yaml, architecture-decisions.yaml, implementation-decisions.yaml)"
+      - "Copy YAML index files from templates (requirements.yaml, architecture-decisions.yaml, implementation-decisions.yaml, semantic-tokens.yaml)"
       - "Copy guide files from templates (semantic-tokens.md, tasks.md, processes.md)"
       - "Create detail subdirectories (requirements/, architecture-decisions/, implementation-decisions/)"
       - "Copy base files to project root (.cursorrules, AGENTS.md, ai-principles.md)"

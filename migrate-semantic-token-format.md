@@ -204,7 +204,7 @@ grep -rE '\[(REQ|ARCH|IMPL|TEST|PROC):' .
 grep -rcE '\[(REQ|ARCH|IMPL|TEST|PROC)-' . | grep -v ':0$'
 
 # Verify token registry is consistent
-grep -oE '\[(REQ|ARCH|IMPL|TEST|PROC)-[A-Z_]+\]' stdd/semantic-tokens.md | sort -u
+yq 'keys' stdd/semantic-tokens.yaml | sort -u
 
 # Check for any broken references
 # (Compare tokens in code vs. tokens in registry)

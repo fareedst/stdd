@@ -87,7 +87,7 @@ I'll now:
 1. Add the requirement to `requirements.md` with satisfaction and validation criteria
 2. Document architecture decisions in `architecture-decisions.md`
 3. Document implementation decisions in `implementation-decisions.md`
-4. Update `semantic-tokens.md` with new tokens
+4. Update `semantic-tokens.yaml` with new tokens
 5. Create tasks in `tasks.md`
 
 Let me start:
@@ -172,7 +172,7 @@ I've added `[IMPL-METRICS_EXPOSURE]` which:
 
 **AI** (continuing):
 
-Updated `semantic-tokens.md` with all new tokens and their relationships.
+Updated `semantic-tokens.yaml` with all new tokens and their relationships.
 
 Now creating tasks in `tasks.md`:
 
@@ -275,7 +275,7 @@ I've completed Phase 1 of STDD:
 ✅ **Requirements documented** in `requirements.md` with satisfaction and validation criteria  
 ✅ **Architecture decisions** documented in `architecture-decisions.md` with `[ARCH-*]` tokens  
 ✅ **Implementation decisions** documented in `implementation-decisions.md` with `[IMPL-*]` tokens  
-✅ **Semantic tokens** registered in `semantic-tokens.md`  
+✅ **Semantic tokens** registered in `semantic-tokens.yaml`  
 ✅ **Tasks created** in `tasks.md` with priorities  
 ✅ **Pseudo-code** provided showing the approach
 
@@ -474,7 +474,7 @@ Continuing with remaining P1 tasks...
 Updating `requirements.md`:
 - Marked `[REQ-RATE_LIMITING]` as ✅ Implemented
 
-Updating `semantic-tokens.md`:
+Updating `semantic-tokens.yaml`:
 - Updated all token statuses to Implemented
 
 All implementation complete! Should I proceed with P2 tasks (metrics and per-endpoint config), or would you like to test what we have first?
@@ -601,7 +601,7 @@ When following STDD:
 5. **Show Pseudo-Code**: Help developer visualize the approach
 6. **Update Tasks Continuously**: Keep tasks.md current as work progresses
 7. **Remove Subtasks**: Clean up completed subtasks
-8. **Maintain Tokens**: Keep semantic-tokens.md updated
+8. **Maintain Tokens**: Keep semantic-tokens.yaml updated
 9. **Cross-Reference**: Always link tokens: IMPL → ARCH → REQ
 10. **Test References**: Include semantic tokens in test names
 
